@@ -52,9 +52,12 @@ group :development do
   gem 'jasmine-rails' # if you plan to use JavaScript/CoffeeScript
 end
 
+group :development, :test do
+  gem 'rspec-rails', '2.14'
+end
+
 # setup Cucumber, RSpec, autotest support
 group :test do
-  gem 'rspec-rails', '2.14'
   gem 'simplecov', :require => false
   gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels' # basic imperative step defs
