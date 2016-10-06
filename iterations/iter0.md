@@ -1,7 +1,7 @@
 Entry video: 
 
 Screencasts:
-- Grace: 
+- Grace: https://www.youtube.com/watch?v=DevhWmCn_FI
 - Victor: 
 - Nancy: 
 - James: 
