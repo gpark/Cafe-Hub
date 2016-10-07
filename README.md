@@ -4,3 +4,5 @@
 Heroku Link: http://cafe-hub.herokuapp.com
 
 Pivotal Tracker Link: https://www.pivotaltracker.com/n/projects/1882911
+
+<a href="https://travis-ci.org/IsaacZhang1/Cafe-Hub"><img src="https://travis-ci.org/IsaacZhang1/Cafe-Hub.svg?branch=master"/> </a>
