@@ -1,4 +1,4 @@
-Entry video: 
+Entry video: https://youtu.be/xZvTNOuZCXQ 
 
 Screencasts:
 - Grace: https://www.youtube.com/watch?v=DevhWmCn_FI
@@ -7,3 +7,4 @@ Screencasts:
 - James: 
 - Isaac: 
 - Aaron: https://youtu.be/-4Yecrom1WU
+
