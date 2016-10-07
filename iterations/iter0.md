@@ -5,6 +5,6 @@ Screencasts:
 - Victor: 
 - Nancy: https://youtu.be/R58jdMYjMBQ 
 - James: 
-- Isaac: https://www.youtube.com/watch?v=Tw1FB2ctTNE&feature=youtu.be
+- Isaac: https://youtu.be/Tw1FB2ctTNE
 - Aaron: https://youtu.be/-4Yecrom1WU
 
