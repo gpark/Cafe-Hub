@@ -7,3 +7,5 @@ Heroku Link: http://cafe-hub.herokuapp.com
 
 Pivotal Tracker Link: https://www.pivotaltracker.com/n/projects/1882911
 
+Our app's aim is to reduce the complexity of scheduling employee hours for the Educational Technological Services. 
+<a href="https://www.ets.berkeley.edu/"> ETS Website </a>
