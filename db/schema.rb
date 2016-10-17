@@ -11,7 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161016032426) do
+ActiveRecord::Schema.define(version: 20161017173111) do
+
+  create_table "entry_occurences", force: :cascade do |t|
+    t.boolean  "su"
+    t.boolean  "m"
+    t.boolean  "tu"
+    t.boolean  "w"
+    t.boolean  "th"
+    t.boolean  "f"
+    t.boolean  "sa"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "preference_entries", force: :cascade do |t|
+    t.string   "preference_type"
+    t.text     "comments"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "preferences", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

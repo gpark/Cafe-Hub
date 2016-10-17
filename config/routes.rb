@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   
   root to: "users#index"
+  post '/preferences' => 'dashboard#create_preference'
+  get '/dashboard/new_preference' => 'dashboard#new_preference'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
