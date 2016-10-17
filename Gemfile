@@ -15,6 +15,8 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 gem 'rails_12factor'
 # Include 'rails_12factor' gem to enable all platform features in Heroku
+gem 'bootstrap-sass', '~> 3.3.6'
+# Include bootstrap for beautifulness
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
