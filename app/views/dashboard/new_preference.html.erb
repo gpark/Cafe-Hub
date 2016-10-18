@@ -1,9 +1,9 @@
-<%= form_for :preference do |p| %>
-    <%= p.nested_fields_for :preference_entry do |pe| %>
+<%= form_for @preference do |p| %>
+    <%= p.nested_fields_for :preference_entries do |pe| %>
         <%= pe.select(:preference_type, [['Prefer', 'Prefer'], ['Class', 'Class'], ['R/N Work', 'R/N Work'], ['Obligation', 'Obligation']]) %>
         <%= pe.text_field(:comments, :size => 150) %>
         Comments
-        <%= pe.nested_fields_for :entry_occurence do |eo| %>
+        <%= pe.nested_fields_for :entry_occurences do |eo| %>
             <%= eo.check_box :su %>
             <%= eo.check_box :m %>
             <%= eo.check_box :tu %>
@@ -15,9 +15,9 @@
             <%= eo.time_select(:end_time, {:minute_step => 30, :ampm => true}) %>
             <%= eo.remove_nested_fields_link 'Remove Occurence' %>
         <% end %>
-        <%= pe.add_nested_fields_link :entry_occurence, 'Add Occurence' %>
+        <%= pe.add_nested_fields_link :entry_occurences, 'Add Occurence' %>
         <%= pe.remove_nested_fields_link 'Remove Entry' %>
     <% end %>
-    <%= p.add_nested_fields_link :preference_entry, 'Add Entry' %>
+    <%= p.add_nested_fields_link :preference_entries, 'Add Entry' %>
     <%= p.submit %>
 <% end %>
