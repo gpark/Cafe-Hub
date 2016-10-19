@@ -1,8 +1,7 @@
 Given /^Isaac's account is set up$/ do
-    pending
-#   User.create!({:email => 'isaac@james.com',
-#                 :password => 'James',
-#                 :name => 'Isaac'})
+  User.create!({:email => 'isaac@james.com',
+                :password => 'James',
+                :name => 'Isaac'})
 end
 
 Given /^I am logged in as Isaac$/ do
