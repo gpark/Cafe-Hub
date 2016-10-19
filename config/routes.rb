@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   
   root to: "users#index"
   post '/preferences' => 'dashboard#create_preference'
+  get '/preferences' => 'dashboard#show_preference'
   get '/dashboard/new_preference' => 'dashboard#new_preference'
   
   # The priority is based upon order of creation: first created -> highest priority.

@@ -8,8 +8,8 @@ class CreateEntryOccurences < ActiveRecord::Migration
       t.boolean :th
       t.boolean :f
       t.boolean :sa
-      t.datetime :start_time
-      t.datetime :end_time
+      t.string :start_time
+      t.string :end_time
 
       t.timestamps null: false
     end
