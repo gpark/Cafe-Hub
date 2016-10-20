@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Dashboard</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -52,13 +52,17 @@
       </div>
     </nav>
     
-    <h3>```````````````````</h3>
+    
     <h3>Preference Schedule</h3>
     <%= week_calendar number_of_weeks: 1 do |date| %>
       <%= date %>
+      <% test_user = User.find(1).preferences[0].preference_entries[0].entry_occurences[0] %>
+      <% if !(test_user.nil?) %>
+        <%= test_user.start_time %>
+        <%= test_user.end_time %>
+      <% end %>
     <% end %>
     
-    <%= %>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -66,8 +70,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
