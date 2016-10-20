@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   
-  root to: "users#index"
+  root to: "dashboard#show"
   post '/preferences' => 'dashboard#create_preference'
-  get '/preferences' => 'dashboard#show_preference'
+  get '/dashboard' => 'dashboard#show'
   get '/dashboard/new_preference' => 'dashboard#new_preference'
   
   # The priority is based upon order of creation: first created -> highest priority.
