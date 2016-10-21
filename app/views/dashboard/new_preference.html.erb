@@ -3,7 +3,7 @@
     <%= p.nested_fields_for :preference_entries do |pe| %>
         <div class="row"><div class="col-md-8">
         <div class="panel panel-default"><div class="panel-body">
-        <%= pe.select(:preference_type, [['Prefer', 'Prefer'], ['Class', 'Class'], ['R/N Work', 'R/N Work'], ['Obligation', 'Obligation']], {}, {class: "form-control", style: "width:100px"}) %>
+        <%= pe.select(:preference_type, [['Prefer', 'Prefer'], ['Class', 'Class'], ['R/N Work', 'R/N Work'], ['Obligation', 'Obligation']], {}, {class: "form-control", style: "width:100px", id:"PreferenceType"}) %>
         <%= pe.nested_fields_for :entry_occurences, wrapper_options: {class:'form_inline'} do |eo| %>
             <div class="row"><div class="col-md-9">
             &emsp;  &emsp;
@@ -28,8 +28,8 @@
             <label class="checkbox-inline">
             <%= eo.check_box :sa %> Sa &nbsp; &nbsp;
             </label>
-            <%= eo.select(:start_time, @start_times, {}, {class: "form-control", style: "width:135px;display:inline"}) %>
-            <%= eo.select(:end_time, @end_times, {}, {class: "form-control", style: "width:135px;display:inline"}) %>
+            <%= eo.select(:start_time, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Start Time"}) %>
+            <%= eo.select(:end_time, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"End Time"}) %>
             </div>
             <div class="col-md-2">
             <%= eo.remove_nested_fields_link 'Remove Occurence' %>
