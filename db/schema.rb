@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 20161018014808) do
     t.boolean  "th"
     t.boolean  "f"
     t.boolean  "sa"
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.string   "start_time"
+    t.string   "end_time"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "preference_entry_id"
