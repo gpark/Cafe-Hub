@@ -1,3 +1,4 @@
+
 Given /the following user exists/ do |users_table|
     user_table.hashes.each do |user|
         User.create(user)
