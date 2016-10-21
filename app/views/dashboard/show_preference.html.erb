@@ -1,0 +1,30 @@
+<h3>Preference Schedule</h3>
+    <%= week_calendar number_of_weeks: 1 do |date| %>
+
+      <% test_user = User.find(current_user.id) %>
+        <% if !(test_user.nil?) %>
+          <% for preference in test_user.preferences.all %>
+            <% for preference_entry in preference.preference_entries.all %>
+              <% type = preference_entry.preference_type %>
+              <% for entry_occurence in preference_entry.entry_occurences.all %>
+                <% if date.wday == 1 and entry_occurence.m %>
+                  <%= "(" + type + ": " + entry_occurence.start_time.to_s + " " + entry_occurence.end_time.to_s + ")" %>
+                <% elsif date.wday == 2 and entry_occurence.tu %>
+                  <%= "(" + type + ": " + entry_occurence.start_time.to_s + " " + entry_occurence.end_time.to_s + ")" %>
+                <% elsif date.wday == 3 and entry_occurence.w %>
+                  <%= "(" + type + ": " + entry_occurence.start_time.to_s + " " + entry_occurence.end_time.to_s + ")" %>
+                <% elsif date.wday == 4 and entry_occurence.th %>
+                  <%= "(" + type + ": " + entry_occurence.start_time.to_s + " " + entry_occurence.end_time.to_s + ")" %>
+                <% elsif date.wday == 5 and entry_occurence.f %>
+                  <%= "(" + type + ": " + entry_occurence.start_time.to_s + " " + entry_occurence.end_time.to_s + ")" %>
+                <% elsif date.wday == 6 and entry_occurence.sa %>
+                  <%= "(" + type + ": " + entry_occurence.start_time.to_s + " " + entry_occurence.end_time.to_s + ")" %>
+                <% elsif date.wday == 0 and entry_occurence.su %>
+                  <%= "(" + type + ": " + entry_occurence.start_time.to_s + " " + entry_occurence.end_time.to_s + ")" %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <b><%= "Date: " + date.to_s %></b>
+    <% end %>

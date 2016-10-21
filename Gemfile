@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+gem 'nested_form_fields'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
@@ -13,6 +13,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'rails_12factor'
+# Include 'rails_12factor' gem to enable all platform features in Heroku
+gem 'bootstrap-sass', '~> 3.3.6'
+# Include bootstrap for beautifulness
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -22,6 +26,10 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+
+gem 'devise'
+# Shows preference schedules in calendar.
+gem "simple_calendar", "~> 2.0"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
