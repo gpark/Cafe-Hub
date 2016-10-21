@@ -20,7 +20,7 @@ module NavigationHelpers
       '/users/sign_in'  
     
     when /^the user dashboard$/
-      '/dashboard'
+      '/'
       
     when /the create preferred schedule page$/
       '/dashboard/new_preference'

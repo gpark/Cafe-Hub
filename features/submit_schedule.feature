@@ -15,15 +15,16 @@ Background: user has been added to database
     And I fill in "Password" with "JamesJames"
     And I press "Log in"
     Then I should be on the user dashboard
-    When I follow "Create Preferred Schedule"
+    When I follow "New Preference"
     Then I should be on the create preferred schedule page
-    When I follow "Add Entry"
-    And I select "Class" from "preference_type"
+    # When I follow "Add Entry"
+    And I select "Class" from "PreferenceType"
+    Then I should see "Remove Occurence"
     And I check "M"
     And I check "W"
-    And I select "2:00 PM" from "start_time"
-    And I select "3:00 PM" from "end_ime"
+    And I select "3:00 PM" from "Start Time"
+    And I select "4:00 PM" from "End Time"
     And I press "Submit Preference"
     Then I should be on the preferred schedules tab
-    And I should see "Class" in the time slot for "2:00 PM" to "3:00 PM" on "Monday"
-    And I should see "Class" in the time slot for "2:00 PM" to "3:00 PM" on "Wednesday"
+    And I should see "Class" in the time slot for "3:00 PM" to "4:00 PM" on "Monday"
+    And I should see "Class" in the time slot for "3:00 PM" to "4:00 PM" on "Wednesday"
