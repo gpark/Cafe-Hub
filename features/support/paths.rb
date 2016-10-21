@@ -15,9 +15,18 @@ module NavigationHelpers
 
     when /^the home\s?page$/
       '/'
+      
     when /^the login page$/
+      '/users/sign_in'  
+    
+    when /^the user dashboard$/
       '/'
-
+      
+    when /the create preferred schedule page$/
+      '/dashboard/new_preference'
+      
+    when /the preferred schedules tab$/
+      '/dashboard/preferences'
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
