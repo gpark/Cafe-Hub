@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
         # @preference_entry = @preference.preference_entries.new
         # @entry_occurence = @preference_entry.entry_occurences.new
         if pref.save
-            redirect_to '/dashboard', notice: "Preference submitted successfully."
+            redirect_to '/dashboard/preferences', notice: "Preference submitted successfully."
         else
             redirect_to '/dashboard/new_preference', alert: "Error creating preference."
         end
@@ -27,9 +27,16 @@ class DashboardController < ApplicationController
                 entry_occurences_attributes:[:su, :m, :tu, :w, :th, :f, :sa, :start_time, :end_time, :_destroy]])
     end
     
-    def show
+    def show_preferences
        @preferences = current_user.preferences
-       render 'dashboard'
+       render 'show_preference'
+    end
+    
+    def home
+        if !user_signed_in?
+            redirect_to new_user_session_path
+        end
+        render 'dashboard'
     end
     
 
