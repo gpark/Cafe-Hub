@@ -28,8 +28,8 @@ class DashboardController < ApplicationController
     end
     
     def show_preferences
-       @preferences = current_user.preferences
-       render 'show_preference'
+        @preferences = current_user.preferences.all
+        render 'show_preference'
     end
     
     def home
@@ -38,6 +38,4 @@ class DashboardController < ApplicationController
         end
         render 'dashboard'
     end
-    
-
 end
