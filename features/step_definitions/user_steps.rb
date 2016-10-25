@@ -1,8 +1,15 @@
-
 Given /the following users exists/ do |users_table|
     users_table.hashes.each do |user|
         User.create!(user)
     end
+end
+
+Given /^I am logged in as "([^"]*)"/ do |user|
+    pending
+end
+
+Given /^"([^"]*)" has preferences/ do |preferences_table|
+    pending
 end
 
 Then /^I should see "([^"]*)" in the time slot for "([^"]*)" to "([^"]*)" on "([^"]*)"$/ do |entry_name, start_time, end_time, day|
