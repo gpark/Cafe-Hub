@@ -8,7 +8,7 @@ Given /^I am logged in as "([^"]*)"/ do |user|
     pending
 end
 
-Given /^"([^"]*)" has preferences/ do |preferences_table|
+Given /^"([^"]*)" has preferences/ do |user, preferences_table|
     pending
 end
 

@@ -12,8 +12,8 @@ Background: user has preferred schedule set
   
   And "Isaac" has preferences:
   | type     | su    | m     | t     | w     | th    | f     | sa    | start_time | end_time | 
-  | Prefer   | false | true  | false | true  | false | false | false | 3:30 pm    | 5:30 pm  |
-  | Class    | false | false | true  | false | true  | false | false | 9:30 am    | 11:00 am |
+  | Prefer   | false | true  | false | true  | false | false | false | 3:30 PM    | 5:30 PM  |
+  | Class    | false | false | true  | false | true  | false | false | 9:30 AM    | 11:00 AM |
   
   Scenario: user should be able to see other user's schedules
     Given I am logged in as "James"
