@@ -1,0 +1,5 @@
+<h3>Create New Week</h3>
+    <%= form_for @assignments_week do |f| %>
+      Week of: <%= f.text_field :name %>
+      <%= f.submit "Create", class:"btn btn-default" %>
+    <% end %>

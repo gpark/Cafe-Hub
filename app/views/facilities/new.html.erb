@@ -1,0 +1,35 @@
+<h3>Create New Facility</h3>
+<div class="row"><div class="col-md-6">
+<div class="panel panel-default"><div class="panel-body">
+    <%= form_for @facility do |f| %>
+      <div class="row">
+      <div class="col-md-2"><label>Name:</label></div><%= f.text_field :name %></br>
+      </div>
+      <div class="row">
+      <div class="col-md-2"><label>Select Hours</label></div></br>
+      </div>
+      <div class="col-md-2"><label>Sunday: </label></div>
+      <%= f.select(:su_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Su Start Time"}) %>
+      <%= f.select(:su_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Su End Time"}) %> </br>
+      <div class="col-md-2"><label>Monday: </label></div>
+      <%= f.select(:m_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"M Start Time"}) %>
+      <%= f.select(:m_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"M End Time"}) %> </br>
+      <div class="col-md-2"><label>Tuesday: </label></div>
+      <%= f.select(:tu_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Tu Start Time"}) %>
+      <%= f.select(:tu_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Tu End Time"}) %> </br>
+      <div class="col-md-2"><label>Wednesday: </label></div>
+      <%= f.select(:w_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"W Start Time"}) %>
+      <%= f.select(:w_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"W End Time"}) %> </br>
+      <div class="col-md-2"><label>Thursday: </label></div>
+      <%= f.select(:th_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Th Start Time"}) %>
+      <%= f.select(:th_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Th End Time"}) %> </br>
+      <div class="col-md-2"><label>Friday: </label></div>
+      <%= f.select(:f_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"F Start Time"}) %>
+      <%= f.select(:f_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"F End Time"}) %> </br>
+      <div class="col-md-2"><label>Saturday: </label></div>
+      <%= f.select(:sa_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Sa Start Time"}) %>
+      <%= f.select(:sa_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Sa End Time"}) %> </br>
+
+      <%= f.submit "Create", class:"btn btn-default" %>
+    <% end %>
+</div></div></div></div>

@@ -20,6 +20,6 @@ module DashboardHelper
     
     #Formatting for post onto calendar
     def helper_format2(type, entry_occurence)
-        simple_format("(" + type + ": " + entry_occurence.start_time.to_s + " to " + entry_occurence.end_time.to_s + ")\n")
+        simple_format("(" + type + ": " + entry_occurence.start_time + " to " + entry_occurence.end_time + ")\n")
     end
 end
