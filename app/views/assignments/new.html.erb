@@ -3,11 +3,12 @@
 <div class="panel panel-default"><div class="panel-body">
     <%= form_for @assignment do |f| %>
       <%= f.label "Week of: " %>
-      <%= f.select :assignments_week_id, @assignments_weeks %>
+      <%= f.select :assignments_week_id, @assignments_weeks, {}, {class: "form-control", style: "width:250px;display:inline"} %>
       <%= f.label "Facility: " %>
-      <%= f.select :facility_id, @facilities %>
+      <%= f.select :facility_id, @facilities, {}, {class: "form-control", style: "width:100px;display:inline"} %>
       <%= f.label "Worker: " %>
-      <%= f.select :user_id, @users %>
+      <%= f.select :user_id, @users, {}, {class: "form-control", style: "width:135px;display:inline"} %>
+      <br><br>
       <%= f.nested_fields_for :occurences, wrapper_options: {class:'form_inline'} do |eo| %>
             &emsp;  &emsp;
             <label class="checkbox-inline">
@@ -33,7 +34,7 @@
             </label>
             <%= eo.select(:start_time, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Start Time"}) %>
             <%= eo.select(:end_time, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"End Time"}) %>
-            <%= eo.remove_nested_fields_link 'Remove Occurence' %>
+            <div align="right"><%= eo.remove_nested_fields_link 'Remove Occurence' %></div>
       <% end %>
       <%= f.add_nested_fields_link :occurences, 'Add Occurence' %>
       
