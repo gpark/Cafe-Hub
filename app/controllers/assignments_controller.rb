@@ -1,7 +1,7 @@
 class AssignmentsController < ApplicationController
     def new
         @assignment = Assignment.new
-        # @occurence = @assignment.occurences.new
+        @occurence = @assignment.occurences.new
         @assignments_weeks = AssignmentsWeek.all.collect {|a| [a.start_date.to_s + " to " + a.end_date.to_s, a.id]}
         @users = User.all.collect {|a| [a.name, a.id]}
         @facilities = Facility.all.collect {|a| [a.name, a.id]}
