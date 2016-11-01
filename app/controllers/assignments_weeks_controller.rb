@@ -18,6 +18,6 @@ class AssignmentsWeeksController < ApplicationController
     end
     
     def assignments_week_params
-       params.require(:assignments_week).permit(:name) 
+       params.require(:assignments_week).permit(:start_date, :end_date) 
     end
 end
