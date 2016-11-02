@@ -3,7 +3,10 @@
 <div class="panel panel-default"><div class="panel-body">
     <%= form_for @facility do |f| %>
       <div class="row">
-      <div class="col-md-2"><label>Name:</label></div><%= f.text_field :name %></br>
+      <div class="col-md-3"><label>Name:</label></div><%= f.text_field :name %></br>
+      </div>
+      <div class="row">
+      <div class="col-md-3"><label>Workers per shift:</label></div><%= f.select(:ppl_per_shift, [[1, 1], [2, 2], [3, 3], [4, 4]], {}, {class: "form-control", style: "width:50px;display:inline"}) %></br>
       </div>
       <div class="row">
       <div class="col-md-2"><label>Select Hours</label></div></br>
@@ -29,7 +32,7 @@
       <div class="col-md-2"><label>Saturday: </label></div>
       <%= f.select(:sa_start, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Sa Start Time"}) %>
       <%= f.select(:sa_end, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Sa End Time"}) %> </br>
-
+      <span id="helpBlock" class="help-block"> &nbsp; &nbsp; If a facility is closed on a certain day, leave the times unselected</span>
       <%= f.submit "Create", class:"btn btn-default" %>
     <% end %>
 </div></div></div></div>

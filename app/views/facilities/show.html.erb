@@ -1,1 +1,26 @@
 <h3><%= @facility.name %> </h3>
+<table class="table table-bordered fixed" style="text-align:center">
+    <col width="180px" />
+    <tr>
+        <th style="text-align:center">Time</th>
+        <th style="text-align:center">Sunday</th>
+        <th style="text-align:center">Monday</th>
+        <th style="text-align:center">Tuesday</th>
+        <th style="text-align:center">Wednesday</th>
+        <th style="text-align:center">Thursday</th>
+        <th style="text-align:center">Friday</th>
+        <th style="text-align:center">Saturday</th>
+    </tr>
+<% for t in @facility.all_times %>
+    <tr>
+        <td><%= t %></td>
+        <% for day in [:su, :m, :tu, :w, :th, :f, :sa] do %>
+            <td>
+                <% if @facility_hash[day].key?(t) %>
+                    <%= @facility_hash[day][t].join(", ")%>
+                <% end %>
+            </td>
+        <% end %>
+    </tr>
+<% end %>
+</table>

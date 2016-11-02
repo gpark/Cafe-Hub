@@ -1,7 +1,7 @@
 class FacilitiesController < ApplicationController
     def new
         @facility = Facility.new
-        times = Array.new(24.hours / 30.minutes) {|i| [(Time.now.midnight + (i*30.minutes)).strftime("%I:%M %p"), (Time.now.midnight + (i*30.minutes)).strftime("%I:%M %p")]}
+        times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
         @start_times = ["Select Start Time"] + times
         @end_times = ["Select End Time"] + times
     end
@@ -17,6 +17,7 @@ class FacilitiesController < ApplicationController
     
     def show
         @facility = Facility.find(params[:format])
+        @facility_hash = @facility.assignments_hash
     end
     
     def facility_params
