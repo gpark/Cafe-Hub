@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   get '/dashboard/new_preference' => 'dashboard#new_preference'
   get '/dashboard' => 'dashboard#home'
   
+  resource :assignments
+  resource :facilities
+  resource :assignments_weeks
+  
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -13,7 +13,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.password_field :current_password, autocomplete: "off" %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :password, "New Password" %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, autocomplete: "off" %>
     <% if @minimum_password_length %>
       <br />
@@ -22,14 +27,16 @@
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation, "Confirm New Password" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %>
-  </div>
+  
+  <!--<% if current_user.admin? %>-->
+  <!--<div class="field">-->
+  <!--  <%= f.label :sign_up_code %> <br />-->
+  <!--  <%= f.text_field :sign_up_code %>-->
+  <!--</div>-->
+  <!--<% end %>-->
 
   <div class="actions">
     <%= f.submit "Update" %>

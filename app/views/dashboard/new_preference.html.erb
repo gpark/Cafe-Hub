@@ -4,7 +4,7 @@
         <div class="row"><div class="col-md-8">
         <div class="panel panel-default"><div class="panel-body">
         <%= pe.select(:preference_type, [['Prefer', 'Prefer'], ['Class', 'Class'], ['R/N Work', 'R/N Work'], ['Obligation', 'Obligation']], {}, {class: "form-control", style: "width:100px", id:"PreferenceType"}) %>
-        <%= pe.nested_fields_for :entry_occurences, wrapper_options: {class:'form_inline'} do |eo| %>
+        <%= pe.nested_fields_for :occurences, wrapper_options: {class:'form_inline'} do |eo| %>
             <div class="row"><div class="col-md-9">
             &emsp;  &emsp;
             <label class="checkbox-inline">
@@ -36,7 +36,7 @@
             </div></div>
         <% end %>
         <div class="row"><div class="col-md-2 col-md-offset-9">
-         <%= pe.add_nested_fields_link :entry_occurences, 'Add Occurence' %>
+         <%= pe.add_nested_fields_link :occurences, 'Add Occurence' %>
          </div></div>
         <br>
         &emsp;  &emsp;<%= pe.text_area(:comments, size: "30x3") %>

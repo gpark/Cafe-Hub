@@ -4,7 +4,7 @@
           <% @preferences.each do |preference| %>
             <% for preference_entry in preference.preference_entries.all %>
               <% type = preference_entry.preference_type %>
-              <% for entry_occurence in preference_entry.entry_occurences.all %>
+              <% for entry_occurence in preference_entry.occurences.all %>
                 <%= helper_format(type, date, entry_occurence) %>
               <% end %>
             <% end %>

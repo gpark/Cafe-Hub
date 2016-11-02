@@ -5,11 +5,28 @@ Given /the following users exists/ do |users_table|
 end
 
 Given /^I am logged in as "([^"]*)"/ do |user|
-    pending
+    user = User.where("name='"+user+"'")[0]
+    visit '/users/sign_in'
+    fill_in "user_email", :with => user.email
+    if user.name == "Admin"
+        password = "aadmin"
+    else
+        password = ""
+    end
+    fill_in "user_password", :with => password
+    click_button "Log in"
 end
 
 Given /^"([^"]*)" has preferences/ do |user, preferences_table|
-    pending
+    user = User.where("name='"+user+"'")[0]
+    p = Preference.create!({:user_id => user.id})
+    preferences_table.hashes.each do |preference_entry|
+        entry = p.preference_entries.new({:preference_type => preference_entry["type"]})
+        preference_entry.delete("type")
+        occurence = entry.occurences.new(preference_entry)
+        occurence.save
+        entry.save
+    end
 end
 
 Then /^I should see "([^"]*)" in the time slot for "([^"]*)" to "([^"]*)" on "([^"]*)"$/ do |entry_name, start_time, end_time, day|

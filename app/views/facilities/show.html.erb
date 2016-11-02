@@ -1,0 +1,6 @@
+<h3><%= @facility.name %> </h3>
+<%= form_tag(facilities_path(@facility.id), method: "get") do %>
+    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= submit_tag("Select Week", class:"btn btn-default") %>
+<% end %>
+<%= render partial: "layouts/weekly_calendar", locals: { all_times: @facility.all_times, entries_hash: @facility_hash} %>

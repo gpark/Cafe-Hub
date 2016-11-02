@@ -1,0 +1,5 @@
+<h3>Create New Week</h3>
+    <%= form_for @assignments_week do |f| %>
+      Week of: <%= f.date_select :start_date %> to <%= f.date_select :end_date %>
+      <%= f.submit "Create", class:"btn btn-default" %>
+    <% end %>

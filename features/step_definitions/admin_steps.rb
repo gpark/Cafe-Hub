@@ -3,14 +3,26 @@ Given /^the admin code is "([0-9]+)"/ do |code|
 end
 
 Given(/^there is an admin account$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  User.create!({:email => 'admin@cafe-hub.com', :password => 'aadmin', :password_confirmation => 'aadmin', :name => 'Admin'})
 end
 
 Given(/^the following facilities exists:$/) do |facilities_table|
-  # table is a Cucumber::MultilineArgument::DataTable
-  pending # Write code here that turns the phrase above into concrete actions
+  facilities_table.hashes.each do |f|
+    Facility.create!(f)
+  end
 end
 
-Then(/^I should see "([^"]*)" assigned to shift "([^"]*)" to "([^"]*)" on "([^"]*)"$/) do |employee, start_time, end_time, day|
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^the following assignments week exists:$/) do |aw_table|
+  aw_table.hashes.each do |aw|
+    AssignmentsWeek.create!(aw)
+  end
+end
+
+Then(/^I should see "([^"]*)" assigned to shift "([^"]*)" on "([^"]*)"$/) do |employee, times, day|
+  day_conversions = {"Monday" => "m", "Tuesday"=>"tu", "Wednesday"=>"w", "Thursday"=>"th", "Friday"=>"f", "Saturday"=>"sa", "Sunday"=>"su"}
+  converted_day = day_conversions[day]
+  expected_id = converted_day + "_" + times
+  within("//td[@id^='" + expected_id + "']") do
+    page.should have_content(employee)
+  end
 end

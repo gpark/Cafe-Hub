@@ -13,7 +13,47 @@
 
 ActiveRecord::Schema.define(version: 20161102000309) do
 
-  create_table "entry_occurences", force: :cascade do |t|
+  create_table "assignments", force: :cascade do |t|
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "user_id"
+    t.integer  "facility_id"
+    t.integer  "assignments_week_id"
+  end
+
+  add_index "assignments", ["assignments_week_id"], name: "index_assignments_on_assignments_week_id"
+  add_index "assignments", ["facility_id"], name: "index_assignments_on_facility_id"
+  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
+
+  create_table "assignments_weeks", force: :cascade do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "facilities", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "ppl_per_shift"
+    t.string   "su_start"
+    t.string   "su_end"
+    t.string   "m_start"
+    t.string   "m_end"
+    t.string   "tu_start"
+    t.string   "tu_end"
+    t.string   "w_start"
+    t.string   "w_end"
+    t.string   "th_start"
+    t.string   "th_end"
+    t.string   "f_start"
+    t.string   "f_end"
+    t.string   "sa_start"
+    t.string   "sa_end"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "occurences", force: :cascade do |t|
     t.boolean  "su"
     t.boolean  "m"
     t.boolean  "tu"
@@ -26,9 +66,11 @@ ActiveRecord::Schema.define(version: 20161102000309) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "preference_entry_id"
+    t.integer  "assignment_id"
   end
 
-  add_index "entry_occurences", ["preference_entry_id"], name: "index_entry_occurences_on_preference_entry_id"
+  add_index "occurences", ["assignment_id"], name: "index_occurences_on_assignment_id"
+  add_index "occurences", ["preference_entry_id"], name: "index_occurences_on_preference_entry_id"
 
   create_table "preference_entries", force: :cascade do |t|
     t.string   "preference_type"
