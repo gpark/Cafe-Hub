@@ -27,11 +27,18 @@ module NavigationHelpers
       
     when /the preferred schedules tab$/
       '/dashboard/preferences'
-    # Add more mappings here.
-    # Here is an example that pulls values out of the Regexp:
-    #
-    #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by_login($1))
+      
+    when /the first assignments week page$/
+      '/assignments_weeks.1'
+      
+    when /the new assignments week page$/
+      '/assignments_weeks/new'
+      
+    when /the new facility page$/
+      '/facilities/new'
+      
+    when /the new assignment page$/
+      '/assignments/new'
 
     else
       # probably need this at some point

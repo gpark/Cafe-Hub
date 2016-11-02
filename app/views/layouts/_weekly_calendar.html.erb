@@ -14,7 +14,8 @@
     <tr>
         <td><%= t %></td>
         <% for day in [:su, :m, :tu, :w, :th, :f, :sa] do %>
-            <td>
+        <% @id = day.to_s + "_" + t %>
+            <td id="<%= @id %>">
                 <% if entries_hash[day].key?(t) %>
                     <%= entries_hash[day][t].join(", ")%>
                 <% end %>
