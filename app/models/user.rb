@@ -10,4 +10,8 @@ class User < ActiveRecord::Base
     on: :create,
     presence: true,
     inclusion: { in: ["1234"] }
+    
+  def admin?
+    admin
+  end
 end

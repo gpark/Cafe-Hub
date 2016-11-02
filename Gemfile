@@ -31,6 +31,9 @@ gem 'devise'
 # Shows preference schedules in calendar.
 gem "simple_calendar", "~> 2.0"
 
+# for controlling admin access
+gem 'cancancan'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -45,10 +48,6 @@ group :development, :test do
   gem 'byebug'
   gem 'sqlite3'
 end
-
-# group :production do
-#   gem 'pg'
-# end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
