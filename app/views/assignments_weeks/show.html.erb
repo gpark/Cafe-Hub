@@ -1,1 +1,9 @@
-<h3>Week of <%= @assignments_week.start_date.to_s %> to <%= @assignments_week.end_date.to_s %> </h3>
+<h3>Week of <%= @assignments_week.to_s %> </h3>
+<p class="text-muted">Click on facility to view its assignments for this week</p>
+<div class="row">
+<div class="col-md-2">
+<div class="list-group">
+<% for facility in @facilities %>
+    <%= link_to(facility.name,facilities_path(facility.id, :assignments_week_id => @assignments_week.id), { :class=>"list-group-item"}) %>
+<% end %>
+</div></div></div>

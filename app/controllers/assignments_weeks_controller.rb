@@ -15,6 +15,7 @@ class AssignmentsWeeksController < ApplicationController
     
     def show
         @assignments_week = AssignmentsWeek.find(params[:format])
+        @facilities = Facility.all
     end
     
     def assignments_week_params

@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
     def new
         @assignment = Assignment.new
         @occurence = @assignment.occurences.new
-        @assignments_weeks = AssignmentsWeek.all.collect {|a| [a.start_date.to_s + " to " + a.end_date.to_s, a.id]}
+        @assignments_weeks = AssignmentsWeek.order(created_at: :desc).collect {|a| [a.to_s, a.id]}
         @users = User.all.collect {|a| [a.name, a.id]}
         @facilities = Facility.all.collect {|a| [a.name, a.id]}
         times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
     def create
         @assignment = Assignment.new(assignment_params)
         if @assignment.save
-            redirect_to facilities_path(@assignment.facility_id), notice: "Assignment created"
+            redirect_to facilities_path(@assignment.facility_id, :assignments_week_id => @assignment.assignments_week_id), notice: "Assignment created"
         else
             redirect_to new_assignments_path, alert: "Error creating assignment."
         end

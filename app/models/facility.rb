@@ -26,10 +26,13 @@ class Facility < ActiveRecord::Base
         return times
     end
     
-    def assignments_hash
+    def assignments_hash (week_id)
         one_day = "2016-1-1 "
         h = {"su": {}, "m": {},"tu":{},"w":{},"th":{},"f":{},"sa":{}}
-        for assignment in self.assignments do
+        if (week_id == 0)
+            return h
+        end
+        for assignment in self.assignments.where("assignments_week_id="+week_id.to_s) do
             employee = assignment.user.name
             for occurence in assignment.occurences do
                 for day in h.keys do
