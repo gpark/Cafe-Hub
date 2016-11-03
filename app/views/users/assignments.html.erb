@@ -1,0 +1,5 @@
+<h3><%= @user.name %>'s Assigned Schedule</h3>
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><%= link_to("Assigned Schedule", "/users/"+@user.id.to_s+"/assignments") %></li>
+  <li role="presentation"><%= link_to("Preference Schedule","/users/"+@user.id.to_s+"/preference") %></li>
+</ul>
