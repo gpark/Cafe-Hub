@@ -1,4 +1,6 @@
 class FacilitiesController < ApplicationController
+    authorize_resource
+    
     def new
         @facility = Facility.new
         times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a

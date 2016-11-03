@@ -17,4 +17,9 @@ class ApplicationController < ActionController::Base
         :sign_up_code
     ) }
   end
+  
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:warning] = exception.message
+    redirect_to root_path, alert: flash[:warning]
+  end
 end

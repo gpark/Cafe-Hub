@@ -27,6 +27,8 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem "rails-settings-cached"
+
 gem 'devise'
 # Shows preference schedules in calendar.
 gem "simple_calendar", "~> 2.0"

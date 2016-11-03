@@ -10,7 +10,9 @@ class User < ActiveRecord::Base
   validates :sign_up_code,
     on: :create,
     presence: true,
-    inclusion: { in: ["1234"] }
+    inclusion: { in: [Setting.sign_up_code] }
+  validates :name,
+    presence: true
     
   def admin?
     admin
