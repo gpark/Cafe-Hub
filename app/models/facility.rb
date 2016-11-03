@@ -35,22 +35,23 @@ class Facility < ActiveRecord::Base
         for assignment in self.assignments.where("assignments_week_id="+week_id.to_s) do
             employee = assignment.user.name
             for occurence in assignment.occurences do
+                starting = (one_day + occurence.start_time).to_time
+                ending = (one_day + occurence.end_time).to_time
+                if ending < starting
+                    ending = ending + 24*60*60
+                end                
                 for day in h.keys do
                     if occurence.send(day)
-                        starting = (one_day + occurence.start_time).to_time
-                        ending = (one_day + occurence.end_time).to_time
-                        if ending < starting
-                            ending = ending + 24*60*60
-                        end
-                        while starting < ending do
-                            next_hour = starting + 3600
-                            current_time = starting.strftime("%I:%M %p")  + " - " + next_hour.strftime("%I:%M %p")
-                            if h[day].key? current_time
-                                h[day][current_time].push(employee)
+                        current_time = starting
+                        while current_time < ending do
+                            next_hour = current_time + 3600
+                            time_string = current_time.strftime("%I:%M %p")  + " - " + next_hour.strftime("%I:%M %p")
+                            if h[day].key? time_string
+                                h[day][time_string].push(employee)
                             else
-                                h[day][current_time] = [employee]
+                                h[day][time_string] = [employee]
                             end
-                            starting = next_hour
+                            current_time = next_hour
                         end
                     end
                 end

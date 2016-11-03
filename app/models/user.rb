@@ -5,4 +5,25 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+         
+  def hours_assigned(week_id)
+    total_hours = 0
+    for assignment in self.assignments.where("assignments_week_id="+week_id.to_s)
+      for occurence in assignment.occurences do
+        start_time = occurence.start_time.to_time
+        end_time = occurence.end_time.to_time
+        if (end_time < start_time)
+          end_time += 60*60*24
+        end
+        occurence_hours = (end_time - start_time) / 3600
+        for day in ["m", "tu", "w", "th", "f", "sa", "su"] do
+          if occurence.send(day)
+            total_hours += occurence_hours
+          end
+        end
+      end
+    end
+    return total_hours
+  end
+  
 end

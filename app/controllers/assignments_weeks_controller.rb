@@ -14,8 +14,20 @@ class AssignmentsWeeksController < ApplicationController
     end
     
     def show
-        @assignments_week = AssignmentsWeek.find(params[:format])
-        @facilities = Facility.all
+        if AssignmentsWeek.all.length == 0
+            redirect_to new_assignments_weeks_path, alert: "There are no weeks existing. Please create one."
+        else
+            id = params[:format]
+            if (params.key?(:chosen_week))
+                @assignments_week = AssignmentsWeek.find(params[:chosen_week])        
+            elsif (id == nil) 
+                redirect_to assignments_weeks_path(AssignmentsWeek.order(:created_at).last.id)
+            else
+                @assignments_week = AssignmentsWeek.find(id)
+            end
+            @facilities = Facility.all
+            @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
+        end
     end
     
     def assignments_week_params
