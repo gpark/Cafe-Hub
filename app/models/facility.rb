@@ -5,8 +5,9 @@ class Facility < ActiveRecord::Base
         one_day = "2016-1-1 "
         next_day = "2016-1-2 "
         days = ["su", "m", "tu", "w", "th", "f", "sa"]
-        start_times = days.map{|item| self.send(item + "_start")}.select{|elem| !elem.include?("Select")}
-        end_times = days.map{|item| self.send(item + "_end")}.select{|elem| !elem.include?("Select")}
+        start_times = days.map{|item| self.send(item + "_start")}
+        start_times = start_times.select{|elem| elem =~ /\d/}
+        end_times = days.map{|item| self.send(item + "_end")}.select{|elem| elem =~ /\d/}
         start_times.map!{|item| (one_day+item).to_time }
         end_times.map! do |item|
             if item.include? "AM"

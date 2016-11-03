@@ -11,7 +11,7 @@ Background: user has preferred schedule set
   | james@james.com         | NotJames      | NotJames                   | James |
   
   And "Isaac" has preferences:
-  | type     | su    | m     | t     | w     | th    | f     | sa    | start_time | end_time | 
+  | type     | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
   | Prefer   | false | true  | false | true  | false | false | false | 3:30 PM    | 5:30 PM  |
   | Class    | false | false | true  | false | true  | false | false | 9:30 AM    | 11:00 AM |
   

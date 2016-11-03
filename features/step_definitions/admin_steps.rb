@@ -18,6 +18,17 @@ Given(/^the following assignments week exists:$/) do |aw_table|
   end
 end
 
+Given(/^the following assignments exists:$/) do |a_table|
+  a_table.hashes.each do |a|
+    a_hash = {"user_id" => a["user_id"], "facility_id" => a["facility_id"], "assignments_week_id" => a["assignments_week_id"]}
+    a.delete("user_id")
+    a.delete("facility_id")
+    a.delete("assignments_week_id")
+    assn = Assignment.create!(a_hash)
+    assn.occurences.create!(a)
+  end
+end
+
 Then(/^I should see "([^"]*)" assigned to shift "([^"]*)" on "([^"]*)"$/) do |employee, times, day|
   day_conversions = {"Monday" => "m", "Tuesday"=>"tu", "Wednesday"=>"w", "Thursday"=>"th", "Friday"=>"f", "Saturday"=>"sa", "Sunday"=>"su"}
   converted_day = day_conversions[day]

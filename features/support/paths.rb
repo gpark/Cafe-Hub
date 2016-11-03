@@ -39,6 +39,9 @@ module NavigationHelpers
       
     when /the new assignment page$/
       '/assignments/new'
+      
+    when /the first facility page$/
+      '/facilities.1'
 
     else
       # probably need this at some point
