@@ -28,12 +28,3 @@ Given(/^the following assignments exists:$/) do |a_table|
     assn.occurences.create!(a)
   end
 end
-
-Then(/^I should see "([^"]*)" assigned to shift "([^"]*)" on "([^"]*)"$/) do |employee, times, day|
-  day_conversions = {"Monday" => "m", "Tuesday"=>"tu", "Wednesday"=>"w", "Thursday"=>"th", "Friday"=>"f", "Saturday"=>"sa", "Sunday"=>"su"}
-  converted_day = day_conversions[day]
-  expected_id = converted_day + "_" + times
-  within("//td[@id^='" + expected_id + "']") do
-    page.should have_content(employee)
-  end
-end

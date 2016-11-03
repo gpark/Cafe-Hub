@@ -19,8 +19,13 @@ Background: user has preferred schedule set
     Given I am logged in as "James"
     And I am on the all users page
     When I follow "Isaac"
-    Then I should see "Class" in the time slot for "9:30 AM" to "11:00 AM" on "Tuesday"
-    And I should see "Class" in the time slot for "9:30 AM" to "11:00 AM" on "Thursday"
-    And I should see "Prefer" in the time slot for "3:30 PM" to "5:30 PM" on "Monday"
-    And I should see "Prefer" in the time slot for "3:30 PM" to "5:30 PM" on "Wednesday"
+    And I follow "Preference Schedule"
+    Then I should see "Class" in the time slot for "09:30 AM - 10:00 AM" on "Tuesday"
+    Then I should see "Class" in the time slot for "10:00 AM - 10:30 AM" on "Tuesday"
+    Then I should see "Class" in the time slot for "10:30 AM - 11:00 AM" on "Tuesday"    
+    Then I should see "Class" in the time slot for "09:30 AM - 10:00 AM" on "Thursday"
+    Then I should see "Class" in the time slot for "10:00 AM - 10:30 AM" on "Thursday"
+    Then I should see "Class" in the time slot for "10:30 AM - 11:00 AM" on "Thursday" 
+    And I should see "Prefer" in the time slot for "03:30 PM - 04:00 PM" on "Monday"
+    And I should see "Prefer" in the time slot for "05:00 PM - 05:30 PM" on "Wednesday"
     

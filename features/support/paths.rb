@@ -42,6 +42,9 @@ module NavigationHelpers
       
     when /the first facility page$/
       '/facilities.1'
+      
+    when /the all users page$/
+      '/users/all'
 
     else
       # probably need this at some point
