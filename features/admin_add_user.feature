@@ -8,19 +8,21 @@ Background: sign up code should be set
   
   Scenario: sign ups without code shouldn't work
     Given I am on the sign up page
-    When I fill in "Email" with "isaac@james.com"
+    When I fill in "Name" with "Isaac"
+    And I fill in "Email" with "isaac@james.com"
     And I fill in "Password" with "JamesJames"
     And I fill in "Password confirmation" with "JamesJames"
     And I press "Sign up"
-    Then I should see "Incorrect admin code"
-    And I should be on the sign up page
+    Then I should see "Sign up code is not included in the list"
+    And I should be on the sign up post page
   
   Scenario: sign ups with code are allowed
     Given I am on the sign up page
-    When I fill in "Email" with "isaac@james.com"
+    When I fill in "Name" with "Isaac"
+    And I fill in "Email" with "isaac@james.com"
     And I fill in "Password" with "JamesJames"
     And I fill in "Password confirmation" with "JamesJames"
-    And I fill in "Sign-up Code" with "1234"
+    And I fill in "Sign up code" with "1234"
     And I press "Sign up"
     Then I should see "Welcome! You have signed up successfully"
     And I should be on the home page

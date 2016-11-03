@@ -1,5 +1,6 @@
 Given /the following users exists/ do |users_table|
     users_table.hashes.each do |user|
+        user[:sign_up_code] = Setting.sign_up_code
         User.create!(user)
     end
 end
@@ -10,6 +11,8 @@ Given /^I am logged in as "([^"]*)"/ do |user|
     fill_in "user_email", :with => user.email
     if user.name == "Admin"
         password = "aadmin"
+    elsif user.name == "Isaac"
+        password = "JamesJames"
     else
         password = ""
     end
@@ -42,6 +45,10 @@ Then /^I should see "([^"]*)" in the time slot for "([^"]*)" to "([^"]*)" on "([
       page.should have_content(start_time)
       page.should have_content(end_time)
   end
+end
+
+Then /^I should see an alert message saying "([^"]*)"$/ do |message|
+    page.should have_selector ".alert", text: message
 end
 
 

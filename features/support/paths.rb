@@ -16,11 +16,17 @@ module NavigationHelpers
     when /^the home\s?page$/
       '/'
       
+    when /^the user dashboard$/
+      '/'
+      
     when /^the login page$/
       '/users/sign_in'  
     
-    when /^the user dashboard$/
-      '/'
+    when /^the sign up page$/
+      '/users/sign_up'
+      
+    when /^the sign up post page$/
+      '/users'
       
     when /the create preferred schedule page$/
       '/dashboard/new_preference'
@@ -39,6 +45,9 @@ module NavigationHelpers
       
     when /the new assignment page$/
       '/assignments/new'
+      
+    when /the settings page/
+      '/settings'
 
     else
       # probably need this at some point

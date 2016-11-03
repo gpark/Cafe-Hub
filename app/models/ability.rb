@@ -8,6 +8,7 @@ class Ability
     if user.admin?
       can :manage, :all
     else
+      cannot :manage, :all
       can :read, :all
       cannot :manage, Setting
       can :manage, :dashboard
