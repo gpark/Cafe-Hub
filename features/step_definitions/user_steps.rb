@@ -8,11 +8,9 @@ Given /^I am logged in as "([^"]*)"/ do |user|
     user = User.where("name='"+user+"'")[0]
     visit '/users/sign_in'
     fill_in "user_email", :with => user.email
-    if user.name == "Admin"
-        password = "aadmin"
-    elsif user.name == "James"
-        password = "NotJames"
-    else
+    passwords = {"Admin" => "aadmin", "James" => "NotJames"}
+    password = passwords[user.name]
+    if password == nil
         password = ""
     end
     fill_in "user_password", :with => password
