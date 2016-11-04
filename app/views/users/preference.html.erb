@@ -3,4 +3,4 @@
   <li role="presentation"><%= link_to("Assigned Schedule", "/users/"+@user.id.to_s+"/assignments") %></li>
   <li role="presentation" class="active"><%= link_to("Preference Schedule","/users/"+@user.id.to_s+"/preference") %></li>
 </ul>
-<%= render partial: "layouts/weekly_calendar", locals: { all_times: Preference.all_times, entries_hash: @preference.entries_hash} %>
+<%= render partial: "layouts/weekly_calendar", locals: { all_times: Preference.all_times, entries_hash: @preference_hash} %>

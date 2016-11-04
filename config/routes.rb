@@ -9,10 +9,11 @@ Rails.application.routes.draw do
   get '/dashboard/new_preference' => 'dashboard#new_preference'
   get '/dashboard' => 'dashboard#home'
   patch '/preference' => 'dashboard#create_preference'
-  get 'users/all' => 'users#all'
+  get '/users/all' => 'users#all'
   get '/users/:id' => 'users#assignments'
-  get 'users/:id/assignments' => 'users#assignments'
-  get 'users/:id/preference' => 'users#preference'
+  get '/users/:id/assignments' => 'users#assignments'
+  get '/users/:id/preference' => 'users#preference'
+  get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments'
   
   resource :assignments
   resource :facilities

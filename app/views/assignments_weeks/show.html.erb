@@ -12,3 +12,4 @@
     <%= link_to(facility.name,facilities_path(facility.id, :assignments_week_id => @assignments_week.id), { :class=>"list-group-item"}) %>
 <% end %>
 </div></div></div>
+<%= link_to('Automatically Generate Assignments', '/generate_assignments/'+@assignments_week.id.to_s, { :class=>"btn btn-primary", :role=>"button"}) %>
