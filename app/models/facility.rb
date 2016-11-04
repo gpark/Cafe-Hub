@@ -8,6 +8,9 @@ class Facility < ActiveRecord::Base
         start_times = days.map{|item| self.send(item + "_start")}
         start_times = start_times.select{|elem| elem =~ /\d/}
         end_times = days.map{|item| self.send(item + "_end")}.select{|elem| elem =~ /\d/}
+        if start_times.empty? or end_times.empty?
+            return []
+        end
         start_times.map!{|item| (one_day+item).to_time }
         end_times.map! do |item|
             if item.include? "AM"
