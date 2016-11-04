@@ -4,10 +4,23 @@ Rails.application.routes.draw do
   
   root to: "dashboard#home"
   post '/preferences' => 'dashboard#create_preference'
+  post '/preference' => 'dashboard#create_preference'
   get '/dashboard/preferences' => 'dashboard#show_preferences'
   get '/dashboard/new_preference' => 'dashboard#new_preference'
   get '/dashboard' => 'dashboard#home'
+  patch '/preference' => 'dashboard#create_preference'
+  get '/users/all' => 'users#all'
+  get '/users/:id' => 'users#assignments'
+  get '/users/:id/assignments' => 'users#assignments'
+  get '/users/:id/preference' => 'users#preference'
+  get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments'
   
+  resource :assignments
+  resource :facilities
+  resource :assignments_weeks
+  
+  get '/settings' => 'settings#index'
+  patch '/settings' => 'settings#update'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

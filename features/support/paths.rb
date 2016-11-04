@@ -16,22 +16,44 @@ module NavigationHelpers
     when /^the home\s?page$/
       '/'
       
+    when /^the user dashboard$/
+      '/'
+      
     when /^the login page$/
       '/users/sign_in'  
     
-    when /^the user dashboard$/
-      '/'
+    when /^the sign up page$/
+      '/users/sign_up'
+      
+    when /^the sign up post page$/
+      '/users'
       
     when /the create preferred schedule page$/
       '/dashboard/new_preference'
       
     when /the preferred schedules tab$/
       '/dashboard/preferences'
-    # Add more mappings here.
-    # Here is an example that pulls values out of the Regexp:
-    #
-    #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by_login($1))
+      
+    when /the first assignments week page$/
+      '/assignments_weeks.1'
+      
+    when /the new assignments week page$/
+      '/assignments_weeks/new'
+      
+    when /the new facility page$/
+      '/facilities/new'
+      
+    when /the new assignment page$/
+      '/assignments/new'
+      
+    when /the settings page/
+      '/settings'
+      
+    when /the first facility page$/
+      '/facilities.1'
+      
+    when /the all users page$/
+      '/users/all'
 
     else
       # probably need this at some point

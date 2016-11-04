@@ -1,0 +1,15 @@
+<h3>Week of <%= @assignments_week.to_s %>
+<%= form_tag(assignments_weeks_path, method: "get") do %>
+    <%= select_tag :chosen_week, options_for_select(@weeks, @assignments_week.id), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= submit_tag("Select Week", class:"btn btn-default") %>
+<% end %>
+</h3>
+<p class="text-muted">Click on facility to view its assignments for this week</p>
+<div class="row">
+<div class="col-md-2">
+<div class="list-group">
+<% for facility in @facilities %>
+    <%= link_to(facility.name,facilities_path(facility.id, :assignments_week_id => @assignments_week.id), { :class=>"list-group-item"}) %>
+<% end %>
+</div></div></div>
+<%= link_to('Automatically Generate Assignments', '/generate_assignments/'+@assignments_week.id.to_s, { :class=>"btn btn-primary", :role=>"button"}) %>

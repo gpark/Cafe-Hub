@@ -57,6 +57,7 @@ GEM
       sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.6)
+    cancancan (1.15.0)
     cane (2.6.2)
       parallel
     capybara (2.10.1)
@@ -237,6 +238,8 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-settings-cached (0.6.5)
+      rails (>= 4.2.0)
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
@@ -353,6 +356,7 @@ DEPENDENCIES
   autotest-rails
   bootstrap-sass (~> 3.3.6)
   byebug
+  cancancan
   codeclimate-test-reporter
   coffee-rails (~> 4.1.0)
   cucumber-rails
@@ -367,6 +371,7 @@ DEPENDENCIES
   nested_form_fields
   pg
   rails (= 4.2.6)
+  rails-settings-cached
   rails_12factor
   rspec-rails (= 2.14)
   sass-rails (~> 5.0)

@@ -11,9 +11,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018194003) do
+ActiveRecord::Schema.define(version: 20161102223802) do
 
-  create_table "entry_occurences", force: :cascade do |t|
+  create_table "assignments", force: :cascade do |t|
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "user_id"
+    t.integer  "facility_id"
+    t.integer  "assignments_week_id"
+  end
+
+  add_index "assignments", ["assignments_week_id"], name: "index_assignments_on_assignments_week_id"
+  add_index "assignments", ["facility_id"], name: "index_assignments_on_facility_id"
+  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
+
+  create_table "assignments_weeks", force: :cascade do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "facilities", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "ppl_per_shift"
+    t.string   "su_start"
+    t.string   "su_end"
+    t.string   "m_start"
+    t.string   "m_end"
+    t.string   "tu_start"
+    t.string   "tu_end"
+    t.string   "w_start"
+    t.string   "w_end"
+    t.string   "th_start"
+    t.string   "th_end"
+    t.string   "f_start"
+    t.string   "f_end"
+    t.string   "sa_start"
+    t.string   "sa_end"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "occurences", force: :cascade do |t|
     t.boolean  "su"
     t.boolean  "m"
     t.boolean  "tu"
@@ -26,9 +66,11 @@ ActiveRecord::Schema.define(version: 20161018194003) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "preference_entry_id"
+    t.integer  "assignment_id"
   end
 
-  add_index "entry_occurences", ["preference_entry_id"], name: "index_entry_occurences_on_preference_entry_id"
+  add_index "occurences", ["assignment_id"], name: "index_occurences_on_assignment_id"
+  add_index "occurences", ["preference_entry_id"], name: "index_occurences_on_preference_entry_id"
 
   create_table "preference_entries", force: :cascade do |t|
     t.string   "preference_type"
@@ -48,20 +90,32 @@ ActiveRecord::Schema.define(version: 20161018194003) do
 
   add_index "preferences", ["user_id"], name: "index_preferences_on_user_id"
 
+  create_table "settings", force: :cascade do |t|
+    t.string   "var",                   null: false
+    t.text     "value"
+    t.integer  "thing_id"
+    t.string   "thing_type", limit: 30
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
+
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "name"
+    t.boolean  "admin",                  default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
