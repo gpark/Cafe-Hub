@@ -60,7 +60,7 @@ Feature: Submit information for schedule generating
     When I am on the first facility page
     Then I should see "MMF"
     And I should see "08:00 AM - 09:00 AM"
-    And I should see "Isaac" assigned to shift "08:00 AM - 09:00 AM" on "Monday"
+    And I should see "Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
     
   Scenario: Manually assign a shift
     Given the following facilities exists:
@@ -77,8 +77,8 @@ Feature: Submit information for schedule generating
     And I select "5:00 PM" from "End Time"
     And I press "Create"
     Then I should see "MMF"
-    And I should see "Isaac" assigned to shift "03:00 PM - 04:00 PM" on "Monday"
-    And I should see "Isaac" assigned to shift "04:00 PM - 05:00 PM" on "Monday"
+    And I should see "Isaac" in the time slot for "03:00 PM - 04:00 PM" on "Monday"
+    And I should see "Isaac" in the time slot for "04:00 PM - 05:00 PM" on "Monday"
     When I am on the new assignment page
     When I select "James" from "assignment_user_id"
     And I check "M"
@@ -86,6 +86,6 @@ Feature: Submit information for schedule generating
     And I select "6:00 PM" from "End Time"    
     And I press "Create"
     Then I should see "MMF"
-    And I should see "Isaac, James" assigned to shift "04:00 PM - 05:00 PM" on "Monday"
-    And I should see "James" assigned to shift "05:00 PM - 06:00 PM" on "Monday"
+    And I should see "Isaac, James" in the time slot for "04:00 PM - 05:00 PM" on "Monday"
+    And I should see "James" in the time slot for "05:00 PM - 06:00 PM" on "Monday"
     
