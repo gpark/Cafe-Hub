@@ -5,3 +5,5 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+admin = User.create!(name: 'Admin', email: 'admin@cafe-hub.com', password: 'aadmin', password_confirmation: 'aadmin', admin: true, sign_up_code: Setting.sign_up_code)
