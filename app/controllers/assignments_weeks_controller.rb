@@ -33,4 +33,10 @@ class AssignmentsWeeksController < ApplicationController
     def assignments_week_params
        params.require(:assignments_week).permit(:start_date, :end_date) 
     end
+    
+    def generate_assignments
+        week_id = params[:id]
+        AssignmentsWeek.find(week_id).generate_assignments
+        redirect_to assignments_weeks_path(week_id), notice: "Generation successful"
+    end
 end

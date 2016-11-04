@@ -8,7 +8,12 @@ class UsersController < ApplicationController
   
   def preference
     @user = User.find(params[:id])
-    @preference = @user.preferences.order(:created_at).last
+    preference = @user.preferences.order(:created_at).last
+    if (preference == nil)
+      @preference_hash = {"su": {}, "m": {},"tu":{},"w":{},"th":{},"f":{},"sa":{}}
+    else
+      @preference_hash = preference.entries_hash
+    end
     render 'preference'
   end
   
