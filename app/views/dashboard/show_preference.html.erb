@@ -1,12 +1,2 @@
 <h3>Weekly Preference Schedule</h3>
-    <%= week_calendar number_of_weeks: 1 do |date| %>
-      <b><%= date.strftime('%b %d %Y') %></b>
-          <% @preferences.each do |preference| %>
-            <% for preference_entry in preference.preference_entries.all %>
-              <% type = preference_entry.preference_type %>
-              <% for entry_occurence in preference_entry.occurences.all %>
-                <%= helper_format(type, date, entry_occurence) %>
-              <% end %>
-            <% end %>
-          <% end %>
-    <% end %>
+<%= render partial: "layouts/weekly_calendar", locals: { all_times: Preference.all_times, entries_hash: @preference.entries_hash} %>

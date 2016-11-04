@@ -9,11 +9,10 @@ Given /^I am logged in as "([^"]*)"/ do |user|
     user = User.where("name='"+user+"'")[0]
     visit '/users/sign_in'
     fill_in "user_email", :with => user.email
-    if user.name == "Admin"
-        password = "aadmin"
-    elsif user.name == "Isaac"
-        password = "JamesJames"
-    else
+
+    passwords = {"Admin" => "aadmin", "James" => "NotJames", "Isaac" => "JamesJames"}
+    password = passwords[user.name]
+    if password == nil
         password = ""
     end
     fill_in "user_password", :with => password
@@ -32,18 +31,12 @@ Given /^"([^"]*)" has preferences/ do |user, preferences_table|
     end
 end
 
-Then /^I should see "([^"]*)" in the time slot for "([^"]*)" to "([^"]*)" on "([^"]*)"$/ do |entry_name, start_time, end_time, day|
-  mapping = {"Monday" => "day wday-1", 
-             "Tuesday" => "day wday-2", 
-             "Wednesday" => "day wday-3",
-             "Thursday" => "day wday-4",
-             "Friday" => "day wday-5",
-             "Saturday"=>"day wday-6",
-             "Sunday" => "day wday-0"}
-  within("//td[@class^='" + mapping[day.to_s] + "']") do 
-      page.should have_content(entry_name)
-      page.should have_content(start_time)
-      page.should have_content(end_time)
+Then(/^I should see "([^"]*)" in the time slot for "([^"]*)" on "([^"]*)"$/) do |employee, times, day|
+  day_conversions = {"Monday" => "m", "Tuesday"=>"tu", "Wednesday"=>"w", "Thursday"=>"th", "Friday"=>"f", "Saturday"=>"sa", "Sunday"=>"su"}
+  converted_day = day_conversions[day]
+  expected_id = converted_day + "_" + times
+  within("//td[@id^='" + expected_id + "']") do
+    page.should have_content(employee)
   end
 end
 

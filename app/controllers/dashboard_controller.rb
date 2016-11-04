@@ -9,9 +9,13 @@ class DashboardController < ApplicationController
     end
     
     def new_preference
-        @preference = current_user.preferences.new
-        @preference_entry = @preference.preference_entries.new
-        @entry_occurence = @preference_entry.occurences.new
+        if current_user.preferences.length > 0
+            @preference= current_user.preferences.order(:created_at).last
+        else
+            @preference = current_user.preferences.new
+            @preference_entry = @preference.preference_entries.new
+            @entry_occurence = @preference_entry.occurences.new            
+        end
         times = Array.new(24.hours / 30.minutes) {|i| [(Time.now.midnight + (i*30.minutes)).strftime("%I:%M %p"), (Time.now.midnight + (i*30.minutes)).strftime("%I:%M %p")]}
         @start_times = ["Select Start Time"] + times
         @end_times = ["Select End Time"] + times
@@ -25,8 +29,12 @@ class DashboardController < ApplicationController
     end
     
     def show_preferences
-        @preferences = current_user.preferences.all
-        render 'show_preference'
+        @preference = current_user.preferences.order(:created_at).last
+        if @preference == nil
+            redirect_to '/dashboard/new_preference', alert: "You have not submitted any preferences. Please submit one."
+        else
+            render 'show_preference'
+        end
     end
     
     def home

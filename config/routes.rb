@@ -4,9 +4,15 @@ Rails.application.routes.draw do
   
   root to: "dashboard#home"
   post '/preferences' => 'dashboard#create_preference'
+  post '/preference' => 'dashboard#create_preference'
   get '/dashboard/preferences' => 'dashboard#show_preferences'
   get '/dashboard/new_preference' => 'dashboard#new_preference'
   get '/dashboard' => 'dashboard#home'
+  patch '/preference' => 'dashboard#create_preference'
+  get 'users/all' => 'users#all'
+  get '/users/:id' => 'users#assignments'
+  get 'users/:id/assignments' => 'users#assignments'
+  get 'users/:id/preference' => 'users#preference'
   
   resource :assignments
   resource :facilities
