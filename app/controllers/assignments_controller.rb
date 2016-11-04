@@ -1,4 +1,6 @@
 class AssignmentsController < ApplicationController
+    authorize_resource
+    
     def new
         @assignment = Assignment.new
         @occurence = @assignment.occurences.new

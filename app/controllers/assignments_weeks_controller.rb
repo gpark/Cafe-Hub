@@ -1,4 +1,6 @@
 class AssignmentsWeeksController < ApplicationController
+    authorize_resource
+    
     def new
         @assignments_week = AssignmentsWeek.new
         
