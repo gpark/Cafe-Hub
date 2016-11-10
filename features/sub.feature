@@ -14,12 +14,12 @@ Background: Users exist
     And the following assignments week exists:
     | start_date | end_date   | id |
     | 2016-10-31 | 2016-11-06 | 1  |
-    And the following assignment exists:
+    And the following assignments exists:
     | user_id | facility_id | assignments_week_id | start_time | end_time | su    | m     | tu    | w     | th    | f     | sa    |
     |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | false | true  | false | true  | false | false | false |
     
 Scenario: submit a substitute request
-  Given I am logged in as Isaac
+  Given I am logged in as "Isaac"
   Given I am on the request substitute page
   And I select the first assignment from the dropdown
   And I press "Submit"
@@ -27,11 +27,11 @@ Scenario: submit a substitute request
   And I should see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
   
 Scenario: take someones substitute request
-  Given I am logged in as James
+  Given I am logged in as "James"
   And I am on the all subtitutes page
-  And I see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
-  Then I press "Take Shift"
+  Then I should see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
+  When I press "Take Shift"
   Then I should be on my assignments page
   And I should see "MMF" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
-  And when I go back to the all substitutes page
+  When I am on the all substitutes page
   Then I should not see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
