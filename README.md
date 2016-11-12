@@ -11,6 +11,8 @@ Admin Username: admin(at)cafe-hub.com
 
 Admin Password: aadmin
 
+Sign-Up Code: 1234
+
 Pivotal Tracker Link: https://www.pivotaltracker.com/n/projects/1882911
 
 Our app's aim is to reduce the complexity of scheduling employee hours for the Educational Technological Services. 
