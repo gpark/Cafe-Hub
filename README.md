@@ -6,7 +6,9 @@
 <a href="https://codeclimate.com/github/IsaacZhang1/Cafe-Hub/coverage"><img src="https://codeclimate.com/github/IsaacZhang1/Cafe-Hub/badges/coverage.svg" /></a>
 
 Heroku Link: http://cafe-hub.herokuapp.com
-Admin Username: admin@cafe-hub.com
+
+Admin Username: admin(at)cafe-hub.com
+
 Admin Password: aadmin
 
 Pivotal Tracker Link: https://www.pivotaltracker.com/n/projects/1882911
