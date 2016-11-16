@@ -19,6 +19,13 @@ class UsersController < ApplicationController
   
   def assignments
     @user = User.find(params[:id])
+    @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
+    if @weeks.length > 0
+        @chosen_week = @weeks[0][1]
+    else
+        @chosen_week = 0
+    end    
+    @assignment_hash = @user.assignments_hash(@chosen_week)
     render 'assignments'
   end
   

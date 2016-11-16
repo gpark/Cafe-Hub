@@ -1,2 +1,3 @@
 <h3>Assigned Schedule</h3>
 <h4>This is your assigned working schedule.</h4>
+<%= render partial: "layouts/weekly_calendar", locals: { all_times: Preference.all_times, entries_hash: @user.assignments_hash(@chosen_week)} %>
