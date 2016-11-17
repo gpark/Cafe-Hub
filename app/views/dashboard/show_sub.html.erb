@@ -1,4 +1,7 @@
-<h3> Got to show sub page </h3>
+<h3> Current Sub Requests </h3>
+
+<% @subs.each do |p| %>
+  <td><%= p.assignment.to_s %></td>
+<% end %>
 
 
-</div>

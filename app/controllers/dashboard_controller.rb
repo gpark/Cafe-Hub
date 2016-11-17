@@ -33,13 +33,26 @@ class DashboardController < ApplicationController
     end
     
     def new_sub
-        @assigments = current_user.assignments
+        @sub = Sub.new
+        @assignments = current_user.assignments
+
     end
     
+    # Put this logic in a new subs_controller
     def create_sub
-        
+        @sub = Sub.new(sub_params)
+        if @sub.save
+            redirect_to new_assignments_path, alert: "Sub created"
+        else
+            redirect_to new_assignments_path, alert: "Sub not created"
+        end
         
     end
+    
+    # Put this logic in a new subs_controller
+    def sub_params
+      params.require(:sub).permit(:comments, :created_at, :updated_at)
+    end  
     
     
     def show_preferences

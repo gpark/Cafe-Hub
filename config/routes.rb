@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resource :assignments
   resource :facilities
   resource :assignments_weeks
+  resource :subs
   
   get '/settings' => 'settings#index'
   patch '/settings' => 'settings#update'
