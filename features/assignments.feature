@@ -55,8 +55,8 @@ Feature: Submit information for schedule generating
     | start_date | end_date   | id |
     | 2016-10-31 | 2016-11-06 | 1  |
     And the following assignments exists:
-    | user_id | facility_id | assignments_week_id | start_time | end_time | su    | m     | tu    | w     | th    | f     | sa    |
-    |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | false | true  | false | true  | false | false | false |
+    | user_id | facility_id | assignments_week_id | start_time | end_time | day  |
+    |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | m    |
     When I am on the first facility page
     Then I should see "MMF"
     And I should see "08:00 AM - 09:00 AM"
@@ -72,7 +72,7 @@ Feature: Submit information for schedule generating
     Given I am on the new assignment page
     Then I should see "Create New Assignment"
     When I select "Isaac" from "assignment_user_id"
-    And I check "M"
+    And I select "M" from "assignment_day"
     And I select "3:00 PM" from "Start Time"
     And I select "5:00 PM" from "End Time"
     And I press "Create"
@@ -81,7 +81,7 @@ Feature: Submit information for schedule generating
     And I should see "Isaac" in the time slot for "04:00 PM - 05:00 PM" on "Monday"
     When I am on the new assignment page
     When I select "James" from "assignment_user_id"
-    And I check "M"
+    And I select "M" from "assignment_day"
     And I select "4:00 PM" from "Start Time"
     And I select "6:00 PM" from "End Time"    
     And I press "Create"

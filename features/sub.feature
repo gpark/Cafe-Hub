@@ -15,8 +15,8 @@ Background: Users exist
     | start_date | end_date   | id |
     | 2016-10-31 | 2016-11-06 | 1  |
     And the following assignments exists:
-    | user_id | facility_id | assignments_week_id | start_time | end_time | su    | m     | tu    | w     | th    | f     | sa    |
-    |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | false | true  | false | true  | false | false | false |
+    | user_id | facility_id | assignments_week_id | start_time | end_time | day |
+    |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | m   |
     
 Scenario: submit a substitute request
   Given I am logged in as "Isaac"

@@ -24,11 +24,12 @@ end
 
 Given(/^the following assignments exists:$/) do |a_table|
   a_table.hashes.each do |a|
-    a_hash = {"user_id" => a["user_id"], "facility_id" => a["facility_id"], "assignments_week_id" => a["assignments_week_id"]}
-    a.delete("user_id")
-    a.delete("facility_id")
-    a.delete("assignments_week_id")
-    assn = Assignment.create!(a_hash)
-    assn.occurences.create!(a)
+    Assignment.create!(a)
+    # a_hash = {"user_id" => a["user_id"], "facility_id" => a["facility_id"], "assignments_week_id" => a["assignments_week_id"]}
+    # a.delete("user_id")
+    # a.delete("facility_id")
+    # a.delete("assignments_week_id")
+    # assn = Assignment.create!(a_hash)
+    # assn.occurences.create!(a)
   end
 end
