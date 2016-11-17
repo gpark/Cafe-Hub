@@ -1,8 +1,9 @@
 class Assignment < ActiveRecord::Base
     belongs_to :user
-    has_one :sub
-    has_many :occurences
     belongs_to :facility
     belongs_to :assignments_week
-    accepts_nested_attributes_for :occurences, allow_destroy: true
+    
+    def to_s
+        return self.facility.name + ": " + self.day.capitalize + " " + self.start_time + " - " + self.end_time
+    end
 end
