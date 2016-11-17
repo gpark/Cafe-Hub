@@ -43,6 +43,17 @@ class DashboardController < ApplicationController
         if !user_signed_in?
             redirect_to new_user_session_path
         end
+        @user = current_user
+        @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
+        if params.key?(:assignments_week_id)
+            @chosen_week = params[:assignments_week_id]
+        else
+            if @weeks.length > 0
+                @chosen_week = @weeks[0][1]
+            else
+                @chosen_week = 0
+            end    
+        end
         render 'dashboard'
     end
 end

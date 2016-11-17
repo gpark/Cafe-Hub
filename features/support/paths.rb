@@ -54,6 +54,9 @@ module NavigationHelpers
       
     when /the all users page$/
       '/users/all'
+      
+    when /James' assigned schedule page$/
+      '/users/3'
 
     when /the request substitute page$/
       '/subs/new'
