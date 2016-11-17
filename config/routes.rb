@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post '/preference' => 'dashboard#create_preference'
   get '/dashboard/preferences' => 'dashboard#show_preferences'
   get '/dashboard/new_preference' => 'dashboard#new_preference'
+  get '/dashboard/show_sub' => 'dashboard#show_sub'
+  get '/dashboard/new_sub' => 'dashboard#new_sub'
   get '/dashboard' => 'dashboard#home'
   patch '/preference' => 'dashboard#create_preference'
   get '/users/all' => 'users#all'

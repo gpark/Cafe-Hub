@@ -28,6 +28,20 @@ class DashboardController < ApplicationController
                 occurences_attributes:[:su, :m, :tu, :w, :th, :f, :sa, :start_time, :end_time, :_destroy]])
     end
     
+    def show_sub
+        @subs = Sub.all
+    end
+    
+    def new_sub
+        @assigments = current_user.assignments
+    end
+    
+    def create_sub
+        
+        
+    end
+    
+    
     def show_preferences
         @preference = current_user.preferences.order(:created_at).last
         if @preference == nil

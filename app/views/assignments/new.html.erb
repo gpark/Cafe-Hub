@@ -8,36 +8,13 @@
       <%= f.select :facility_id, @facilities, {}, {class: "form-control", style: "width:100px;display:inline"} %>
       <%= f.label "Worker: " %>
       <%= f.select :user_id, @users, {}, {class: "form-control", style: "width:135px;display:inline"} %>
-      <br><br>
-      <%= f.nested_fields_for :occurences, wrapper_options: {class:'form_inline'} do |eo| %>
-            &emsp;  &emsp;
-            <label class="checkbox-inline">
-            <%= eo.check_box :su %> Su
-            </label>
-            <label class="checkbox-inline">
-            <%= eo.check_box :m %> M
-            </label>
-            <label class="checkbox-inline">
-            <%= eo.check_box :tu %> Tu
-            </label>
-            <label class="checkbox-inline">
-            <%= eo.check_box :w %> W
-            </label>
-            <label class="checkbox-inline">
-            <%= eo.check_box :th %> Th
-            </label>
-            <label class="checkbox-inline">
-            <%= eo.check_box :f %> F
-            </label>
-            <label class="checkbox-inline">
-            <%= eo.check_box :sa %> Sa &nbsp; &nbsp;
-            </label>
-            <%= eo.select(:start_time, @start_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Start Time"}) %>
-            <%= eo.select(:end_time, @end_times, {}, {class: "form-control", style: "width:135px;display:inline", id:"End Time"}) %>
-            <div align="right"><%= eo.remove_nested_fields_link 'Remove Occurence' %></div>
-      <% end %>
-      <%= f.add_nested_fields_link :occurences, 'Add Occurence' %>
-      <br><br>
+      <br>
+      <%= f.label "Day: " %>
+      <%= f.select :day, @days, {}, {class: "form-control", style: "width:50px;display:inline"} %>
+      <%= f.label "Start Time: " %>
+      <%= f.select(:start_time, @times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Start Time"}) %>
+      <%= f.label "End Time: " %>
+      <%= f.select(:end_time, @times, {}, {class: "form-control", style: "width:135px;display:inline", id:"End Time"}) %>
       <%= f.submit "Create", class:"btn btn-default" %>
     <% end %>
 </div></div></div></div>

@@ -3,13 +3,11 @@ class AssignmentsController < ApplicationController
     
     def new
         @assignment = Assignment.new
-        @occurence = @assignment.occurences.new
         @assignments_weeks = AssignmentsWeek.order(created_at: :desc).collect {|a| [a.to_s, a.id]}
         @users = User.all.collect {|a| [a.name, a.id]}
+        @days = [["Su", "su"], ["M", "m"], ["Tu", "tu"], ["W", "w"], ["Th", "th"], ["F", "f"], ["Sa", "sa"]]
         @facilities = Facility.all.collect {|a| [a.name, a.id]}
-        times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
-        @start_times = ["Select Start Time"] + times
-        @end_times = ["Select End Time"] + times
+        @times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
     end
     
     def create
@@ -22,7 +20,7 @@ class AssignmentsController < ApplicationController
     end
     
     def assignment_params
-      params.require(:assignment).permit(:user_id, :facility_id, :assignments_week_id, occurences_attributes:[:su, :m, :tu, :w, :th, :f, :sa, :start_time, :end_time, :_destroy])
+      params.require(:assignment).permit(:user_id, :facility_id, :assignments_week_id, :day, :start_time, :end_time)
     end  
     
 end
