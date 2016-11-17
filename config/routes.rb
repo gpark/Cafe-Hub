@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   post '/preference' => 'dashboard#create_preference'
   get '/dashboard/preferences' => 'dashboard#show_preferences'
   get '/dashboard/new_preference' => 'dashboard#new_preference'
-  get '/dashboard/show_sub' => 'dashboard#show_sub'
-  get '/dashboard/new_sub' => 'dashboard#new_sub'
+  # get '/dashboard/show_sub' => 'dashboard#show_sub'
+  # get '/dashboard/new_sub' => 'dashboard#new_sub'
   get '/dashboard' => 'dashboard#home'
   patch '/preference' => 'dashboard#create_preference'
   get '/users/all' => 'users#all'
@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/users/:id/assignments' => 'users#assignments'
   get '/users/:id/preference' => 'users#preference'
   get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments'
+  get '/subs/change_week' => 'subs#change_week'
   
   resource :assignments
   resource :facilities

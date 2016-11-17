@@ -1,3 +1,4 @@
 class Sub < ActiveRecord::Base
-    has_one :assignment
+    belongs_to :assignment
+    belongs_to :assignments_week
 end

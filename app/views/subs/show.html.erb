@@ -1,0 +1,10 @@
+<h3> Current Sub Requests </h3>
+<%= form_tag(subs_path, method: "get") do %>
+    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= submit_tag("Select Week", class:"btn btn-default") %>
+<% end %>
+<% @subs.each do |p| %>
+  <%= p.assignment.to_s %> <%= p.comments %><br>
+<% end %>
+
+

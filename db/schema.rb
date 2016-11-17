@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117054050) do
+ActiveRecord::Schema.define(version: 20161117105225) do
 
   create_table "assignments", force: :cascade do |t|
     t.datetime "created_at",          null: false
@@ -106,10 +106,14 @@ ActiveRecord::Schema.define(version: 20161117054050) do
 
   create_table "subs", force: :cascade do |t|
     t.text     "comments"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "assignments_week_id"
     t.integer  "assignment_id"
   end
+
+  add_index "subs", ["assignment_id"], name: "index_subs_on_assignment_id"
+  add_index "subs", ["assignments_week_id"], name: "index_subs_on_assignments_week_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

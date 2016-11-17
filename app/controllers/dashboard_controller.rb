@@ -27,32 +27,7 @@ class DashboardController < ApplicationController
             .permit(preference_entries_attributes:[:preference_type, :comments,:_destroy, 
                 occurences_attributes:[:su, :m, :tu, :w, :th, :f, :sa, :start_time, :end_time, :_destroy]])
     end
-    
-    def show_sub
-        @subs = Sub.all
-    end
-    
-    def new_sub
-        @sub = Sub.new
-        @assignments = current_user.assignments
 
-    end
-    
-    # Put this logic in a new subs_controller
-    def create_sub
-        @sub = Sub.new(sub_params)
-        if @sub.save
-            redirect_to new_assignments_path, alert: "Sub created"
-        else
-            redirect_to new_assignments_path, alert: "Sub not created"
-        end
-        
-    end
-    
-    # Put this logic in a new subs_controller
-    def sub_params
-      params.require(:sub).permit(:comments, :created_at, :updated_at)
-    end  
     
     
     def show_preferences
