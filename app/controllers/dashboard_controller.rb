@@ -57,11 +57,15 @@ class DashboardController < ApplicationController
         end
         @user = current_user
         @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
-        if @weeks.length > 0
-            @chosen_week = @weeks[0][1]
+        if params.key?(:assignments_week_id)
+            @chosen_week = params[:assignments_week_id]
         else
-            @chosen_week = 0
-        end  
+            if @weeks.length > 0
+                @chosen_week = @weeks[0][1]
+            else
+                @chosen_week = 0
+            end    
+        end
         render 'dashboard'
     end
 end
