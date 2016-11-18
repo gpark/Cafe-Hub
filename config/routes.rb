@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/users/:id/preference' => 'users#preference'
   get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments'
   get '/subs/change_week' => 'subs#change_week'
+  patch '/subs/take' => 'subs#take'
   
   resource :assignments
   resource :facilities

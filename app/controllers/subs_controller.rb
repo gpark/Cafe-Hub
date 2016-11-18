@@ -43,5 +43,28 @@ class SubsController < ApplicationController
     
     def sub_params
       params.require(:sub).permit(:comments, :created_at, :updated_at, :assignment_id)
-    end 
+    end
+    
+    def take
+        # byebug
+        sub = Sub.find(params[:sub_id])
+        assignment = Assignment.find(sub.assignment_id)
+        # byebug
+        if (sub.assignment.user != current_user)
+            assignment.user_id = current_user.id
+            assignment.sub = nil
+            facility = assignment.facility.name
+            day = assignment.day
+            start_time = assignment.start_time
+            end_time = assignment.end_time 
+            if assignment.save
+                Sub.delete(params[:sub_id])
+                redirect_to dashboard_path, notice: "You have taken the assignment for " + facility + " on " + day + " from " + start_time + " to " + end_time + "."
+            else
+                redirect_to subs_path, alert: "There was an error."
+            end
+        else
+            redirect_to subs_path, alert: "This is your own assignment."
+        end
+    end
 end
