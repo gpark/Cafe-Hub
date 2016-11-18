@@ -19,6 +19,9 @@ module NavigationHelpers
     when /^the user dashboard$/
       '/'
       
+    when /^the dashboard$/
+      '/dashboard'      
+      
     when /^the login page$/
       '/users/sign_in'  
     

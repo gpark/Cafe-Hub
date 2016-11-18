@@ -5,6 +5,8 @@
     <%= submit_tag("Select Week", class:"btn btn-default") %>
 <% end %>
 <br>
+<%= render partial: "layouts/weekly_calendar", locals: { all_times: @all_times, entries_hash: @subs_hash} %>
+<br>
 <table>
   <tr>
     <th>Time</th>
