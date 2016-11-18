@@ -38,7 +38,6 @@ class AssignmentsWeek < ActiveRecord::Base
     def user_schedule_helper(start_num, start_ampm, end_num, end_ampm, item, su, m, tu, w, th, f, sa, pref_table)
         start_test = twelve_to_twentyfour(start_ampm, start_num)
         end_test = twelve_to_twentyfour(end_ampm, end_num)
-    
     	while start_test < end_test
     		if su
     			pref_table["su"][start_test].push(item)
@@ -87,38 +86,33 @@ class AssignmentsWeek < ActiveRecord::Base
         else
             @users.each do |user|
                 pref = user.preferences.order(created_at: :desc).first 
-                for pref_entry in pref.preference_entries.all
-                    type = pref_entry.preference_type
-                    if type == "Prefer"
-                        for entry_occurence in pref_entry.occurences.all
-                            puts entry_occurence.start_time
-                            puts entry_occurence.end_time
-                            user_id = user.id
-                            start_match = /(.*):00 (.*)M/.match(entry_occurence.start_time) #<MatchData "3:00 AM" 1:"3" 2:"A">
-                            end_match = /(.*):00 (.*)M/.match(entry_occurence.end_time)
-                            puts start_match
-                            puts end_match
-                            available_ppl = user_schedule_helper(start_match[1], start_match[2], end_match[1], end_match[2], user_id, 
-                                entry_occurence.su, entry_occurence.m, entry_occurence.tu, entry_occurence.w, entry_occurence.th, 
-                                entry_occurence.f, entry_occurence.sa, available_ppl)
+                if !pref.nil?
+                    for pref_entry in pref.preference_entries.all
+                        type = pref_entry.preference_type
+                        if type == "Prefer"
+                            for entry_occurence in pref_entry.occurences.all
+                                user_id = user.id
+                                start_match = /(.*):00 (.*)M/.match(entry_occurence.start_time) #<MatchData "3:00 AM" 1:"3" 2:"A">
+                                end_match = /(.*):00 (.*)M/.match(entry_occurence.end_time)
+                                available_ppl = user_schedule_helper(start_match[1], start_match[2], end_match[1], end_match[2], user_id, 
+                                    entry_occurence.su, entry_occurence.m, entry_occurence.tu, entry_occurence.w, entry_occurence.th, 
+                                    entry_occurence.f, entry_occurence.sa, available_ppl)
+                            end
                         end
                     end
                 end
             end
         end  
-        
-        
         if @facilities.nil?
             return
         else
             @facilities.each do |facility|
                 needed_num = facility.ppl_per_shift
-                if not facility.m_start.nil?
-                    start_match = /(.*):00 (.*)M/.match(facility.m_start)
-                    end_match = /(.*):00 (.*)M/.match(facility.m_end)
+                start_match = /(.*):00 (.*)M/.match(facility.m_start)
+                end_match = /(.*):00 (.*)M/.match(facility.m_end)                
+                if not start_match.nil?
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])
                     end_test = twelve_to_twentyfour(end_match[2], end_match[1])
-                	
                 	while start_test < end_test
                 	    for i in 1..needed_num
                 	        if not available_ppl["m"][start_test].empty?
@@ -138,9 +132,9 @@ class AssignmentsWeek < ActiveRecord::Base
                 	end
                 end
                 
-                if not facility.tu_start.nil?
-                    start_match = /(.*):00 (.*)M/.match(facility.tu_start)
-                    end_match = /(.*):00 (.*)M/.match(facility.tu_end)
+                start_match = /(.*):00 (.*)M/.match(facility.tu_start)
+                end_match = /(.*):00 (.*)M/.match(facility.tu_end)    
+                if not start_match.nil?
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])
                     end_test = twelve_to_twentyfour(end_match[2], end_match[1])
                 	
@@ -162,13 +156,11 @@ class AssignmentsWeek < ActiveRecord::Base
                 	    start_test += 1
                 	end
                 end
-                
-                if not facility.w_start.nil?
-                    start_match = /(.*):00 (.*)M/.match(facility.w_start)
-                    end_match = /(.*):00 (.*)M/.match(facility.w_end)
+                start_match = /(.*):00 (.*)M/.match(facility.w_start)
+                end_match = /(.*):00 (.*)M/.match(facility.w_end)                
+                if not start_match.nil?
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])
                     end_test = twelve_to_twentyfour(end_match[2], end_match[1])
-                	
                 	while start_test < end_test
                 	    for i in 1..needed_num
                 	        if not available_ppl["w"][start_test].empty?
@@ -187,10 +179,10 @@ class AssignmentsWeek < ActiveRecord::Base
                 	    start_test += 1
                 	end
                 end
-                
-                if not facility.th_start.nil?
-                    start_match = /(.*):00 (.*)M/.match(facility.th_start)
-                    end_match = /(.*):00 (.*)M/.match(facility.th_end)
+
+                start_match = /(.*):00 (.*)M/.match(facility.th_start)
+                end_match = /(.*):00 (.*)M/.match(facility.th_end)                
+                if not start_match.nil?
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])
                     end_test = twelve_to_twentyfour(end_match[2], end_match[1])
                 	
@@ -213,9 +205,9 @@ class AssignmentsWeek < ActiveRecord::Base
                 	end
                 end
                 
-                if not facility.f_start.nil?
-                    start_match = /(.*):00 (.*)M/.match(facility.f_start)
-                    end_match = /(.*):00 (.*)M/.match(facility.f_end)
+                start_match = /(.*):00 (.*)M/.match(facility.f_start)
+                end_match = /(.*):00 (.*)M/.match(facility.f_end)                
+                if not start_match.nil?
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])
                     end_test = twelve_to_twentyfour(end_match[2], end_match[1])
                 	
@@ -238,9 +230,9 @@ class AssignmentsWeek < ActiveRecord::Base
                 	end
                 end
                 
-                if not facility.sa_start.nil? and facility.sa_start != "null"
-                    start_match = /(.*):00 (.*)M/.match(facility.sa_start)
-                    end_match = /(.*):00 (.*)M/.match(facility.sa_end)
+                start_match = /(.*):00 (.*)M/.match(facility.sa_start)
+                end_match = /(.*):00 (.*)M/.match(facility.sa_end)
+                if not start_match.nil?
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])
                     end_test = twelve_to_twentyfour(end_match[2], end_match[1])
                 	
@@ -262,10 +254,10 @@ class AssignmentsWeek < ActiveRecord::Base
                 	    start_test += 1
                 	end
                 end
-                
-                if not facility.su_start.nil?
-                    start_match = /(.*):00 (.*)M/.match(facility.su_start)
-                    end_match = /(.*):00 (.*)M/.match(facility.su_end)
+
+                start_match = /(.*):00 (.*)M/.match(facility.su_start)
+                end_match = /(.*):00 (.*)M/.match(facility.su_end)                
+                if not start_match.nil?
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])
                     end_test = twelve_to_twentyfour(end_match[2], end_match[1])
                 	
