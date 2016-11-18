@@ -235,7 +235,7 @@ class AssignmentsWeek < ActiveRecord::Base
                 	end
                 end
                 
-                if not facility.sa_start.nil?
+                if not facility.sa_start.nil? and facility.sa_start != "null"
                     start_match = /(.*):00 (.*)M/.match(facility.sa_start)
                     end_match = /(.*):00 (.*)M/.match(facility.sa_end)
                     start_test = twelve_to_twentyfour(start_match[2], start_match[1])

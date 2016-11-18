@@ -17,8 +17,8 @@ Background: We have one user with limited availabilities and an admin
   | Obligation | false | false | true  | false | true  | true  | false | 7:30 AM    | 11:30 PM |
   
   And the following facilities exists:
-  | name | su_start | su_end | m_start | m_end   | tu_start | tu_end  | w_start | w_end   | th_start | th_end  | f_start | f_end    | sa_start | sa_end | ppl_per_shift |
-  | MMF  | null     | null   | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 10:00 PM | null     | null   | 1             |
+  | name | m_start | m_end   | tu_start | tu_end  | w_start | w_end   | th_start | th_end  | f_start | f_end    | ppl_per_shift |
+  | MMF  | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 10:00 PM | 1             |
   
   And the following assignments week exists:
   | start_date | end_date   |
@@ -29,6 +29,7 @@ Background: We have one user with limited availabilities and an admin
     When I follow "Automatically Generate Assignments"
     Then I should be on the first assignments week page
     When I follow "MMF"
+    Then I should see "ANYTHINGGG"
     Then I should see "Isaac" in the time slot for "12:00 PM - 01:00 PM" on "Monday"
     And I should see "Isaac" in the time slot for "01:00 PM - 02:00 PM" on "Monday"
     And I should see "Isaac" in the time slot for "02:00 PM - 03:00 PM" on "Monday"
