@@ -26,7 +26,7 @@ Background: We have one user with limited availabilities and an admin
   
   Scenario: Admin should be able to generate schedules based on user preferences and facility times
     Given I am on the first assignments week page
-    When I press "Generate Schedule"
+    When I follow Automatically Generate Assignments
     Then I should be on the first assignments week page
     When I follow "MMF"
     Then I should see "Isaac" assigned to shift "12:00 PM - 5:00 PM" on "M"
