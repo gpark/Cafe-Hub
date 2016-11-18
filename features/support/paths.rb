@@ -45,6 +45,9 @@ module NavigationHelpers
       
     when /the new assignment page$/
       '/assignments/new'
+    
+    when /the show assignments page$/
+      '/assignments_weeks'
       
     when /the settings page/
       '/settings'
@@ -54,7 +57,16 @@ module NavigationHelpers
       
     when /the all users page$/
       '/users/all'
+      
+    when /James' assigned schedule page$/
+      '/users/3'
 
+    when /the request substitute page$/
+      '/subs/new'
+      
+    when /the all substitutes page$/
+      '/subs'
+      
     else
       # probably need this at some point
       # begin

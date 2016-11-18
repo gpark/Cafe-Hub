@@ -1,0 +1,52 @@
+<head><%= stylesheet_link_tag 'subs'%></head>
+<h3> Current Sub Requests </h3>
+<%= form_tag(subs_path, method: "get") do %>
+    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= submit_tag("Select Week", class:"btn btn-default") %>
+<% end %>
+<br>
+<table>
+  <tr>
+    <th>Time</th>
+    <th>Day</th>
+    <th>Facility</th>
+    <th>Employee</th>
+    <th>Comments</th>
+    <th class="no-right"></th>
+  </tr>
+  
+  <% @subs.each do |p| %>
+  <tr>
+    <td><%= p.assignment.start_time + " - " + p.assignment.end_time %></td>
+    <td><%= p.assignment.day %></td>
+    <td><%= p.assignment.facility.name %></td>
+    <td><%= p.assignment.user.name %></td>
+    <td><%= p.comments %></th>
+    <td class="no-right">
+      <%= form_tag("/subs/take", method: "patch") do %>
+        <%= hidden_field_tag "sub_id", p.id %>
+        <%= submit_tag "Take Shift", class:"btn btn-default" %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+  
+  
+</table>
+
+
+
+
+
+
+
+
+
+<!--<% @subs.each do |p| %>-->
+<!--  <%= form_tag("/subs/take", method: "patch") do %>-->
+<!--    <b><%= p.assignment.user.name %></b> <%= p.assignment.to_s %> <%= p.comments %>-->
+<!--    <%= hidden_field_tag "sub_id", p.id %>-->
+<!--    <%= submit_tag "Take Shift", class:"btn btn-default" %>-->
+<!--  <% end %>-->
+<!--  <br>-->
+<!--<% end %>-->

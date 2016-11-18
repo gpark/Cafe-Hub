@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102223802) do
+ActiveRecord::Schema.define(version: 20161118001858) do
 
   create_table "assignments", force: :cascade do |t|
     t.datetime "created_at",          null: false
@@ -19,10 +19,15 @@ ActiveRecord::Schema.define(version: 20161102223802) do
     t.integer  "user_id"
     t.integer  "facility_id"
     t.integer  "assignments_week_id"
+    t.string   "day"
+    t.string   "start_time"
+    t.string   "end_time"
+    t.integer  "sub_id"
   end
 
   add_index "assignments", ["assignments_week_id"], name: "index_assignments_on_assignments_week_id"
   add_index "assignments", ["facility_id"], name: "index_assignments_on_facility_id"
+  add_index "assignments", ["sub_id"], name: "index_assignments_on_sub_id"
   add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
 
   create_table "assignments_weeks", force: :cascade do |t|
@@ -100,6 +105,17 @@ ActiveRecord::Schema.define(version: 20161102223802) do
   end
 
   add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
+
+  create_table "subs", force: :cascade do |t|
+    t.text     "comments"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "assignments_week_id"
+    t.integer  "assignment_id"
+  end
+
+  add_index "subs", ["assignment_id"], name: "index_subs_on_assignment_id"
+  add_index "subs", ["assignments_week_id"], name: "index_subs_on_assignments_week_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

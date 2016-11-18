@@ -40,14 +40,17 @@ Then(/^I should see "([^"]*)" in the time slot for "([^"]*)" on "([^"]*)"$/) do 
   end
 end
 
+Then(/^I should not see "([^"]*)" in the time slot for "([^"]*)" on "([^"]*)"$/) do |employee, times, day|
+    pending
+end
+
 Then /^I should see an alert message saying "([^"]*)"$/ do |message|
     page.should have_selector ".alert", text: message
 end
 
-
-
-
-
+Given(/^I select the first assignment from the dropdown$/) do
+  pending
+end
 
 
 
