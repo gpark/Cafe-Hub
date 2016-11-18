@@ -86,18 +86,21 @@ class AssignmentsWeek < ActiveRecord::Base
             return
         else
             @users.each do |user|
-                for pref in user.preferences.all
-                    for pref_entry in pref.preference_entries.all
-                        type = pref_entry.preference_type
-                        if type == "Prefer"
-                            for entry_occurence in pref_entry.occurences.all
-                                user_id = user.id
-                                start_match = /(.*):00 (.*)M/.match(entry_occurence.start_time) #<MatchData "3:00 AM" 1:"3" 2:"A">
-                                end_match = /(.*):00 (.*)M/.match(entry_occurence.end_time)
-                                available_ppl = user_schedule_helper(start_match[1], start_match[2], end_match[1], end_match[2], user_id, 
-                                    entry_occurence.su, entry_occurence.m, entry_occurence.tu, entry_occurence.w, entry_occurence.th, 
-                                    entry_occurence.f, entry_occurence.sa, available_ppl)
-                            end
+                pref = user.preferences.order(created_at: :desc).first 
+                for pref_entry in pref.preference_entries.all
+                    type = pref_entry.preference_type
+                    if type == "Prefer"
+                        for entry_occurence in pref_entry.occurences.all
+                            puts entry_occurence.start_time
+                            puts entry_occurence.end_time
+                            user_id = user.id
+                            start_match = /(.*):00 (.*)M/.match(entry_occurence.start_time) #<MatchData "3:00 AM" 1:"3" 2:"A">
+                            end_match = /(.*):00 (.*)M/.match(entry_occurence.end_time)
+                            puts start_match
+                            puts end_match
+                            available_ppl = user_schedule_helper(start_match[1], start_match[2], end_match[1], end_match[2], user_id, 
+                                entry_occurence.su, entry_occurence.m, entry_occurence.tu, entry_occurence.w, entry_occurence.th, 
+                                entry_occurence.f, entry_occurence.sa, available_ppl)
                         end
                     end
                 end
@@ -288,7 +291,5 @@ class AssignmentsWeek < ActiveRecord::Base
             end
         end
     end
-    # def generate_assignments
-    #     puts "Algorithm here"
-    # end
+
 end
