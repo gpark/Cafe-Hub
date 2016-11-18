@@ -21,7 +21,7 @@ Background: Users exist
 Scenario: submit a substitute request
   Given I am logged in as "Isaac"
   Given I am on the request substitute page
-  And I select "MMF: M 08:00 AM - 09:00 AM" from "sub_assignment_id"
+  And I select "MMF: M 8:00 AM - 9:00 AM" from "sub_assignment_id"
   And I press "Submit"
   Then I should be on the all substitutes page
   And I should see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"

@@ -61,6 +61,9 @@ module NavigationHelpers
     when /the request substitute page$/
       '/subs/new'
       
+    when /the all substitutes page$/
+      '/subs'
+      
     else
       # probably need this at some point
       # begin

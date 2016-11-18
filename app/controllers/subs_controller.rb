@@ -18,7 +18,7 @@ class SubsController < ApplicationController
         @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
         @assignments = current_user.assignments
         if !@assignments.empty?
-            @assignments = @assignments.where("assignments_week_id="+@weeks[0][1].to_s).where.not(id: Sub.joins(:assignment)).map{|item| [item.to_s, item.to_s]}
+            @assignments = @assignments.where("assignments_week_id="+@weeks[0][1].to_s).where.not(id: Sub.joins(:assignment)).map{|item| [item.to_s, item.id]}
         end
     end
     
