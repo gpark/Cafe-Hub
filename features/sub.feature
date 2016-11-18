@@ -4,10 +4,10 @@ Feature: Submit substitute request and have someone else take it
   I want to be able to submit a request for someone to work during my shift
   
 Background: Users exist
-   Given the following users exists:
-   | email                   | password      | password_confirmation      | name  | id |
-   | isaac@zhang.com         | JamesJames    | JamesJames                 | Isaac | 2  |
-   | james@lee.com           | NotJames      | NotJames                   | James | 3  |
+  Given the following users exists:
+  | email                   | password      | password_confirmation      | name  | id |
+  | isaac@zhang.com         | JamesJames    | JamesJames                 | Isaac | 2  |
+  | james@lee.com           | NotJames      | NotJames                   | James | 3  |
     Given the following facilities exists:
     | name | su_start | su_end | m_start | m_end   | tu_start | tu_end  | w_start | w_end   | th_start | th_end  | f_start | f_end    | sa_start | sa_end | ppl_per_shift | id |
     | MMF  | null     | null   | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 10:00 PM | null     | null   | 1             | 1  |

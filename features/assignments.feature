@@ -12,6 +12,9 @@ Feature: Submit information for schedule generating
    | james@lee.com           | LeeLee        | LeeLee                     | James | 3  |
    
    Scenario: Create new week
+     Given I am on the show assignments page
+     Then I should see an alert message saying "There are no weeks existing. Please create one."
+     And I should be on the new assignments week page
      Given I am on the new assignments week page
      Then I should see "Create New Week"
      When I select "2016" from "assignments_week_start_date_1i"

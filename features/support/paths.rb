@@ -48,6 +48,9 @@ module NavigationHelpers
       
     when /the new assignment page$/
       '/assignments/new'
+    
+    when /the show assignments page$/
+      '/assignments_weeks'
       
     when /the settings page/
       '/settings'
