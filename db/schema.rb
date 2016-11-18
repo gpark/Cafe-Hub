@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117105225) do
+ActiveRecord::Schema.define(version: 20161118001858) do
 
   create_table "assignments", force: :cascade do |t|
     t.datetime "created_at",          null: false
@@ -22,10 +22,12 @@ ActiveRecord::Schema.define(version: 20161117105225) do
     t.string   "day"
     t.string   "start_time"
     t.string   "end_time"
+    t.integer  "sub_id"
   end
 
   add_index "assignments", ["assignments_week_id"], name: "index_assignments_on_assignments_week_id"
   add_index "assignments", ["facility_id"], name: "index_assignments_on_facility_id"
+  add_index "assignments", ["sub_id"], name: "index_assignments_on_sub_id"
   add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
 
   create_table "assignments_weeks", force: :cascade do |t|

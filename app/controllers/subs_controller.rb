@@ -16,7 +16,10 @@ class SubsController < ApplicationController
     def new
         @sub = Sub.new
         @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
-        @assignments = current_user.assignments.where("assignments_week_id="+@weeks[0][1].to_s).map{|item| [item.to_s, item.id]}
+        @assignments = current_user.assignments
+        if !@assignments.empty?
+            @assignments = @assignments.where("assignments_week_id="+@weeks[0][1].to_s).where.not(id: Sub.joins(:assignment)).map{|item| [item.to_s, item.to_s]}
+        end
     end
     
     def change_week
@@ -25,16 +28,16 @@ class SubsController < ApplicationController
     
     def create
         @sub = Sub.new(sub_params)
-        if @sub.assignment.sub != nil
-            redirect_to subs_path, alert: "Error: A sub has already been requested for this assignment"
+        # if @sub.assignment.sub != nil
+        #     redirect_to subs_path, alert: "Error: A sub has already been requested for this assignment"
+        # else
+        @sub.assignments_week = @sub.assignment.assignments_week
+        if @sub.save
+            redirect_to subs_path, notice: "Sub created"
         else
-            @sub.assignments_week = @sub.assignment.assignments_week
-            if @sub.save
-                redirect_to subs_path, notice: "Sub created"
-            else
-                redirect_to new_subs_path, alert: "Sub not created"
-            end            
-        end
+            redirect_to new_subs_path, alert: "Sub not created"
+        end            
+        # end
         
     end
     
