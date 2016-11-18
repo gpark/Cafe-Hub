@@ -11,6 +11,8 @@ class SubsController < ApplicationController
             end    
         end        
         @subs = Sub.where({assignments_week: AssignmentsWeek.find(@chosen_week)})
+        @subs_hash = Sub.hash_view(@chosen_week)
+        @all_times = User.all_times
     end
     
     def new

@@ -27,11 +27,16 @@ Scenario: submit a substitute request
   And I should see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
   
 Scenario: take someones substitute request
-  Given I am logged in as "James"
-  And I am on the all subtitutes page
-  Then I should see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
-  When I press "Take Shift"
-  Then I should be on my assignments page
+  Given I am logged in as "Isaac"
+  Given I am on the request substitute page
+  And I select "MMF: M 8:00 AM - 9:00 AM" from "sub_assignment_id"
+  And I press "Submit"
+  Then I should be on the all substitutes page
+  Given I log out
+  And I am logged in as "James"
+  When I am on the all substitutes page
+  And I press "Take Shift"
+  Then I should be on the dashboard
   And I should see "MMF" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
   When I am on the all substitutes page
   Then I should not see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
