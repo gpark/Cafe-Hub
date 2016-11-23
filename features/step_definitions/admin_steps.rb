@@ -27,3 +27,11 @@ Given(/^the following assignments exists:$/) do |a_table|
     Assignment.create!(a)
   end
 end
+
+When(/^I check the checkbox next to "([^"]*)"$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^I should see admin tag next to "([^"]*)"$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end

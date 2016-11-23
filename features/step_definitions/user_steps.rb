@@ -58,6 +58,10 @@ Then /^I should see an alert message saying "([^"]*)"$/ do |message|
     page.should have_selector ".alert", text: message
 end
 
+Then(/^I should not see any alert message$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 Given(/^I select the first assignment from the dropdown$/) do
   pending
 end
