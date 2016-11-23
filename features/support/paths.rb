@@ -61,6 +61,9 @@ module NavigationHelpers
     when /the all users page$/
       '/users/all'
       
+    when /Isaac's assigned schedule page $/
+      '/users/2'
+      
     when /James' assigned schedule page$/
       '/users/3'
 

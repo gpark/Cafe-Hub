@@ -18,25 +18,25 @@ Background: Users exist
     | user_id | facility_id | assignments_week_id | start_time | end_time | day |
     |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | m   |
     
-Scenario: submit a substitute request
-  Given I am logged in as "Isaac"
-  Given I am on the request substitute page
-  And I select "MMF: M 8:00 AM - 9:00 AM" from "sub_assignment_id"
-  And I press "Submit"
-  Then I should be on the all substitutes page
-  And I should see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
-  
-Scenario: take someones substitute request
-  Given I am logged in as "Isaac"
-  Given I am on the request substitute page
-  And I select "MMF: M 8:00 AM - 9:00 AM" from "sub_assignment_id"
-  And I press "Submit"
-  Then I should be on the all substitutes page
-  Given I log out
-  And I am logged in as "James"
-  When I am on the all substitutes page
-  And I press "Take Shift"
-  Then I should be on the dashboard
-  And I should see "MMF" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
-  When I am on the all substitutes page
-  Then I should not see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
+  Scenario: submit a substitute request
+    Given I am logged in as "Isaac"
+    Given I am on the request substitute page
+    And I select "MMF: M 8:00 AM - 9:00 AM" from "sub_assignment_id"
+    And I press "Submit"
+    Then I should be on the all substitutes page
+    And I should see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
+    
+  Scenario: take someones substitute request
+    Given I am logged in as "Isaac"
+    Given I am on the request substitute page
+    And I select "MMF: M 8:00 AM - 9:00 AM" from "sub_assignment_id"
+    And I press "Submit"
+    Then I should be on the all substitutes page
+    Given I log out
+    And I am logged in as "James"
+    When I am on the all substitutes page
+    And I press "Take Shift"
+    Then I should be on the dashboard
+    And I should see "MMF" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
+    When I am on the all substitutes page
+    Then I should not see "MMF-Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
