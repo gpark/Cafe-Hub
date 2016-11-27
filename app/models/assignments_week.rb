@@ -82,31 +82,34 @@ class AssignmentsWeek < ActiveRecord::Base
         		16 => [], 17 => [], 18 => [], 19 => [],
         		20 => [], 21 => [], 22 => [], 23 => []}
         end
-        
+
         #ASSIGNMENTS & HASH TABLE OF USER PREFERENCES
         if @users.nil?
             return
         else
             @users.each do |user|
                 pref = user.preferences.order(created_at: :desc).first 
-                for pref_entry in pref.preference_entries.all
-                    type = pref_entry.preference_type
-                    if type == "Prefer"
-                        for entry_occurence in pref_entry.occurences.all
-                            user_id = user.id
-                            start_match = /(.*):00 (.*)M/.match(entry_occurence.start_time) #<MatchData "3:00 AM" 1:"3" 2:"A">
-                            end_match = /(.*):00 (.*)M/.match(entry_occurence.end_time)
-                            starting = twelve_to_twentyfour(start_match[2], start_match[1])
-                            ending = twelve_to_twentyfour(end_match[2], end_match[1])
-                            available_ppl = user_schedule_helper(starting, ending, user_id, 
-                                entry_occurence.su, entry_occurence.m, entry_occurence.tu, entry_occurence.w, entry_occurence.th, 
-                                entry_occurence.f, entry_occurence.sa, available_ppl)
+                if pref != nil
+                    for pref_entry in pref.preference_entries.all
+                        type = pref_entry.preference_type
+                        if type == "Prefer"
+                            puts 5
+                            for entry_occurence in pref_entry.occurences.all
+                                user_id = user.id
+                                start_match = /(.*):00 (.*)M/.match(entry_occurence.start_time) #<MatchData "3:00 AM" 1:"3" 2:"A">
+                                end_match = /(.*):00 (.*)M/.match(entry_occurence.end_time)
+                                starting = twelve_to_twentyfour(start_match[2], start_match[1])
+                                ending = twelve_to_twentyfour(end_match[2], end_match[1])
+                                available_ppl = user_schedule_helper(starting, ending, user_id, 
+                                    entry_occurence.su, entry_occurence.m, entry_occurence.tu, entry_occurence.w, entry_occurence.th, 
+                                    entry_occurence.f, entry_occurence.sa, available_ppl)
+                            end
                         end
                     end
                 end
             end
         end  
-        
+
         #Fill facilities people needs with availabilities
         if @facilities.nil?
             return
