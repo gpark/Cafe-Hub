@@ -7,7 +7,7 @@
 
 Heroku Link: http://cafe-hub.herokuapp.com
 
-Admin Username: admin(at)cafe-hub.com
+Admin Username: admin@cafe-hub.com
 
 Admin Password: aadmin
 

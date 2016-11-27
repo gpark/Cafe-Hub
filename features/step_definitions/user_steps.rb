@@ -5,7 +5,12 @@ Given /the following users exists/ do |users_table|
     end
 end
 
+Given /I log out/ do
+   click_link("Logout")
+end
+
 Given /^I am logged in as "([^"]*)"/ do |user|
+    
     user = User.where("name='"+user+"'")[0]
     visit '/users/sign_in'
     fill_in "user_email", :with => user.email
@@ -41,11 +46,20 @@ Then(/^I should see "([^"]*)" in the time slot for "([^"]*)" on "([^"]*)"$/) do 
 end
 
 Then(/^I should not see "([^"]*)" in the time slot for "([^"]*)" on "([^"]*)"$/) do |employee, times, day|
-    pending
+  day_conversions = {"Monday" => "m", "Tuesday"=>"tu", "Wednesday"=>"w", "Thursday"=>"th", "Friday"=>"f", "Saturday"=>"sa", "Sunday"=>"su"}
+  converted_day = day_conversions[day]
+  expected_id = converted_day + "_" + times
+  within("//td[@id^='" + expected_id + "']") do
+    page.should_not have_content(employee)
+  end
 end
 
 Then /^I should see an alert message saying "([^"]*)"$/ do |message|
     page.should have_selector ".alert", text: message
+end
+
+Then(/^I should not see any alert message$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end
 
 Given(/^I select the first assignment from the dropdown$/) do

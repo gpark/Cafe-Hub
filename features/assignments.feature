@@ -12,6 +12,9 @@ Feature: Submit information for schedule generating
    | james@lee.com           | LeeLee        | LeeLee                     | James | 3  |
    
    Scenario: Create new week
+     Given I am on the show assignments page
+     Then I should see an alert message saying "There are no weeks existing. Please create one."
+     And I should be on the new assignments week page
      Given I am on the new assignments week page
      Then I should see "Create New Week"
      When I select "2016" from "assignments_week_start_date_1i"
@@ -88,4 +91,23 @@ Feature: Submit information for schedule generating
     Then I should see "MMF"
     And I should see "Isaac, James" in the time slot for "04:00 PM - 05:00 PM" on "Monday"
     And I should see "James" in the time slot for "05:00 PM - 06:00 PM" on "Monday"
+    
+  Scenario: Manually delete a shift
+    Given the following facilities exists:
+    | name | su_start | su_end | m_start | m_end   | tu_start | tu_end  | w_start | w_end   | th_start | th_end  | f_start | f_end    | sa_start | sa_end | ppl_per_shift | id |
+    | MMF  | null     | null   | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 2:00 AM | 8:00 AM  | 2:00 AM | 8:00 AM | 10:00 PM | null     | null   | 1             | 1  |
+    And the following assignments week exists:
+    | start_date | end_date   | id |
+    | 2016-10-31 | 2016-11-06 | 1  |
+    And the following assignments exists:
+    | user_id | facility_id | assignments_week_id | start_time | end_time | day  |
+    |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | m    |
+    When I am on Isaac's assigned schedule page
+    And I follow "Delete assignments"
+    Then I should be on Isaac's delete assignments page
+    When I select "MMF: M 8:00 AM - 9:00 AM" from "assignment_id"
+    And I press "Delete"
+    Then I should see an alert message saying "Assignment deleted"
+    And I should be on Isaac's assigned schedule page
+    And I should not see "Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"
     

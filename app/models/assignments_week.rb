@@ -1,5 +1,6 @@
 class AssignmentsWeek < ActiveRecord::Base
     has_many :assignments
+    has_many :subs, :through => :assignments
     
     def to_s
         return self.start_date.to_s + " to " + self.end_date.to_s

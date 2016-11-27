@@ -1,0 +1,4 @@
+$('.subs-assignment-select').empty();
+<% @assignments.each do |assignment| %>
+  $('.subs-assignment-select').append($('<option value="<%= assignment.id %>"><%= assignment.to_s %></option>'));
+<% end %>
