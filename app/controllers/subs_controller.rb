@@ -30,9 +30,6 @@ class SubsController < ApplicationController
     
     def create
         @sub = Sub.new(sub_params)
-        # if @sub.assignment.sub != nil
-        #     redirect_to subs_path, alert: "Error: A sub has already been requested for this assignment"
-        # else
         @sub.assignments_week = @sub.assignment.assignments_week
         if @sub.save
             redirect_to subs_path, notice: "Sub created"
