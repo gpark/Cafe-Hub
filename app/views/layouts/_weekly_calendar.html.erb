@@ -1,12 +1,12 @@
-<table class="table table-bordered fixed" style="text-align:center">
-    <col width="120px" />
-    <col width="100px" />
-    <col width="100px" />
-    <col width="100px" />
-    <col width="100px" />
-    <col width="100px" />
-    <col width="100px" />
-    <col width="100px" />
+<table class="table-bordered" style="text-align:center" width="1200">
+    <col width="130" />
+    <col width="130" />
+    <col width="130" />
+    <col width="130" />
+    <col width="130" />
+    <col width="130" />
+    <col width="130" />
+    <col width="130" />
     <tr>
         <th style="text-align:center">Time</th>
         <th style="text-align:center">Sunday</th>
@@ -19,13 +19,26 @@
     </tr>
 <% for t in all_times %>
     <tr>
-        <td><%= t %></td>
+        <td height="30"><%= t %></td>
         <% for day in [:su, :m, :tu, :w, :th, :f, :sa] do %>
-        <% @id = day.to_s + "_" + t %>
-            <td id="<%= @id %>">
-                <% if entries_hash[day].key?(t) %>
-                    <%= entries_hash[day][t].join(", ")%>
+            <% @id = day.to_s + "_" + t %>
+            <% entry = entries_hash[day][t] %>
+            <% @hover_text = "" %>
+            <% @td_color = "#FFFFFF" %>
+            <% if entry %>
+                <% @td_color = entry["cell_color"] %>
+                <% if entry["hover_text"] %>
+                    <% @hover_text = entry["hover_text"] %>
                 <% end %>
+            <% end %>
+            <td id="<%= @id %>" bgcolor="<%= @td_color %>">
+            <% if entry %>
+                <span title="<%= @hover_text %>">
+                    <font color="<%= entry["text_color"] %>">
+                    <%= entry["data"].join(", ") %>
+                    </font>
+                </span>
+            <% end %>
             </td>
         <% end %>
     </tr>

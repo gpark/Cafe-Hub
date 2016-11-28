@@ -79,9 +79,9 @@ class User < ActiveRecord::Base
         next_hour = current_time + 3600
         time_string = current_time.strftime("%I:%M %p")  + " - " + next_hour.strftime("%I:%M %p")
         if h[day].key? time_string
-          h[day][time_string].push(facility)
+          h[day][time_string]["data"].push(facility)
         else
-          h[day][time_string] = [facility]
+          h[day][time_string] = {"data" => [facility], "cell_color" => "#FFFFFF", "text_color" =>  "#000000"}
         end
         current_time = next_hour
         if next_hour.hour == 7 and next_hour.min == 0
