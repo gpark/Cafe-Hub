@@ -38,4 +38,17 @@ class UsersController < ApplicationController
     render 'all'
   end
   
+  def privileges
+    if params[:confirm].to_s != Setting.sign_up_code.to_s
+      redirect_to users_all_path, alert: "Wrong code"
+    else
+      for tag_id in params[:tag_ids] do
+        user = User.find(tag_id)
+        user.admin = true
+        user.save!
+      end
+      redirect_to users_all_path, notice: "Admins updated"
+    end
+  end
+  
 end
