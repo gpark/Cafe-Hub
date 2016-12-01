@@ -43,8 +43,9 @@ class AssignmentsWeek < ActiveRecord::Base
             prefer[day][start_time].delete(user_id)
             dont_care[day][start_time].delete(user_id)
             rather_not[day][start_time].delete(user_id)
-            if User.find(user_id).hours_assigned(self.id) >= 10
+            if User.find(user_id).hours_assigned(self.id) > 10
                assigned_enough.push(user_id) 
+               free_next = false
             end
             if !prefer[day][next_hour].include?(user_id) && !dont_care[day][next_hour].include?(user_id) && !rather_not[day][next_hour].include?(user_id)
                 free_next = false
