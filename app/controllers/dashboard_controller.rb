@@ -2,9 +2,10 @@ class DashboardController < ApplicationController
     def create_preference
         pref = current_user.preferences.new(preference_params)
         if pref.save
+            current_user.preferences.where.not(id: pref.id).destroy_all
             redirect_to '/dashboard/preferences', notice: "Preference submitted successfully."
         else
-            redirect_to '/dashboard/new_preference', alert: "Error creating preference."
+            redirect_to '/dashboard/new_preference', alert: "Error submitting preference."
         end
     end
     

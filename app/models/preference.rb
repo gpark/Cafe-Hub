@@ -6,10 +6,11 @@ class Preference < ActiveRecord::Base
         return User.all_times
     end
     
-    def entries_hash
+    def entries_hash(start_day="7:00 AM")
         one_day = "2016-1-1 "
         midnight = (one_day + "12:00 AM").to_time
-        day_start = (one_day + "7:00 AM").to_time
+        day_start = (one_day + start_day).to_time
+        start_hour = day_start.hour
         days = [:su, :m, :tu, :w, :th, :f, :sa]
         h = {"su": {}, "m": {},"tu":{},"w":{},"th":{},"f":{},"sa":{}}
         for entry in self.preference_entries do
@@ -41,7 +42,7 @@ class Preference < ActiveRecord::Base
                                 h[actual_day][time_string] = [pref_type]
                             end
                             current_time = next_hour
-                            if next_hour.hour == 7 and next_hour.min == 0
+                            if next_hour.hour == start_hour and next_hour.min == 0
                                actual_day = days[(days.index(actual_day) + 1) % 7]
                             end
                         end

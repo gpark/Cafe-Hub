@@ -14,14 +14,14 @@ Background: We have one user with limited availabilities and an admin
   
   Scenario: Admin should be able to generate schedules based on user preferences and facility times
     Given the following facilities exists:
-    | name | m_start | m_end    | tu_start | tu_end  | w_start | w_end    | th_start | th_end  | f_start | f_end    | ppl_per_shift |
-    | MMF  | 8:00 AM | 11:00 PM | 8:00 AM  | 2:00 AM | 8:00 AM | 11:00 PM | 8:00 AM  | 2:00 AM | 8:00 AM | 10:00 PM | 1             |    
+    | name | m_start | m_end    | tu_start | tu_end   | w_start | w_end    | th_start | th_end   | f_start | f_end    | ppl_per_shift |
+    | MMF  | 8:00 AM | 11:00 PM | 8:00 AM  | 11:00 PM | 8:00 AM | 11:00 PM | 8:00 AM  | 11:00 PM | 8:00 AM | 10:00 PM | 1             |    
     And "Isaac" has preferences:
     | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
     | Prefer     | false | true  | false | true  | false | false | false | 12:00 PM   | 5:00 PM  |
-    | Class      | false | true  | false | true  | false | false | false | 7:30 AM    | 12:00 PM |
-    | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:30 PM |
-    | Obligation | false | false | true  | false | true  | true  | false | 7:30 AM    | 11:30 PM |     
+    | Class      | false | true  | false | true  | false | false | false | 7:00 AM    | 12:00 PM |
+    | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:00 PM |
+    | Obligation | false | false | true  | false | true  | true  | false | 7:00 AM    | 11:00 PM |
     And I am on the first assignments week page
     When I follow "Automatically Generate Assignments"
     Then I should be on the first assignments week page
@@ -41,9 +41,10 @@ Background: We have one user with limited availabilities and an admin
     And "Isaac" has preferences:
     | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
     | Prefer     | false | true  | false | true  | false | false | false | 12:00 PM   | 5:00 PM  |
-    | Class      | false | true  | false | true  | false | false | false | 7:30 AM    | 12:00 PM |
-    | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:30 PM |
-    | Obligation | false | false | true  | false | true  | true  | false | 7:30 AM    | 11:30 PM |     
+    | Class      | false | true  | false | true  | false | false | false | 7:00 AM    | 12:00 PM |
+    | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:00 PM |
+    | Obligation | false | false | true  | false | true  | true  | false | 7:00 AM    | 11:00 PM |
+    | Obligation | false | true  | true  | true  | true  | true  | false | 11:00 PM   | 2:00 AM  | 
     And I am on the first assignments week page
     When I follow "Automatically Generate Assignments"
     Then I should be on the first assignments week page
@@ -69,41 +70,22 @@ Background: We have one user with limited availabilities and an admin
     When I follow "MMF"
     Then I should see "Isaac"
     
-  Scenario: Algorithm should assume no preference still means available #unless we want to require that you have some kind of preference for every time slot...
+  Scenario: Algorithm should assume no preference still means available
     Given the following facilities exists:
     | name | m_start | m_end    | tu_start | tu_end  | w_start | w_end    | th_start | th_end  | f_start | f_end    | ppl_per_shift |
-    | MMF  | 8:00 AM | 2:00 AM  | 8:00 AM  | 2:00 AM | 8:00 AM | 2:00 AM  | 8:00 AM  | 2:00 AM | 8:00 AM | 10:00 PM | 1             |    
+    | MMF  | 8:00 AM | 1:00 PM  | 8:00 AM  | 1:00 PM | 8:00 AM | 1:00 PM  | 8:00 AM  | 1:00 PM | 8:00 AM | 1:00 PM  | 1             |    
     And "Isaac" has preferences:
     | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
-    | Class      | false | true  | false | true  | false | false | false | 7:30 AM    | 12:00 PM |
-    | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:30 PM |
-    | Obligation | false | false | true  | false | true  | true  | false | 7:30 AM    | 11:30 PM |     
+    | Class      | false | true  | false | true  | false | false | false | 7:00 AM    | 12:00 PM |
+    | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:00 PM |
+    | Obligation | false | false | true  | false | true  | true  | false | 7:00 AM    | 11:00 PM |     
     And I am on the first assignments week page
     When I follow "Automatically Generate Assignments"
     Then I should be on the first assignments week page
     When I follow "MMF"
-    And I should see "Isaac"
-    
-  Scenario: Algorithm should handle closing times after midnight
-    Given the following facilities exists:
-    | name | m_start | m_end    | tu_start | tu_end  | w_start | w_end    | th_start | th_end  | f_start | f_end    | ppl_per_shift |
-    | MMF  | 8:00 AM | 2:00 AM  | 8:00 AM  | 2:00 AM | 8:00 AM | 2:00 AM  | 8:00 AM  | 2:00 AM | 8:00 AM | 10:00 PM | 1             |    
-    And "Isaac" has preferences:
-    | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
-    | Prefer     | false | true  | false | true  | false | false | false | 12:00 PM   | 5:00 PM  |
-    | Class      | false | true  | false | true  | false | false | false | 7:30 AM    | 12:00 PM |
-    | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:30 PM |
-    | Obligation | false | false | true  | false | true  | true  | false | 7:30 AM    | 11:30 PM |     
-    And I am on the first assignments week page
-    When I follow "Automatically Generate Assignments"
-    Then I should be on the first assignments week page
-    When I follow "MMF"
-    Then I should see "Isaac" in the time slot for "12:00 PM - 01:00 PM" on "Monday"
-    And I should see "Isaac" in the time slot for "01:00 PM - 02:00 PM" on "Monday"
-    And I should see "Isaac" in the time slot for "02:00 PM - 03:00 PM" on "Monday"
-    And I should see "Isaac" in the time slot for "03:00 PM - 04:00 PM" on "Monday"
-    And I should see "Isaac" in the time slot for "04:00 PM - 05:00 PM" on "Monday"
+    And I should see "Isaac" in the time slot for "12:00 PM - 01:00 PM" on "Monday"
     And I should see "Isaac" in the time slot for "12:00 PM - 01:00 PM" on "Wednesday"
-    And I should see "Isaac" in the time slot for "04:00 PM - 05:00 PM" on "Wednesday"  
+    And I should not see "Isaac" in the time slot for "11:00 AM - 12:00 PM" on "Monday"
+    And I should not see "Isaac" in the time slot for "11:00 AM - 12:00 PM" on "Wednesday"
+
     
-  # Scenario: Algorithm should handle already existing assignments... we need to decide how to do this

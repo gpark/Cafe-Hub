@@ -41,7 +41,12 @@ Then(/^I should see "([^"]*)" in the time slot for "([^"]*)" on "([^"]*)"$/) do 
 end
 
 Then(/^I should not see "([^"]*)" in the time slot for "([^"]*)" on "([^"]*)"$/) do |employee, times, day|
-    pending
+  day_conversions = {"Monday" => "m", "Tuesday"=>"tu", "Wednesday"=>"w", "Thursday"=>"th", "Friday"=>"f", "Saturday"=>"sa", "Sunday"=>"su"}
+  converted_day = day_conversions[day]
+  expected_id = converted_day + "_" + times
+  within("//td[@id^='" + expected_id + "']") do
+    page.should_not have_content(employee)
+  end
 end
 
 Then /^I should see an alert message saying "([^"]*)"$/ do |message|
