@@ -7,6 +7,7 @@ class AssignmentsWeek < ActiveRecord::Base
     
     def pick_random_assignments(prefer, dont_care, rather_not, day, needed_num, 
                             facility_id, start_time, assigned_enough, previously_chosen)
+        check_xx = false
         if previously_chosen.size > 0
             chosen = previously_chosen
         else
@@ -28,6 +29,15 @@ class AssignmentsWeek < ActiveRecord::Base
                     end
                     last_chosen = ([even_more_ppl.size, really_needed].min).times.map{Random.rand(even_more_ppl.size)}.map!{|x| even_more_ppl[x]}
                     chosen = chosen + last_chosen
+                    chosen = chosen.to_a
+                    user_xx = User.where(name: 'XX').first
+                    if user_xx != nil
+                        xx_id = user_xx.id
+                        while chosen.size < needed_num
+                            chosen.push(xx_id)
+                            check_xx = true
+                        end
+                    end
                 end
             end
         end
@@ -40,6 +50,9 @@ class AssignmentsWeek < ActiveRecord::Base
             db_entry = Assignment.create(user_id: user_id, facility_id: facility_id, 
                             assignments_week_id: self.id, day: day, start_time: start_time.to_twelve_form, 
                             end_time: next_hour.to_twelve_form)
+            if check_xx
+                
+            end
             prefer[day][start_time].delete(user_id)
             dont_care[day][start_time].delete(user_id)
             rather_not[day][start_time].delete(user_id)
@@ -61,7 +74,7 @@ class AssignmentsWeek < ActiveRecord::Base
     #Method that is called to create assignments for assignments week
     def generate_assignments
         self.assignments.destroy_all
-        @users = User.all
+        @users = User.where.not(name: 'XX')
         @facilities = Facility.all
         prefer = {}
         dont_care = {}

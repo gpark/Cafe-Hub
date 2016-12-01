@@ -5,6 +5,7 @@ Feature: Admin can gereate assignments to employees
 Background: We have one user with limited availabilities and an admin
   Given there is an admin account
   And I am logged in as "Admin"
+  And User XX exists
   And the following users exists:
   | email                   | password      | password_confirmation      | name  |
   | isaac@james.com         | JamesJames    | JamesJames                 | Isaac |

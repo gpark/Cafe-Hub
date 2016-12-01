@@ -5,6 +5,10 @@ Given /the following users exists/ do |users_table|
     end
 end
 
+Given /^User XX exists$/ do
+  User.create!(name: 'XX', email: 'xx@cafe-hub.com', password: 'xxxxxx', password_confirmation: 'xxxxxx', admin: false, sign_up_code: Setting.sign_up_code)
+end
+
 Given /^I am logged in as "([^"]*)"/ do |user|
     user = User.where("name='"+user+"'")[0]
     visit '/users/sign_in'
