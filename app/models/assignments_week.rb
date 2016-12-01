@@ -7,7 +7,6 @@ class AssignmentsWeek < ActiveRecord::Base
     
     def pick_random_assignments(prefer, dont_care, rather_not, day, needed_num, 
                             facility_id, start_time, assigned_enough, previously_chosen)
-        check_xx = false
         if previously_chosen.size > 0
             chosen = previously_chosen
         else
@@ -30,13 +29,8 @@ class AssignmentsWeek < ActiveRecord::Base
                     last_chosen = ([even_more_ppl.size, really_needed].min).times.map{Random.rand(even_more_ppl.size)}.map!{|x| even_more_ppl[x]}
                     chosen = chosen + last_chosen
                     chosen = chosen.to_a
-                    user_xx = User.where(name: 'XX').first
-                    if user_xx != nil
-                        xx_id = user_xx.id
-                        while chosen.size < needed_num
-                            chosen.push(xx_id)
-                            check_xx = true
-                        end
+                    while chosen.size < needed_num
+                        chosen.push(2)      #user XX id should be 2
                     end
                 end
             end
@@ -50,15 +44,13 @@ class AssignmentsWeek < ActiveRecord::Base
             db_entry = Assignment.create(user_id: user_id, facility_id: facility_id, 
                             assignments_week_id: self.id, day: day, start_time: start_time.to_twelve_form, 
                             end_time: next_hour.to_twelve_form)
-            if check_xx
-                if db_entry.user.name == 'XX'
-                    # put this assignment up for a sub
-                end
+            if user_id == 2
+                Sub.create!(assignment_id: db_entry.id, assignments_week_id: self.id, comments: '')   
             end
             prefer[day][start_time].delete(user_id)
             dont_care[day][start_time].delete(user_id)
             rather_not[day][start_time].delete(user_id)
-            if User.find(user_id).hours_assigned(self.id) > 10
+            if user_id != 2 && db_entry.user.hours_assigned(self.id) > 10
                assigned_enough.push(user_id) 
                free_next = false
             end
@@ -114,8 +106,7 @@ class AssignmentsWeek < ActiveRecord::Base
                     pref_entries_hash = pref.entries_hash("12:00 AM")
                     pref_entries_hash.each do |day, time_hash|
                         time_hash.each do |time, pref_type|
-                            # after merging with calendar_options branch, need to put this:
-                            # pref_type = pref_type["data"]
+                            pref_type = pref_type["data"]
                             twentyfour_form = time.split(" - ")[0].to_twentyfour
                             if pref_type.include?("Prefer")
                                 prefer[day.to_s][twentyfour_form].push(user.id)
@@ -135,7 +126,6 @@ class AssignmentsWeek < ActiveRecord::Base
                 end
             end
         end  
-        
 
         # Fill facilities people needs with availabilities
         if @facilities.nil?
