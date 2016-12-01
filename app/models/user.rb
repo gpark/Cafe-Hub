@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
     admin
   end
 
+<<<<<<< HEAD
   # def hours_assigned(week_id)
   #   total_hours = 0
   #   for assignment in self.assignments.where("assignments_week_id="+week_id.to_s)
@@ -37,6 +38,21 @@ class User < ActiveRecord::Base
   #   end
   #   return total_hours
   # end
+=======
+  def hours_assigned(week_id)
+    total_hours = 0
+    for assignment in self.assignments.where("assignments_week_id="+week_id.to_s)
+        start_time = assignment.start_time.to_time
+        end_time = assignment.end_time.to_time
+        if (end_time < start_time)
+          end_time += 60*60*24
+        end
+        assignment_hours = (end_time - start_time) / 3600
+        total_hours += assignment_hours
+    end
+    return total_hours
+  end
+>>>>>>> user_xx
   
   def assignments_hash (week_id)
     one_day = "2016-1-1 "
