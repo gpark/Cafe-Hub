@@ -13,7 +13,7 @@ class AssignmentsWeek < ActiveRecord::Base
             ppl = prefer[day][start_time].select do |user_id|
                 !assigned_enough.include?(user_id)
             end
-            chosen = ([ppl.size, needed_num].min).times.map{Random.rand(ppl.size)}.map!{|x| ppl[x]}
+            chosen = ([ppl.size, needed_num].min).times.map{Random.rand(ppl.size)}.map!{|x| ppl[x]}.to_set
             if chosen.size < needed_num
                 still_needed = needed_num - chosen.size
                 more_ppl = dont_care[day][start_time].select do |user_id|
