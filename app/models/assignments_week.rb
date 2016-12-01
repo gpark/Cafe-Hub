@@ -70,6 +70,7 @@ class AssignmentsWeek < ActiveRecord::Base
     
     #Method that is called to create assignments for assignments week
     def generate_assignments
+        self.assignments.destroy_all
         @users = User.all
         @facilities = Facility.all
         available_ppl = {}
