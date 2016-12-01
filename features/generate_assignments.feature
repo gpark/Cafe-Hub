@@ -88,4 +88,41 @@ Background: We have one user with limited availabilities and an admin
     And I should not see "Isaac" in the time slot for "11:00 AM - 12:00 PM" on "Monday"
     And I should not see "Isaac" in the time slot for "11:00 AM - 12:00 PM" on "Wednesday"
 
-    
+  Scenario: Assignments should be in larger chunks of time
+    Given the following facilities exists:
+    | name | m_start | m_end    | tu_start | tu_end  | w_start | w_end    | th_start | th_end  | f_start | f_end    | ppl_per_shift |
+    | MMF  | 8:00 AM | 1:00 PM  | 8:00 AM  | 1:00 PM | 8:00 AM | 1:00 PM  | 8:00 AM  | 1:00 PM | 8:00 AM | 1:00 PM  | 1             |  
+    And the following users exists:
+    | email                   | password      | password_confirmation      | name   |
+    | grace@park.com          | GraceGrace    | GraceGrace                 | Grace  |
+    | nancy@pham.com          | FancyNancy    | FancyNancy                 | Nancy  |
+    | aaron@ching.com         | ka-ching      | ka-ching                   | Aaron  |
+    | james@james.com         | JamesJames    | JamesJames                 | James  |
+    | victor@lu.com           | victorlu      | victorlu                   | Victor |
+    And "Isaac" has preferences:
+    | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time  | 
+    | Class      | false | true  | false | true  | false | true  | false | 7:00 AM    |  1:00 PM  |
+    | Prefer     | false | false | true  | false | true  | false | false | 7:00 AM    |  11:00 AM |
+    And "Nancy" has preferences:
+    | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
+    | Prefer     | false | true  | true  | true  | true  | true  | false | 9:00 AM    |  2:00 PM | 
+    And "Aaron" has preferences:
+    | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
+    | Prefer     | false | true  | true  | true  | true  | true  | false | 9:00 AM    |  2:00 PM | 
+    And "James" has preferences:
+    | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
+    | Prefer     | false | true  | true  | true  | true  | true  | false | 9:00 AM    |  2:00 PM | 
+    And "Victor" has preferences:
+    | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
+    | Prefer     | false | true  | true  | true  | true  | true  | false | 9:00 AM    |  2:00 PM | 
+    And "Grace" has preferences:
+    | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time | 
+    | Prefer     | false | true  | true  | true  | true  | true  | false | 9:00 AM    |  2:00 PM |   
+    And I am on the first assignments week page
+    When I follow "Automatically Generate Assignments"
+    Then I should be on the first assignments week page
+    When I follow "MMF"
+    And I should see "Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Tuesday"
+    And I should see "Isaac" in the time slot for "09:00 AM - 10:00 AM" on "Tuesday"    
+    And I should not see "Grace" in the time slot for "08:00 AM - 09:00 AM" on "Tuesday"
+    And I should not see "Grace" in the time slot for "09:00 AM - 10:00 AM" on "Tuesday"   
