@@ -51,7 +51,9 @@ class AssignmentsWeek < ActiveRecord::Base
                             assignments_week_id: self.id, day: day, start_time: start_time.to_twelve_form, 
                             end_time: next_hour.to_twelve_form)
             if check_xx
-                
+                if db_entry.user.name == 'XX'
+                    # put this assignment up for a sub
+                end
             end
             prefer[day][start_time].delete(user_id)
             dont_care[day][start_time].delete(user_id)

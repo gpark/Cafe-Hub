@@ -28,19 +28,7 @@ class DashboardController < ApplicationController
             .permit(preference_entries_attributes:[:preference_type, :comments,:_destroy, 
                 occurences_attributes:[:su, :m, :tu, :w, :th, :f, :sa, :start_time, :end_time, :_destroy]])
     end
-    
-    def show_sub
-        @subs = Sub.all
-    end
-    
-    def new_sub
-        @assigments = current_user.assignments
-    end
-    
-    def create_sub
-        
-        
-    end
+
     
     
     def show_preferences

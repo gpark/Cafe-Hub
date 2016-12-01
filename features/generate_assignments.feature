@@ -1,7 +1,3 @@
-Feature: Admin can gereate assignments to employees
-  As an admin
-  I would like to be able to generate assignments to my employees
-  
 Background: We have one user with limited availabilities and an admin
   Given there is an admin account
   And I am logged in as "Admin"

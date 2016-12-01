@@ -9,6 +9,12 @@ Background: user has been added to database
   | email                   | password      | password_confirmation      | name  |
   | isaac@james.com         | JamesJames    | JamesJames                 | Isaac |
 
+  Scenario: cannot access pages when not logged in
+    Given I am on the login page
+    When I try to go to the user dashboard
+    Then I should see an alert message saying "You need to sign in or sign up before continuing."
+    And I should be on the login page
+    
   Scenario: login a user
     Given I am on the login page
     When I fill in "Email" with "isaac@james.com"
