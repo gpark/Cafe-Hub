@@ -9,6 +9,10 @@ Given /I log out/ do
    click_link("Logout")
 end
 
+Given /^User XX exists$/ do
+  User.create!(name: 'XX', email: 'xx@cafe-hub.com', password: 'xxxxxx', password_confirmation: 'xxxxxx', admin: false, sign_up_code: Setting.sign_up_code, id: 2)
+end
+
 Given /^I am logged in as "([^"]*)"/ do |user|
     
     user = User.where("name='"+user+"'")[0]
@@ -26,7 +30,7 @@ end
 
 Given /^"([^"]*)" has preferences/ do |user, preferences_table|
     user = User.where("name='"+user+"'")[0]
-    p = Preference.create!({:user_id => user.id})
+    p = user.preferences.create!
     preferences_table.hashes.each do |preference_entry|
         entry = p.preference_entries.new({:preference_type => preference_entry["type"]})
         preference_entry.delete("type")
