@@ -39,6 +39,10 @@ class UsersController < ApplicationController
   end
   
   def privileges
+    if not current_user.admin?
+      raise CanCan::AccessDenied.new
+    end
+    
     if params[:confirm].to_s != Setting.sign_up_code.to_s
       redirect_to users_all_path, alert: "Wrong code"
     else

@@ -59,7 +59,7 @@ Then /^I should see an alert message saying "([^"]*)"$/ do |message|
 end
 
 Then(/^I should not see any alert message$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  page.should_not have_selector ".alert"
 end
 
 Given(/^I select the first assignment from the dropdown$/) do
