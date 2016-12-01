@@ -5,7 +5,25 @@ class UsersController < ApplicationController
       redirect_to new_user_session_path
     end
   end
+
+  def destroy
+    assignment = Assignment.find(params[:assignment_id])
+    user = assignment.user_id
+    assignment.destroy
+    redirect_to "/users/"+user.to_s+"/assignments", notice: "Assignment deleted."
+  end
   
+  def delete_assignments
+    @user = User.find(params[:id])
+    @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
+    assignments = @user.assignments
+    if !assignments.empty?
+        assignments = assignments.where("assignments_week_id="+@weeks[0][1].to_s)
+    end
+    @assignments = assignments.map{|item| [item, item.id]}
+    render 'delete'
+  end
+
   def preference
     @user = User.find(params[:id])
     preference = @user.preferences.order(:created_at).last
