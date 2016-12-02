@@ -1,15 +1,7 @@
 class SubsController < ApplicationController
     def show
         @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
-        if params.key?(:assignments_week_id)
-            @chosen_week = params[:assignments_week_id]
-        else
-            if @weeks.length > 0
-                @chosen_week = @weeks[0][1]
-            else
-                @chosen_week = 0
-            end    
-        end        
+        @chosen_week = get_chosen_week(@weeks, params)
         @subs = Sub.where({assignments_week: AssignmentsWeek.find(@chosen_week)})
         @subs_hash = Sub.hash_view(@chosen_week)
         @all_times = User.all_times

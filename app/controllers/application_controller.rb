@@ -18,6 +18,19 @@ class ApplicationController < ActionController::Base
     ) }
   end
   
+  def get_chosen_week(weeks, params)
+    if params.key?(:assignments_week_id)
+      chosen_week = params[:assignments_week_id]
+    else
+      if weeks.length > 0
+        chosen_week = weeks[0][1]
+      else
+        chosen_week = 0
+      end    
+    end
+    return chosen_week
+  end
+  
   rescue_from CanCan::AccessDenied do |exception|
     flash[:warning] = exception.message
     redirect_to root_path, alert: flash[:warning]

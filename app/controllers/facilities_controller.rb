@@ -20,15 +20,7 @@ class FacilitiesController < ApplicationController
     def show
         @facility = Facility.find(params[:format])
         @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
-        if params.key?(:assignments_week_id)
-            @chosen_week = params[:assignments_week_id]
-        else
-            if @weeks.length > 0
-                @chosen_week = @weeks[0][1]
-            else
-                @chosen_week = 0
-            end    
-        end
+        @chosen_week = get_chosen_week(@weeks, params)
         @facility_hash = @facility.assignments_hash(@chosen_week)
     end
     
