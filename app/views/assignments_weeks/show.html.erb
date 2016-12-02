@@ -13,7 +13,7 @@
 <% end %>
 </div></div></div>
 <% if @assignments_week.assignments.empty? %>
-<%= link_to('Automatically Generate Assignments', '/generate_assignments/'+@assignments_week.id.to_s, { :class=>"btn btn-primary", :role=>"button"}) %>
+<%= link_to('Automatically Generate Assignments', generate_assignments_path(@assignments_week.id.to_s), { :class=>"btn btn-primary", :role=>"button"}) %>
 <% else %>
-<%= link_to('Automatically Generate Assignments', '/generate_assignments/'+@assignments_week.id.to_s, { :class=>"btn btn-primary", :role=>"button", :data => {:confirm => 'Are you sure? There are existing assignments for this week, and regenerating will delete any existing assignments for this week'}}) %>
+<%= link_to('Automatically Generate Assignments', generate_assignments_path(@assignments_week.id.to_s), { :class=>"btn btn-primary", :role=>"button", :data => {:confirm => 'Are you sure? There are existing assignments for this week, and regenerating will delete any existing assignments for this week'}}) %>
 <% end %>

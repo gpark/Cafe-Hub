@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get '/users/:id/delete_assignments' => 'users#delete_assignments'
   delete '/users/:id/delete_assignments' => 'users#destroy'
   post '/users/privileges' => 'users#privileges'
-  get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments'
+  get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments', as: 'generate_assignments'
   get '/subs/change_week' => 'subs#change_week'
   patch '/subs/take' => 'subs#take'
   
