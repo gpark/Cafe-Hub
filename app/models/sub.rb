@@ -8,7 +8,7 @@ class Sub < ActiveRecord::Base
         if (week_id == 0)
             return h
         end
-        for assignment in Assignment.where("assignments_week_id="+week_id.to_s) do
+        for assignment in Assignment.where("assignments_week_id = ?", week_id.to_s) do
             if assignment.sub == nil
                 next
             end

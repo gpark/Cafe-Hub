@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   def hours_assigned(week_id)
     total_hours = 0
-    for assignment in self.assignments.where(assignments_week_id: week_id)
+    for assignment in self.assignments.where("assignments_week_id = ?", week_id.to_s)
         start_time = assignment.start_time.to_time
         end_time = assignment.end_time.to_time
         if (end_time < start_time)

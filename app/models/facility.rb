@@ -36,7 +36,7 @@ class Facility < ActiveRecord::Base
         if (week_id == 0)
             return h
         end
-        for assignment in self.assignments.where(assignments_week_id: week_id) do
+        for assignment in self.assignments.where("assignments_week_id = ?", week_id.to_s) do
             employee = assignment.user.name
             start_time = assignment.start_time
             end_time = assignment.end_time
