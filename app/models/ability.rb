@@ -12,6 +12,7 @@ class Ability
       can :read, :all
       cannot :manage, Setting
       can :manage, :dashboard
+      cannot :destroy, :all
     end
     
     # The first argument to `can` is the action you are giving the user
