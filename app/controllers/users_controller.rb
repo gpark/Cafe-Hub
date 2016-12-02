@@ -7,6 +7,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    if not current_user.admin?
+      raise CanCan::AccessDenied.new
+    end
+    
     assignment = Assignment.find(params[:assignment_id])
     user = assignment.user_id
     week_id = assignment.assignments_week_id
@@ -15,6 +19,10 @@ class UsersController < ApplicationController
   end
   
   def delete_assignments
+    if not current_user.admin?
+      raise CanCan::AccessDenied.new
+    end
+    
     @user = User.find(params[:id])
     @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
     if params.key?(:assignments_week_id)
