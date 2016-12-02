@@ -3,18 +3,18 @@
 <div class="panel panel-default"><div class="panel-body">
     <%= form_for @assignment do |f| %>
       <%= f.label "Week of: " %>
-      <%= f.select :assignments_week_id, @assignments_weeks, {}, {class: "form-control", style: "width:250px;display:inline"} %>
+      <%= f.select :assignments_week_id, @assignments_weeks, {}, {class: "form-control form-control-wide"} %>
       <%= f.label "Facility: " %>
-      <%= f.select :facility_id, @facilities, {}, {class: "form-control", style: "width:100px;display:inline"} %>
+      <%= f.select :facility_id, @facilities, {}, {class: "form-control form-control-medium"} %>
       <%= f.label "Worker: " %>
-      <%= f.select :user_id, @users, {}, {class: "form-control", style: "width:135px;display:inline"} %>
+      <%= f.select :user_id, @users, {}, {class: "form-control form-control-medium"} %>
       <br>
       <%= f.label "Day: " %>
-      <%= f.select :day, @days, {}, {class: "form-control", style: "width:50px;display:inline"} %>
+      <%= f.select :day, @days, {}, {class: "form-control form-control-small"} %>
       <%= f.label "Start Time: " %>
-      <%= f.select(:start_time, @times, {}, {class: "form-control", style: "width:135px;display:inline", id:"Start Time"}) %>
+      <%= f.select(:start_time, @times, {}, {class: "form-control form-control-medium", id:"Start Time"}) %>
       <%= f.label "End Time: " %>
-      <%= f.select(:end_time, @times, {}, {class: "form-control", style: "width:135px;display:inline", id:"End Time"}) %>
+      <%= f.select(:end_time, @times, {}, {class: "form-control form-control-medium", id:"End Time"}) %>
       <%= f.submit "Create", class:"btn btn-default" %>
     <% end %>
 </div></div></div></div>

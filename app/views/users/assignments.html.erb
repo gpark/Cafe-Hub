@@ -4,7 +4,7 @@
   <li role="presentation"><%= link_to("Preference Schedule","/users/"+@user.id.to_s+"/preference") %></li>
   <div align="right">
   <%= form_tag("/users/"+@user.id.to_s+"/assignments", method: "get") do %>
-    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control form-control-wide"} %>
     <%= submit_tag("Select Week", class:"btn btn-default") %>
   <% end %>
   </div>
