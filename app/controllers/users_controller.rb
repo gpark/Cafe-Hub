@@ -40,7 +40,7 @@ class UsersController < ApplicationController
         if @chosen_week == 0
           assignments = {}
         else
-          assignments = assignments.where("assignments_week_id="+@chosen_week.to_s)
+          assignments = assignments.where("assignments_week_id = ?", @chosen_week.to_s)
         end
     end
     @assignments = assignments.map{|item| [item, item.id]}
