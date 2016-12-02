@@ -62,7 +62,7 @@ class AssignmentsWeek < ActiveRecord::Base
 	        return assigned_enough, chosen
 	    else
 	        return assigned_enough, []
-	    end
+        end
     end
     
     #Method that is called to create assignments for assignments week
@@ -82,7 +82,7 @@ class AssignmentsWeek < ActiveRecord::Base
     	        day_hash1[hour] = [] 
     	        day_hash2[hour] = [] 
     	        day_hash3[hour] = [] 
-    	    end
+            end
         	prefer[day] = day_hash1
         	dont_care[day] = day_hash2
         	rather_not[day] = day_hash3
@@ -104,22 +104,22 @@ class AssignmentsWeek < ActiveRecord::Base
                     	no_pref_times[day] = day_hash
                     end                    
                     pref_entries_hash = pref.entries_hash("12:00 AM")
-                    pref_entries_hash.each do |day, time_hash|
+                    pref_entries_hash.each do |cday, time_hash|
                         time_hash.each do |time, pref_type|
                             pref_type = pref_type["data"]
                             twentyfour_form = time.split(" - ")[0].to_twentyfour
                             if pref_type.include?("Prefer")
-                                prefer[day.to_s][twentyfour_form].push(user.id)
+                                prefer[cday.to_s][twentyfour_form].push(user.id)
                             elsif pref_type.include?("R/N Work")
-                                rather_not[day.to_s][twentyfour_form].push(user.id)
+                                rather_not[cday.to_s][twentyfour_form].push(user.id)
                             end
-                            no_pref_times[day.to_s][twentyfour_form] = false
+                            no_pref_times[cday.to_s][twentyfour_form] = false
                         end
                     end
-                    no_pref_times.each do |day, time_hash|
+                    no_pref_times.each do |cday, time_hash|
                         time_hash.each do |time, value|
                             if value
-                               dont_care[day][time].push(user.id)
+                               dont_care[cday][time].push(user.id)
                             end
                         end
                     end
