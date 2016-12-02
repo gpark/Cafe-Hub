@@ -1,0 +1,763 @@
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Using the default profile...
+Feature: Admin can gereate assignments to employees
+  As an admin
+  I would like to be able to generate assignments to my employees
+
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'admin@cafe-hub.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "name", "admin", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["email", "admin@cafe-hub.com"], ["encrypted_password", "$2a$04$SEjCj7pu0t5q5atvlpxDC.kIZb435C/0ysktnRk0PlquqSq0qLBnu"], ["name", "Admin"], ["admin", "t"], ["created_at", "2016-12-01 22:38:40.708419"], ["updated_at", "2016-12-01 22:38:40.708419"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  Background: We have one user with limited availabilities and an admin # features/generate_assignments.feature:5
+    Given there is an admin account                                     # features/step_definitions/admin_steps.rb:5
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'xx@cafe-hub.com' LIMIT 1
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "users" ("name", "email", "encrypted_password", "id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "XX"], ["email", "xx@cafe-hub.com"], ["encrypted_password", "$2a$04$1P82HwGrMUgfyE4vZMoUE.Jb6qC9FoLnMUBRqSGpHaIZj3i0JzcpK"], ["id", 2], ["created_at", "2016-12-01 22:38:40.714847"], ["updated_at", "2016-12-01 22:38:40.714847"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+    And User XX exists                                                  # features/step_definitions/user_steps.rb:12
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE (name='Admin')[0m
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-12-01 22:38:40 +0000
+Processing by Devise::SessionsController#new as HTML
+  Rendered users/shared/_links.html.erb (2.0ms)
+  Rendered users/sessions/new.html.erb within layouts/application (39.3ms)
+Completed 200 OK in 369ms (Views: 354.8ms | ActiveRecord: 0.0ms)
+Started POST "/users/sign_in" for 127.0.0.1 at 2016-12-01 22:38:41 +0000
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "user"=>{"email"=>"admin@cafe-hub.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["email", "admin@cafe-hub.com"]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  UPDATE "users" SET "last_sign_in_at" = ?, "current_sign_in_at" = ?, "last_sign_in_ip" = ?, "current_sign_in_ip" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["last_sign_in_at", "2016-12-01 22:38:41.139637"], ["current_sign_in_at", "2016-12-01 22:38:41.139637"], ["last_sign_in_ip", "127.0.0.1"], ["current_sign_in_ip", "127.0.0.1"], ["sign_in_count", 1], ["updated_at", "2016-12-01 22:38:41.140440"], ["id", 1]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/
+Completed 302 Found in 21ms (ActiveRecord: 0.5ms)
+Started GET "/" for 127.0.0.1 at 2016-12-01 22:38:41 +0000
+Processing by DashboardController#home as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mAssignmentsWeek Load (0.1ms)[0m  [1mSELECT "assignments_weeks".* FROM "assignments_weeks"  ORDER BY "assignments_weeks"."created_at" DESC[0m
+  Rendered layouts/_weekly_calendar.html.erb (2.0ms)
+  Rendered dashboard/dashboard.html.erb within layouts/application (4.0ms)
+Completed 200 OK in 17ms (Views: 11.2ms | ActiveRecord: 0.4ms)
+    And I am logged in as "Admin"                                       # features/step_definitions/user_steps.rb:16
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "users" WHERE "users"."email" = 'isaac@james.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "name", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["email", "isaac@james.com"], ["encrypted_password", "$2a$04$rYSB0sTVO95aSZfZsjMBPOGS.ssMapF2B7YqptdwXF6BGRBRdo3QW"], ["name", "Isaac"], ["created_at", "2016-12-01 22:38:41.181972"], ["updated_at", "2016-12-01 22:38:41.181972"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+    And the following users exists:                                     # features/step_definitions/user_steps.rb:1
+      | email           | password   | password_confirmation | name  |
+      | isaac@james.com | JamesJames | JamesJames            | Isaac |
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "assignments_weeks" ("start_date", "end_date", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["start_date", "2016-10-31"], ["end_date", "2016-11-06"], ["created_at", "2016-12-01 22:38:41.187366"], ["updated_at", "2016-12-01 22:38:41.187366"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+    And the following assignments week exists:                          # features/step_definitions/admin_steps.rb:15
+      | start_date | end_date   |
+      | 2016-10-31 | 2016-11-06 |
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "facilities" ("name", "m_start", "m_end", "tu_start", "tu_end", "w_start", "w_end", "th_start", "th_end", "f_start", "f_end", "ppl_per_shift", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["name", "MMF"], ["m_start", "8:00 AM"], ["m_end", "11:00 PM"], ["tu_start", "8:00 AM"], ["tu_end", "11:00 PM"], ["w_start", "8:00 AM"], ["w_end", "11:00 PM"], ["th_start", "8:00 AM"], ["th_end", "11:00 PM"], ["f_start", "8:00 AM"], ["f_end", "10:00 PM"], ["ppl_per_shift", 1], ["created_at", "2016-12-01 22:38:41.201382"], ["updated_at", "2016-12-01 22:38:41.201382"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+
+  Scenario: Admin should be able to generate schedules based on user preferences and facility times # features/generate_assignments.feature:16
+    Given the following facilities exists:                                                          # features/step_definitions/admin_steps.rb:9
+      | name | m_start | m_end    | tu_start | tu_end   | w_start | w_end    | th_start | th_end   | f_start | f_end    | ppl_per_shift |
+      | MMF  | 8:00 AM | 11:00 PM | 8:00 AM  | 11:00 PM | 8:00 AM | 11:00 PM | 8:00 AM  | 11:00 PM | 8:00 AM | 10:00 PM | 1             |
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE (name='Isaac')
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "preferences" ("user_id", "created_at", "updated_at") VALUES (?, ?, ?)  [["user_id", 3], ["created_at", "2016-12-01 22:38:41.240781"], ["updated_at", "2016-12-01 22:38:41.240781"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "occurences" ("su", "m", "tu", "w", "th", "f", "sa", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["su", "f"], ["m", "t"], ["tu", "f"], ["w", "t"], ["th", "f"], ["f", "f"], ["sa", "f"], ["start_time", "12:00 PM"], ["end_time", "5:00 PM"], ["created_at", "2016-12-01 22:38:41.260178"], ["updated_at", "2016-12-01 22:38:41.260178"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "preference_entries" ("preference_type", "preference_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["preference_type", "Prefer"], ["preference_id", 1], ["created_at", "2016-12-01 22:38:41.262130"], ["updated_at", "2016-12-01 22:38:41.262130"]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "occurences" SET "preference_entry_id" = ?, "updated_at" = ? WHERE "occurences"."id" = ?[0m  [["preference_entry_id", 1], ["updated_at", "2016-12-01 22:38:41.263207"], ["id", 1]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "occurences" ("su", "m", "tu", "w", "th", "f", "sa", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["su", "f"], ["m", "t"], ["tu", "f"], ["w", "t"], ["th", "f"], ["f", "f"], ["sa", "f"], ["start_time", "7:00 AM"], ["end_time", "12:00 PM"], ["created_at", "2016-12-01 22:38:41.265980"], ["updated_at", "2016-12-01 22:38:41.265980"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "preference_entries" ("preference_type", "preference_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["preference_type", "Class"], ["preference_id", 1], ["created_at", "2016-12-01 22:38:41.267495"], ["updated_at", "2016-12-01 22:38:41.267495"]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "occurences" SET "preference_entry_id" = ?, "updated_at" = ? WHERE "occurences"."id" = ?  [["preference_entry_id", 2], ["updated_at", "2016-12-01 22:38:41.268441"], ["id", 2]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "occurences" ("su", "m", "tu", "w", "th", "f", "sa", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["su", "f"], ["m", "t"], ["tu", "f"], ["w", "t"], ["th", "f"], ["f", "f"], ["sa", "f"], ["start_time", "5:00 PM"], ["end_time", "11:00 PM"], ["created_at", "2016-12-01 22:38:41.271016"], ["updated_at", "2016-12-01 22:38:41.271016"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "preference_entries" ("preference_type", "preference_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["preference_type", "Class"], ["preference_id", 1], ["created_at", "2016-12-01 22:38:41.272461"], ["updated_at", "2016-12-01 22:38:41.272461"]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "occurences" SET "preference_entry_id" = ?, "updated_at" = ? WHERE "occurences"."id" = ?[0m  [["preference_entry_id", 3], ["updated_at", "2016-12-01 22:38:41.273412"], ["id", 3]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "occurences" ("su", "m", "tu", "w", "th", "f", "sa", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["su", "f"], ["m", "f"], ["tu", "t"], ["w", "f"], ["th", "t"], ["f", "t"], ["sa", "f"], ["start_time", "7:00 AM"], ["end_time", "11:00 PM"], ["created_at", "2016-12-01 22:38:41.275987"], ["updated_at", "2016-12-01 22:38:41.275987"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "preference_entries" ("preference_type", "preference_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["preference_type", "Obligation"], ["preference_id", 1], ["created_at", "2016-12-01 22:38:41.277426"], ["updated_at", "2016-12-01 22:38:41.277426"]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "occurences" SET "preference_entry_id" = ?, "updated_at" = ? WHERE "occurences"."id" = ?  [["preference_entry_id", 4], ["updated_at", "2016-12-01 22:38:41.278416"], ["id", 4]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+    And "Isaac" has preferences:                                                                    # features/step_definitions/user_steps.rb:31
+      | type       | su    | m     | tu    | w     | th    | f     | sa    | start_time | end_time |
+      | Prefer     | false | true  | false | true  | false | false | false | 12:00 PM   | 5:00 PM  |
+      | Class      | false | true  | false | true  | false | false | false | 7:00 AM    | 12:00 PM |
+      | Class      | false | true  | false | true  | false | false | false | 5:00 PM    | 11:00 PM |
+      | Obligation | false | false | true  | false | true  | true  | false | 7:00 AM    | 11:00 PM |
+Started GET "/assignments_weeks.1" for 127.0.0.1 at 2016-12-01 22:38:41 +0000
+Processing by AssignmentsWeeksController#show as 
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mAssignmentsWeek Load (0.1ms)[0m  [1mSELECT "assignments_weeks".* FROM "assignments_weeks"[0m
+  [1m[35mAssignmentsWeek Load (0.1ms)[0m  SELECT  "assignments_weeks".* FROM "assignments_weeks" WHERE "assignments_weeks"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mAssignmentsWeek Load (0.1ms)[0m  [1mSELECT "assignments_weeks".* FROM "assignments_weeks"  ORDER BY "assignments_weeks"."created_at" DESC[0m
+  [1m[35mFacility Load (0.2ms)[0m  SELECT "facilities".* FROM "facilities"
+  [1m[36mAssignment Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "assignments" WHERE "assignments"."assignments_week_id" = ? LIMIT 1[0m  [["assignments_week_id", 1]]
+  Rendered assignments_weeks/show.html.erb within layouts/application (10.6ms)
+Completed 200 OK in 29ms (Views: 19.4ms | ActiveRecord: 0.8ms)
+    And I am on the first assignments week page                                                     # features/step_definitions/web_steps.rb:44
+Started GET "/generate_assignments/1" for 127.0.0.1 at 2016-12-01 22:38:41 +0000
+Processing by AssignmentsWeeksController#generate_assignments as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mAssignmentsWeek Load (0.1ms)[0m  [1mSELECT  "assignments_weeks".* FROM "assignments_weeks" WHERE "assignments_weeks"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mAssignment Load (0.2ms)[0m  SELECT "assignments".* FROM "assignments" WHERE "assignments"."assignments_week_id" = ?  [["assignments_week_id", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE ("users"."name" != ?)[0m  [["name", "XX"]]
+  [1m[35mPreference Load (0.1ms)[0m  SELECT  "preferences".* FROM "preferences" WHERE "preferences"."user_id" = ?  ORDER BY "preferences"."created_at" DESC LIMIT 1  [["user_id", 1]]
+  [1m[36mPreference Load (0.1ms)[0m  [1mSELECT  "preferences".* FROM "preferences" WHERE "preferences"."user_id" = ?  ORDER BY "preferences"."created_at" DESC LIMIT 1[0m  [["user_id", 3]]
+  [1m[35mPreferenceEntry Load (0.1ms)[0m  SELECT "preference_entries".* FROM "preference_entries" WHERE "preference_entries"."preference_id" = ?  [["preference_id", 1]]
+  [1m[36mOccurence Load (0.1ms)[0m  [1mSELECT "occurences".* FROM "occurences" WHERE "occurences"."preference_entry_id" = ?[0m  [["preference_entry_id", 1]]
+  [1m[35mOccurence Load (0.1ms)[0m  SELECT "occurences".* FROM "occurences" WHERE "occurences"."preference_entry_id" = ?  [["preference_entry_id", 2]]
+  [1m[36mOccurence Load (0.1ms)[0m  [1mSELECT "occurences".* FROM "occurences" WHERE "occurences"."preference_entry_id" = ?[0m  [["preference_entry_id", 3]]
+  [1m[35mOccurence Load (0.1ms)[0m  SELECT "occurences".* FROM "occurences" WHERE "occurences"."preference_entry_id" = ?  [["preference_entry_id", 4]]
+{"su"=>{0=>[], 1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[], 7=>[], 8=>[], 9=>[], 10=>[], 11=>[], 12=>[], 13=>[], 14=>[], 15=>[], 16=>[], 17=>[], 18=>[], 19=>[], 20=>[], 21=>[], 22=>[], 23=>[]}, "m"=>{0=>[], 1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[], 7=>[], 8=>[], 9=>[], 10=>[], 11=>[], 12=>[3], 13=>[3], 14=>[3], 15=>[3], 16=>[3], 17=>[], 18=>[], 19=>[], 20=>[], 21=>[], 22=>[], 23=>[]}, "tu"=>{0=>[], 1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[], 7=>[], 8=>[], 9=>[], 10=>[], 11=>[], 12=>[], 13=>[], 14=>[], 15=>[], 16=>[], 17=>[], 18=>[], 19=>[], 20=>[], 21=>[], 22=>[], 23=>[]}, "w"=>{0=>[], 1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[], 7=>[], 8=>[], 9=>[], 10=>[], 11=>[], 12=>[3], 13=>[3], 14=>[3], 15=>[3], 16=>[3], 17=>[], 18=>[], 19=>[], 20=>[], 21=>[], 22=>[], 23=>[]}, "th"=>{0=>[], 1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[], 7=>[], 8=>[], 9=>[], 10=>[], 11=>[], 12=>[], 13=>[], 14=>[], 15=>[], 16=>[], 17=>[], 18=>[], 19=>[], 20=>[], 21=>[], 22=>[], 23=>[]}, "f"=>{0=>[], 1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[], 7=>[], 8=>[], 9=>[], 10=>[], 11=>[], 12=>[], 13=>[], 14=>[], 15=>[], 16=>[], 17=>[], 18=>[], 19=>[], 20=>[], 21=>[], 22=>[], 23=>[]}, "sa"=>{0=>[], 1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[], 7=>[], 8=>[], 9=>[], 10=>[], 11=>[], 12=>[], 13=>[], 14=>[], 15=>[], 16=>[], 17=>[], 18=>[], 19=>[], 20=>[], 21=>[], 22=>[], 23=>[]}}
+  [1m[36mFacility Load (0.1ms)[0m  [1mSELECT "facilities".* FROM "facilities"[0m
+0
+8 -> 2
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "8:00 AM"], ["end_time", "9:00 AM"], ["created_at", "2016-12-01 22:38:41.348450"], ["updated_at", "2016-12-01 22:38:41.348450"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 1], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.355790"], ["updated_at", "2016-12-01 22:38:41.355790"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+9 -> 2
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "9:00 AM"], ["end_time", "10:00 AM"], ["created_at", "2016-12-01 22:38:41.358537"], ["updated_at", "2016-12-01 22:38:41.358537"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 2], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.360167"], ["updated_at", "2016-12-01 22:38:41.360167"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+10 -> 2
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "10:00 AM"], ["end_time", "11:00 AM"], ["created_at", "2016-12-01 22:38:41.361782"], ["updated_at", "2016-12-01 22:38:41.361782"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 3], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.363364"], ["updated_at", "2016-12-01 22:38:41.363364"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+11 -> 2
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "11:00 AM"], ["end_time", "12:00 PM"], ["created_at", "2016-12-01 22:38:41.364930"], ["updated_at", "2016-12-01 22:38:41.364930"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 4], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.366520"], ["updated_at", "2016-12-01 22:38:41.366520"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+1
+12 -> 3
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "12:00 PM"], ["end_time", "1:00 PM"], ["created_at", "2016-12-01 22:38:41.368106"], ["updated_at", "2016-12-01 22:38:41.368106"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mAssignment Load (0.1ms)[0m  SELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)  [["user_id", 3]]
+13 -> 3
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "1:00 PM"], ["end_time", "2:00 PM"], ["created_at", "2016-12-01 22:38:41.373761"], ["updated_at", "2016-12-01 22:38:41.373761"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mAssignment Load (0.1ms)[0m  [1mSELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)[0m  [["user_id", 3]]
+14 -> 3
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "2:00 PM"], ["end_time", "3:00 PM"], ["created_at", "2016-12-01 22:38:41.376957"], ["updated_at", "2016-12-01 22:38:41.376957"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mAssignment Load (0.1ms)[0m  SELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)  [["user_id", 3]]
+15 -> 3
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "3:00 PM"], ["end_time", "4:00 PM"], ["created_at", "2016-12-01 22:38:41.380287"], ["updated_at", "2016-12-01 22:38:41.380287"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mAssignment Load (0.1ms)[0m  [1mSELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)[0m  [["user_id", 3]]
+16 -> 3
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "4:00 PM"], ["end_time", "5:00 PM"], ["created_at", "2016-12-01 22:38:41.383798"], ["updated_at", "2016-12-01 22:38:41.383798"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mAssignment Load (0.1ms)[0m  SELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)  [["user_id", 3]]
+0
+17 -> 2
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "5:00 PM"], ["end_time", "6:00 PM"], ["created_at", "2016-12-01 22:38:41.387498"], ["updated_at", "2016-12-01 22:38:41.387498"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 10], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.389164"], ["updated_at", "2016-12-01 22:38:41.389164"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+18 -> 2
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "6:00 PM"], ["end_time", "7:00 PM"], ["created_at", "2016-12-01 22:38:41.390781"], ["updated_at", "2016-12-01 22:38:41.390781"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 11], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.392338"], ["updated_at", "2016-12-01 22:38:41.392338"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+19 -> 2
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "7:00 PM"], ["end_time", "8:00 PM"], ["created_at", "2016-12-01 22:38:41.393918"], ["updated_at", "2016-12-01 22:38:41.393918"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 12], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.395479"], ["updated_at", "2016-12-01 22:38:41.395479"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+20 -> 2
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "8:00 PM"], ["end_time", "9:00 PM"], ["created_at", "2016-12-01 22:38:41.397005"], ["updated_at", "2016-12-01 22:38:41.397005"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 13], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.398626"], ["updated_at", "2016-12-01 22:38:41.398626"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+21 -> 2
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "9:00 PM"], ["end_time", "10:00 PM"], ["created_at", "2016-12-01 22:38:41.400196"], ["updated_at", "2016-12-01 22:38:41.400196"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 14], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.401790"], ["updated_at", "2016-12-01 22:38:41.401790"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+22 -> 2
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "m"], ["start_time", "10:00 PM"], ["end_time", "11:00 PM"], ["created_at", "2016-12-01 22:38:41.403318"], ["updated_at", "2016-12-01 22:38:41.403318"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 15], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.404925"], ["updated_at", "2016-12-01 22:38:41.404925"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "8:00 AM"], ["end_time", "9:00 AM"], ["created_at", "2016-12-01 22:38:41.406536"], ["updated_at", "2016-12-01 22:38:41.406536"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 16], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.408113"], ["updated_at", "2016-12-01 22:38:41.408113"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "9:00 AM"], ["end_time", "10:00 AM"], ["created_at", "2016-12-01 22:38:41.409656"], ["updated_at", "2016-12-01 22:38:41.409656"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 17], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.411276"], ["updated_at", "2016-12-01 22:38:41.411276"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "10:00 AM"], ["end_time", "11:00 AM"], ["created_at", "2016-12-01 22:38:41.412808"], ["updated_at", "2016-12-01 22:38:41.412808"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 18], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.414369"], ["updated_at", "2016-12-01 22:38:41.414369"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "11:00 AM"], ["end_time", "12:00 PM"], ["created_at", "2016-12-01 22:38:41.415931"], ["updated_at", "2016-12-01 22:38:41.415931"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 19], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.417489"], ["updated_at", "2016-12-01 22:38:41.417489"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "12:00 PM"], ["end_time", "1:00 PM"], ["created_at", "2016-12-01 22:38:41.419112"], ["updated_at", "2016-12-01 22:38:41.419112"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 20], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.420675"], ["updated_at", "2016-12-01 22:38:41.420675"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "1:00 PM"], ["end_time", "2:00 PM"], ["created_at", "2016-12-01 22:38:41.422280"], ["updated_at", "2016-12-01 22:38:41.422280"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 21], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.423856"], ["updated_at", "2016-12-01 22:38:41.423856"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "2:00 PM"], ["end_time", "3:00 PM"], ["created_at", "2016-12-01 22:38:41.425436"], ["updated_at", "2016-12-01 22:38:41.425436"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 22], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.427006"], ["updated_at", "2016-12-01 22:38:41.427006"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "3:00 PM"], ["end_time", "4:00 PM"], ["created_at", "2016-12-01 22:38:41.428534"], ["updated_at", "2016-12-01 22:38:41.428534"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 23], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.430110"], ["updated_at", "2016-12-01 22:38:41.430110"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "4:00 PM"], ["end_time", "5:00 PM"], ["created_at", "2016-12-01 22:38:41.431607"], ["updated_at", "2016-12-01 22:38:41.431607"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 24], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.433153"], ["updated_at", "2016-12-01 22:38:41.433153"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "5:00 PM"], ["end_time", "6:00 PM"], ["created_at", "2016-12-01 22:38:41.434701"], ["updated_at", "2016-12-01 22:38:41.434701"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 25], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.436267"], ["updated_at", "2016-12-01 22:38:41.436267"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "6:00 PM"], ["end_time", "7:00 PM"], ["created_at", "2016-12-01 22:38:41.437837"], ["updated_at", "2016-12-01 22:38:41.437837"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 26], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.439403"], ["updated_at", "2016-12-01 22:38:41.439403"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "7:00 PM"], ["end_time", "8:00 PM"], ["created_at", "2016-12-01 22:38:41.440930"], ["updated_at", "2016-12-01 22:38:41.440930"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 27], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.442515"], ["updated_at", "2016-12-01 22:38:41.442515"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "8:00 PM"], ["end_time", "9:00 PM"], ["created_at", "2016-12-01 22:38:41.444093"], ["updated_at", "2016-12-01 22:38:41.444093"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 28], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.445678"], ["updated_at", "2016-12-01 22:38:41.445678"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "9:00 PM"], ["end_time", "10:00 PM"], ["created_at", "2016-12-01 22:38:41.447241"], ["updated_at", "2016-12-01 22:38:41.447241"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 29], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.448823"], ["updated_at", "2016-12-01 22:38:41.448823"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "tu"], ["start_time", "10:00 PM"], ["end_time", "11:00 PM"], ["created_at", "2016-12-01 22:38:41.450406"], ["updated_at", "2016-12-01 22:38:41.450406"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 30], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.451985"], ["updated_at", "2016-12-01 22:38:41.451985"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "8:00 AM"], ["end_time", "9:00 AM"], ["created_at", "2016-12-01 22:38:41.453554"], ["updated_at", "2016-12-01 22:38:41.453554"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 31], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.455159"], ["updated_at", "2016-12-01 22:38:41.455159"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "9:00 AM"], ["end_time", "10:00 AM"], ["created_at", "2016-12-01 22:38:41.456716"], ["updated_at", "2016-12-01 22:38:41.456716"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 32], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.458260"], ["updated_at", "2016-12-01 22:38:41.458260"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "10:00 AM"], ["end_time", "11:00 AM"], ["created_at", "2016-12-01 22:38:41.459808"], ["updated_at", "2016-12-01 22:38:41.459808"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 33], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.461361"], ["updated_at", "2016-12-01 22:38:41.461361"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+0
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "11:00 AM"], ["end_time", "12:00 PM"], ["created_at", "2016-12-01 22:38:41.462905"], ["updated_at", "2016-12-01 22:38:41.462905"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["assignment_id", 34], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.464441"], ["updated_at", "2016-12-01 22:38:41.464441"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "12:00 PM"], ["end_time", "1:00 PM"], ["created_at", "2016-12-01 22:38:41.465995"], ["updated_at", "2016-12-01 22:38:41.465995"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mAssignment Load (0.1ms)[0m  [1mSELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)[0m  [["user_id", 3]]
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "1:00 PM"], ["end_time", "2:00 PM"], ["created_at", "2016-12-01 22:38:41.469871"], ["updated_at", "2016-12-01 22:38:41.469871"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mAssignment Load (0.1ms)[0m  SELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)  [["user_id", 3]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "2:00 PM"], ["end_time", "3:00 PM"], ["created_at", "2016-12-01 22:38:41.503856"], ["updated_at", "2016-12-01 22:38:41.503856"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mAssignment Load (0.1ms)[0m  [1mSELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)[0m  [["user_id", 3]]
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "3:00 PM"], ["end_time", "4:00 PM"], ["created_at", "2016-12-01 22:38:41.508406"], ["updated_at", "2016-12-01 22:38:41.508406"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mAssignment Load (0.1ms)[0m  SELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)  [["user_id", 3]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["user_id", 3], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "4:00 PM"], ["end_time", "5:00 PM"], ["created_at", "2016-12-01 22:38:41.513099"], ["updated_at", "2016-12-01 22:38:41.513099"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mAssignment Load (0.1ms)[0m  [1mSELECT "assignments".* FROM "assignments" WHERE "assignments"."user_id" = ? AND (assignments_week_id=1)[0m  [["user_id", 3]]
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "5:00 PM"], ["end_time", "6:00 PM"], ["created_at", "2016-12-01 22:38:41.517917"], ["updated_at", "2016-12-01 22:38:41.517917"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 40], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.519854"], ["updated_at", "2016-12-01 22:38:41.519854"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "6:00 PM"], ["end_time", "7:00 PM"], ["created_at", "2016-12-01 22:38:41.521747"], ["updated_at", "2016-12-01 22:38:41.521747"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 41], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.523416"], ["updated_at", "2016-12-01 22:38:41.523416"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "7:00 PM"], ["end_time", "8:00 PM"], ["created_at", "2016-12-01 22:38:41.525133"], ["updated_at", "2016-12-01 22:38:41.525133"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 42], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.526756"], ["updated_at", "2016-12-01 22:38:41.526756"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "8:00 PM"], ["end_time", "9:00 PM"], ["created_at", "2016-12-01 22:38:41.528474"], ["updated_at", "2016-12-01 22:38:41.528474"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 43], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.530202"], ["updated_at", "2016-12-01 22:38:41.530202"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "9:00 PM"], ["end_time", "10:00 PM"], ["created_at", "2016-12-01 22:38:41.531892"], ["updated_at", "2016-12-01 22:38:41.531892"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 44], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.533482"], ["updated_at", "2016-12-01 22:38:41.533482"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "w"], ["start_time", "10:00 PM"], ["end_time", "11:00 PM"], ["created_at", "2016-12-01 22:38:41.535147"], ["updated_at", "2016-12-01 22:38:41.535147"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 45], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.536857"], ["updated_at", "2016-12-01 22:38:41.536857"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "8:00 AM"], ["end_time", "9:00 AM"], ["created_at", "2016-12-01 22:38:41.538565"], ["updated_at", "2016-12-01 22:38:41.538565"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 46], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.540272"], ["updated_at", "2016-12-01 22:38:41.540272"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "9:00 AM"], ["end_time", "10:00 AM"], ["created_at", "2016-12-01 22:38:41.541982"], ["updated_at", "2016-12-01 22:38:41.541982"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 47], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.543675"], ["updated_at", "2016-12-01 22:38:41.543675"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "10:00 AM"], ["end_time", "11:00 AM"], ["created_at", "2016-12-01 22:38:41.545331"], ["updated_at", "2016-12-01 22:38:41.545331"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 48], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.547127"], ["updated_at", "2016-12-01 22:38:41.547127"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "11:00 AM"], ["end_time", "12:00 PM"], ["created_at", "2016-12-01 22:38:41.548754"], ["updated_at", "2016-12-01 22:38:41.548754"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 49], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.550448"], ["updated_at", "2016-12-01 22:38:41.550448"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "12:00 PM"], ["end_time", "1:00 PM"], ["created_at", "2016-12-01 22:38:41.552284"], ["updated_at", "2016-12-01 22:38:41.552284"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 50], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.553988"], ["updated_at", "2016-12-01 22:38:41.553988"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "1:00 PM"], ["end_time", "2:00 PM"], ["created_at", "2016-12-01 22:38:41.555618"], ["updated_at", "2016-12-01 22:38:41.555618"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 51], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.557360"], ["updated_at", "2016-12-01 22:38:41.557360"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "2:00 PM"], ["end_time", "3:00 PM"], ["created_at", "2016-12-01 22:38:41.558965"], ["updated_at", "2016-12-01 22:38:41.558965"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 52], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.560619"], ["updated_at", "2016-12-01 22:38:41.560619"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "3:00 PM"], ["end_time", "4:00 PM"], ["created_at", "2016-12-01 22:38:41.562314"], ["updated_at", "2016-12-01 22:38:41.562314"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 53], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.563935"], ["updated_at", "2016-12-01 22:38:41.563935"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "4:00 PM"], ["end_time", "5:00 PM"], ["created_at", "2016-12-01 22:38:41.565566"], ["updated_at", "2016-12-01 22:38:41.565566"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 54], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.567243"], ["updated_at", "2016-12-01 22:38:41.567243"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "5:00 PM"], ["end_time", "6:00 PM"], ["created_at", "2016-12-01 22:38:41.568867"], ["updated_at", "2016-12-01 22:38:41.568867"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 55], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.570850"], ["updated_at", "2016-12-01 22:38:41.570850"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "6:00 PM"], ["end_time", "7:00 PM"], ["created_at", "2016-12-01 22:38:41.572577"], ["updated_at", "2016-12-01 22:38:41.572577"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 56], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.574313"], ["updated_at", "2016-12-01 22:38:41.574313"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "7:00 PM"], ["end_time", "8:00 PM"], ["created_at", "2016-12-01 22:38:41.576048"], ["updated_at", "2016-12-01 22:38:41.576048"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 57], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.577753"], ["updated_at", "2016-12-01 22:38:41.577753"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "8:00 PM"], ["end_time", "9:00 PM"], ["created_at", "2016-12-01 22:38:41.579469"], ["updated_at", "2016-12-01 22:38:41.579469"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 58], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.581285"], ["updated_at", "2016-12-01 22:38:41.581285"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "9:00 PM"], ["end_time", "10:00 PM"], ["created_at", "2016-12-01 22:38:41.582997"], ["updated_at", "2016-12-01 22:38:41.582997"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 59], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.584647"], ["updated_at", "2016-12-01 22:38:41.584647"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "th"], ["start_time", "10:00 PM"], ["end_time", "11:00 PM"], ["created_at", "2016-12-01 22:38:41.586330"], ["updated_at", "2016-12-01 22:38:41.586330"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 60], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.588018"], ["updated_at", "2016-12-01 22:38:41.588018"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "8:00 AM"], ["end_time", "9:00 AM"], ["created_at", "2016-12-01 22:38:41.589740"], ["updated_at", "2016-12-01 22:38:41.589740"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 61], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.591440"], ["updated_at", "2016-12-01 22:38:41.591440"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "9:00 AM"], ["end_time", "10:00 AM"], ["created_at", "2016-12-01 22:38:41.593161"], ["updated_at", "2016-12-01 22:38:41.593161"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 62], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.594868"], ["updated_at", "2016-12-01 22:38:41.594868"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "10:00 AM"], ["end_time", "11:00 AM"], ["created_at", "2016-12-01 22:38:41.596776"], ["updated_at", "2016-12-01 22:38:41.596776"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 63], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.598706"], ["updated_at", "2016-12-01 22:38:41.598706"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "11:00 AM"], ["end_time", "12:00 PM"], ["created_at", "2016-12-01 22:38:41.600511"], ["updated_at", "2016-12-01 22:38:41.600511"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 64], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.602369"], ["updated_at", "2016-12-01 22:38:41.602369"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "12:00 PM"], ["end_time", "1:00 PM"], ["created_at", "2016-12-01 22:38:41.604202"], ["updated_at", "2016-12-01 22:38:41.604202"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 65], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.606058"], ["updated_at", "2016-12-01 22:38:41.606058"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "1:00 PM"], ["end_time", "2:00 PM"], ["created_at", "2016-12-01 22:38:41.607974"], ["updated_at", "2016-12-01 22:38:41.607974"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 66], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.609867"], ["updated_at", "2016-12-01 22:38:41.609867"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "2:00 PM"], ["end_time", "3:00 PM"], ["created_at", "2016-12-01 22:38:41.611725"], ["updated_at", "2016-12-01 22:38:41.611725"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 67], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.613602"], ["updated_at", "2016-12-01 22:38:41.613602"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "3:00 PM"], ["end_time", "4:00 PM"], ["created_at", "2016-12-01 22:38:41.615488"], ["updated_at", "2016-12-01 22:38:41.615488"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 68], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.617284"], ["updated_at", "2016-12-01 22:38:41.617284"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "4:00 PM"], ["end_time", "5:00 PM"], ["created_at", "2016-12-01 22:38:41.619109"], ["updated_at", "2016-12-01 22:38:41.619109"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 69], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.620879"], ["updated_at", "2016-12-01 22:38:41.620879"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "5:00 PM"], ["end_time", "6:00 PM"], ["created_at", "2016-12-01 22:38:41.622683"], ["updated_at", "2016-12-01 22:38:41.622683"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 70], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.624506"], ["updated_at", "2016-12-01 22:38:41.624506"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "6:00 PM"], ["end_time", "7:00 PM"], ["created_at", "2016-12-01 22:38:41.626321"], ["updated_at", "2016-12-01 22:38:41.626321"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 71], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.628074"], ["updated_at", "2016-12-01 22:38:41.628074"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "7:00 PM"], ["end_time", "8:00 PM"], ["created_at", "2016-12-01 22:38:41.629834"], ["updated_at", "2016-12-01 22:38:41.629834"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 72], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.631528"], ["updated_at", "2016-12-01 22:38:41.631528"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "8:00 PM"], ["end_time", "9:00 PM"], ["created_at", "2016-12-01 22:38:41.633303"], ["updated_at", "2016-12-01 22:38:41.633303"]]
+  [1m[35m (0.0ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 73], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.635080"], ["updated_at", "2016-12-01 22:38:41.635080"]]
+  [1m[36m (0.0ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+0
+  [1m[35m (0.0ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "assignments" ("user_id", "facility_id", "assignments_week_id", "day", "start_time", "end_time", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["user_id", 2], ["facility_id", 1], ["assignments_week_id", 1], ["day", "f"], ["start_time", "9:00 PM"], ["end_time", "10:00 PM"], ["created_at", "2016-12-01 22:38:41.636844"], ["updated_at", "2016-12-01 22:38:41.636844"]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.0ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "subs" ("assignment_id", "assignments_week_id", "comments", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["assignment_id", 74], ["assignments_week_id", 1], ["comments", ""], ["created_at", "2016-12-01 22:38:41.638609"], ["updated_at", "2016-12-01 22:38:41.638609"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/assignments_weeks.1
+Completed 302 Found in 314ms (ActiveRecord: 31.3ms)
+Started GET "/assignments_weeks.1" for 127.0.0.1 at 2016-12-01 22:38:41 +0000
+Processing by AssignmentsWeeksController#show as 
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mAssignmentsWeek Load (0.1ms)[0m  [1mSELECT "assignments_weeks".* FROM "assignments_weeks"[0m
+  [1m[35mAssignmentsWeek Load (0.0ms)[0m  SELECT  "assignments_weeks".* FROM "assignments_weeks" WHERE "assignments_weeks"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mAssignmentsWeek Load (0.1ms)[0m  [1mSELECT "assignments_weeks".* FROM "assignments_weeks"  ORDER BY "assignments_weeks"."created_at" DESC[0m
+  [1m[35mFacility Load (0.2ms)[0m  SELECT "facilities".* FROM "facilities"
+  [1m[36mAssignment Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "assignments" WHERE "assignments"."assignments_week_id" = ? LIMIT 1[0m  [["assignments_week_id", 1]]
+  Rendered assignments_weeks/show.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 13ms (Views: 5.6ms | ActiveRecord: 0.6ms)
+    When I follow "Automatically Generate Assignments"                                              # features/step_definitions/web_steps.rb:56
+    Then I should be on the first assignments week page                                             # features/step_definitions/web_steps.rb:230
+Started GET "/facilities.1?assignments_week_id=1" for 127.0.0.1 at 2016-12-01 22:38:41 +0000
+Processing by FacilitiesController#show as 
+  Parameters: {"assignments_week_id"=>"1"}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mFacility Load (0.2ms)[0m  [1mSELECT  "facilities".* FROM "facilities" WHERE "facilities"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mAssignmentsWeek Load (0.1ms)[0m  SELECT "assignments_weeks".* FROM "assignments_weeks"  ORDER BY "assignments_weeks"."created_at" DESC
+  [1m[36mAssignment Load (0.6ms)[0m  [1mSELECT "assignments".* FROM "assignments" WHERE "assignments"."facility_id" = ? AND (assignments_week_id=1)[0m  [["facility_id", 1]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mUser Load (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 3]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  Rendered layouts/_weekly_calendar.html.erb (5.1ms)
+  Rendered facilities/show.html.erb within layouts/application (11.0ms)
+Completed 200 OK in 109ms (Views: 25.1ms | ActiveRecord: 2.2ms)
+    When I follow "MMF"                                                                             # features/step_definitions/web_steps.rb:56
+    Then I should see "?????"                                                                       # features/step_definitions/web_steps.rb:105
+      expected to find text "?????" in "MMF 2016-10-31 to 2016-11-06 Time Sunday Monday Tuesday Wednesday Thursday Friday Saturday 08:00 AM - 09:00 AM XX XX XX XX XX 09:00 AM - 10:00 AM XX XX XX XX XX 10:00 AM - 11:00 AM XX XX XX XX XX 11:00 AM - 12:00 PM XX XX XX XX XX 12:00 PM - 01:00 PM Isaac XX Isaac XX XX 01:00 PM - 02:00 PM Isaac XX Isaac XX XX 02:00 PM - 03:00 PM Isaac XX Isaac XX XX 03:00 PM - 04:00 PM Isaac XX Isaac XX XX 04:00 PM - 05:00 PM Isaac XX Isaac XX XX 05:00 PM - 06:00 PM XX XX XX XX XX 06:00 PM - 07:00 PM XX XX XX XX XX 07:00 PM - 08:00 PM XX XX XX XX XX 08:00 PM - 09:00 PM XX XX XX XX XX 09:00 PM - 10:00 PM XX XX XX XX XX 10:00 PM - 11:00 PM XX XX XX XX Dashboard Preferences Edit Preferences Submitted Preferences Switch Assignments Request New Sub View Sub Requests Latest Week Employees Admin New Facility New Week Manual Assignment Settings Logged in as admin@cafe-hub.com. Edit profile | Logout" (RSpec::Expectations::ExpectationNotMetError)
+      ./features/step_definitions/web_steps.rb:107:in `/^(?:|I )should see "([^"]*)"$/'
+      features/generate_assignments.feature:30:in `Then I should see "?????"'
+    Then I should see "Isaac" in the time slot for "12:00 PM - 01:00 PM" on "Monday"                # features/step_definitions/user_steps.rb:43
+    And I should see "Isaac" in the time slot for "01:00 PM - 02:00 PM" on "Monday"                 # features/step_definitions/user_steps.rb:43
+    And I should see "Isaac" in the time slot for "02:00 PM - 03:00 PM" on "Monday"                 # features/step_definitions/user_steps.rb:43
+    And I should see "Isaac" in the time slot for "03:00 PM - 04:00 PM" on "Monday"                 # features/step_definitions/user_steps.rb:43
+    And I should see "Isaac" in the time slot for "04:00 PM - 05:00 PM" on "Monday"                 # features/step_definitions/user_steps.rb:43
+    And I should see "Isaac" in the time slot for "12:00 PM - 01:00 PM" on "Wednesday"              # features/step_definitions/user_steps.rb:43
+    And I should see "Isaac" in the time slot for "04:00 PM - 05:00 PM" on "Wednesday"              # features/step_definitions/user_steps.rb:43
+  [1m[35m (0.3ms)[0m  rollback transaction
+
+Failing Scenarios:
+cucumber features/generate_assignments.feature:16 # Scenario: Admin should be able to generate schedules based on user preferences and facility times
+
+1 scenario (1 failed)
+19 steps (1 failed, 7 skipped, 11 passed)
+0m1.211s
+Coverage report generated for Cucumber Features to /home/ubuntu/workspace/Cafe-Hub/coverage. 469 / 670 LOC (70.0%) covered.

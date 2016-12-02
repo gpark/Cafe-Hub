@@ -1,8 +1,33 @@
+<%= stylesheet_link_tag "users" %>
 <h3>All Employees</h3>
 <div class="row">
-<div class="col-md-2">
-<div class="list-group">
-<% for user in @users %>
-    <%= link_to(user.name, '/users/'+user.id.to_s, { :class=>"list-group-item"}) %>
-<% end %>
-</div></div></div>
+    <div class="col-md-2">
+        <div class="list-group">
+        <% for user in @users %>
+            <%= link_to(user.name, '/users/'+user.id.to_s, {:class=>"list-group-item"}) %>
+        <% end %>
+        </div>
+    </div>
+    <% if current_user.admin? %>
+        <div class="col-md-2">
+            <%= form_tag('/users/privileges') do %>
+                <div class="list-group">
+                    <% for user in @users %>
+                        <div class="list-group-item">
+                            <% if user.admin? %>
+                                <%= check_box_tag "tag_ids[]", user.id, false, {:disabled=>true, :id=>"tag_id_#{user.id}"} %>
+                                (is already admin)
+                            <% else %>
+                                <%= check_box_tag "tag_ids[]", user.id, false, {:id=>"tag_id_#{user.id}"} %>
+                            <% end %>
+                        </div>
+                    <% end %>
+                </div>
+                Confirm with admin code:
+                <%= text_field_tag 'confirm' %>
+                <%= submit_tag 'Make Admin', {:class=>"btn btn-default"} %>
+            <% end %>
+        </div>
+        
+    <% end %>
+</div>
