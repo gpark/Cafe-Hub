@@ -24,4 +24,4 @@ Background: admin and non-admin user accounts exist
     And I am logged in as "Isaac"
     And I try to go to the settings page
     Then I should not see any alert message
-    And I should see "Sign-up Code"
+    And I should see "sign_up_code"
