@@ -5,8 +5,45 @@ class AssignmentsWeek < ActiveRecord::Base
         return self.start_date.to_s + " to " + self.end_date.to_s
     end
     
-    def pick_random_assignments(prefer, dont_care, rather_not, day, needed_num, 
-                            facility_id, start_time, assigned_enough, previously_chosen)
+    def assign_chosen(chosen, assignment_hash, availabilities, assigned_enough)
+        prefer = availabilities['prefer']
+        dont_care = availabilities['dont_care']
+        rather_not = availabilities['rather_not']
+        start_time = assignment_hash['start_time']
+        facility_id = assignment_hash['facility_id']
+        day = assignment_hash['day']
+        next_hour = start_time+1
+        if next_hour == 24
+            next_hour = 0
+        end
+        free_next = true
+        for user_id in chosen
+            db_entry = Assignment.create(user_id: user_id, facility_id: facility_id, 
+                            assignments_week_id: self.id, day: day, start_time: start_time.to_twelve_form, 
+                            end_time: next_hour.to_twelve_form)
+            if user_id == 2
+                Sub.create!(assignment_id: db_entry.id, assignments_week_id: self.id, comments: '')   
+            end
+            prefer[day][start_time].delete(user_id)
+            dont_care[day][start_time].delete(user_id)
+            rather_not[day][start_time].delete(user_id)
+            if user_id != 2 && db_entry.user.hours_assigned(self.id) > 10
+               assigned_enough.push(user_id) 
+               free_next = false
+            end
+            if !prefer[day][next_hour].include?(user_id) && !dont_care[day][next_hour].include?(user_id) && !rather_not[day][next_hour].include?(user_id)
+                free_next = false
+            end
+        end 
+        return free_next, assigned_enough
+    end
+    
+    def pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, previously_chosen)
+        start_time = assignment_hash['start_time']
+        day = assignment_hash['day']                            
+        prefer = availabilities['prefer']
+        dont_care = availabilities['dont_care']
+        rather_not = availabilities['rather_not']
         if previously_chosen.size > 0
             chosen = previously_chosen
         else
@@ -35,29 +72,7 @@ class AssignmentsWeek < ActiveRecord::Base
                 end
             end
         end
-        free_next = true
-        next_hour = start_time+1
-        if next_hour == 24
-            next_hour = 0
-        end
-        for user_id in chosen
-            db_entry = Assignment.create(user_id: user_id, facility_id: facility_id, 
-                            assignments_week_id: self.id, day: day, start_time: start_time.to_twelve_form, 
-                            end_time: next_hour.to_twelve_form)
-            if user_id == 2
-                Sub.create!(assignment_id: db_entry.id, assignments_week_id: self.id, comments: '')   
-            end
-            prefer[day][start_time].delete(user_id)
-            dont_care[day][start_time].delete(user_id)
-            rather_not[day][start_time].delete(user_id)
-            if user_id != 2 && db_entry.user.hours_assigned(self.id) > 10
-               assigned_enough.push(user_id) 
-               free_next = false
-            end
-            if !prefer[day][next_hour].include?(user_id) && !dont_care[day][next_hour].include?(user_id) && !rather_not[day][next_hour].include?(user_id)
-                free_next = false
-            end
-        end
+        free_next, assigned_enough = assign_chosen(chosen, assignment_hash, availabilities, assigned_enough)
         if free_next
 	        return assigned_enough, chosen
 	    else
@@ -73,6 +88,7 @@ class AssignmentsWeek < ActiveRecord::Base
         prefer = {}
         dont_care = {}
         rather_not = {}
+        availabilities = {"prefer" => prefer, "dont_care" => dont_care, "rather_not" => rather_not}
     	days = ["su", "m", "tu", "w", "th", "f", "sa"]
         for day in days
             day_hash1 = {}
@@ -147,16 +163,18 @@ class AssignmentsWeek < ActiveRecord::Base
                         chosen = []
                         if start_test < end_test
                         	while start_test < end_test
-                        	    assigned_enough, chosen = pick_random_assignments(prefer, dont_care, 
-                        	        rather_not, storage[counter][0], needed_num, facility.id, 
-                        	        start_test, assigned_enough, chosen)
+                        	    assignment_hash = { 'day' => storage[counter][0], 
+                        	                        'facility_id' => facility.id, 
+                        	                        'start_time' => start_test}
+                        	    assigned_enough, chosen = pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, chosen)
                         	    start_test += 1
                         	end
                     	else
                     	    while start_test < 24
-                    	        assigned_enough, chosen = pick_random_assignments(prefer, dont_care, 
-                        	        rather_not, storage[counter][0], needed_num, facility.id, 
-                        	        start_test, assigned_enough, chosen)
+                                assignment_hash = { 'day' => storage[counter][0], 
+                        	                        'facility_id' => facility.id, 
+                        	                        'start_time' => start_test}                	    
+                    	        assigned_enough, chosen = pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, chosen)
                         	    start_test += 1
                     	    end
                     	    
@@ -168,9 +186,10 @@ class AssignmentsWeek < ActiveRecord::Base
                     	    
                     	    temp_start = 0
                     	    while temp_start < end_test
-                    	        assigned_enough, chosen = pick_random_assignments(prefer, dont_care, 
-                        	        rather_not, storage[temp_counter][0], needed_num, facility.id, 
-                        	        temp_start, assigned_enough, chosen)
+                                assignment_hash = { 'day' => storage[temp_counter][0], 
+                        	                        'facility_id' => facility.id, 
+                        	                        'start_time' => temp_start}                	    
+                    	        assigned_enough, chosen = pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, chosen)                        	        
                         	    temp_start += 1                        	        
                     	    end
                         end
