@@ -9,16 +9,30 @@ class UsersController < ApplicationController
   def destroy
     assignment = Assignment.find(params[:assignment_id])
     user = assignment.user_id
+    week_id = assignment.assignments_week_id
     assignment.destroy
-    redirect_to "/users/"+user.to_s+"/assignments", notice: "Assignment deleted."
+    redirect_to :controller => 'users', :action => 'assignments', :id => user, :assignments_week_id => week_id, notice: "Assignment deleted."
   end
   
   def delete_assignments
     @user = User.find(params[:id])
     @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
+    if params.key?(:assignments_week_id)
+      @chosen_week = params[:assignments_week_id]
+    else
+      if @weeks.length > 0
+        @chosen_week = @weeks[0][1]
+      else
+        @chosen_week = 0
+      end    
+    end
     assignments = @user.assignments
     if !assignments.empty?
-        assignments = assignments.where("assignments_week_id="+@weeks[0][1].to_s)
+        if @chosen_week == 0
+          assignments = {}
+        else
+          assignments = assignments.where("assignments_week_id="+@chosen_week.to_s)
+        end
     end
     @assignments = assignments.map{|item| [item, item.id]}
     render 'delete'
