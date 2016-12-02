@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
             @preference_entry = @preference.preference_entries.new
             @entry_occurence = @preference_entry.occurences.new            
         end
-        times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
+        times = get_all_times
         @start_times = ["Select Start Time"] + times
         @end_times = ["Select End Time"] + times
         render 'new_preference'
@@ -46,15 +46,7 @@ class DashboardController < ApplicationController
         end
         @user = current_user
         @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
-        if params.key?(:assignments_week_id)
-            @chosen_week = params[:assignments_week_id]
-        else
-            if @weeks.length > 0
-                @chosen_week = @weeks[0][1]
-            else
-                @chosen_week = 0
-            end    
-        end
+        @chosen_week = get_chosen_week(@weeks, params)
         render 'dashboard'
     end
 end

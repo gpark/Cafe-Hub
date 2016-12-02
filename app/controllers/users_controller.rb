@@ -28,15 +28,7 @@ class UsersController < ApplicationController
     @username = @user.name
     @userid = @user.id
     @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
-    if params.key?(:assignments_week_id)
-      @chosen_week = params[:assignments_week_id]
-    else
-      if @weeks.length > 0
-        @chosen_week = @weeks[0][1]
-      else
-        @chosen_week = 0
-      end    
-    end
+    @chosen_week = get_chosen_week(@weeks, params)
     assignments = @user.assignments
     if !assignments.empty?
         if @chosen_week == 0
