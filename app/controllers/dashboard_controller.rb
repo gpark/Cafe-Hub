@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
             @preference_entry = @preference.preference_entries.new
             @entry_occurence = @preference_entry.occurences.new            
         end
-        times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
+        times = get_all_times
         @start_times = ["Select Start Time"] + times
         @end_times = ["Select End Time"] + times
         render 'new_preference'

@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
     return chosen_week
   end
   
+  def get_all_times
+    return ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
+  end
+  
   rescue_from CanCan::AccessDenied do |exception|
     flash[:warning] = exception.message
     redirect_to root_path, alert: flash[:warning]
