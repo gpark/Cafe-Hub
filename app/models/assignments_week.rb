@@ -133,7 +133,7 @@ class AssignmentsWeek < ActiveRecord::Base
                     no_pref_times.each do |cday, time_hash|
                         time_hash.each do |time, value|
                             if value
-                               availabilities['dont_care'][cday][time].push(user.id)
+                                availabilities['dont_care'][cday][time].push(user.id)
                             end
                         end
                     end
@@ -141,6 +141,10 @@ class AssignmentsWeek < ActiveRecord::Base
             end
         end 
         return availabilities
+    end
+    
+    def make_assignment_hash(day, start_time, facility)
+       return { 'day' => day, 'facility_id' => facility, 'start_time' => start_time}
     end
     
     #Method that is called to create assignments for assignments week
@@ -169,17 +173,13 @@ class AssignmentsWeek < ActiveRecord::Base
                         chosen = []
                         if start_test < end_test
                         	while start_test < end_test
-                        	    assignment_hash = { 'day' => storage[counter][0], 
-                        	                        'facility_id' => facility.id, 
-                        	                        'start_time' => start_test}
+                        	    assignment_hash = make_assignment_hash(storage[counter][0], start_test, facility.id)
                         	    assigned_enough, chosen = pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, chosen)
                         	    start_test += 1
                         	end
                     	else
                     	    while start_test < 24
-                                assignment_hash = { 'day' => storage[counter][0], 
-                        	                        'facility_id' => facility.id, 
-                        	                        'start_time' => start_test}                	    
+                                assignment_hash = make_assignment_hash(storage[counter][0], start_test, facility.id)               	    
                     	        assigned_enough, chosen = pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, chosen)
                         	    start_test += 1
                     	    end
@@ -192,9 +192,7 @@ class AssignmentsWeek < ActiveRecord::Base
                     	    
                     	    temp_start = 0
                     	    while temp_start < end_test
-                                assignment_hash = { 'day' => storage[temp_counter][0], 
-                        	                        'facility_id' => facility.id, 
-                        	                        'start_time' => temp_start}                	    
+                                assignment_hash = make_assignment_hash(storage[temp_counter][0], temp_start, facility.id)              	    
                     	        assigned_enough, chosen = pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, chosen)                        	        
                         	    temp_start += 1                        	        
                     	    end
