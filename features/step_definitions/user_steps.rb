@@ -11,7 +11,7 @@ end
 
 Given /^I am logged in as "([^"]*)"/ do |user|
     
-    user = User.where("name='"+user+"'")[0]
+    user = User.where("name = ?", user)[0]
     visit '/users/sign_in'
     fill_in "user_email", :with => user.email
 
@@ -25,7 +25,7 @@ Given /^I am logged in as "([^"]*)"/ do |user|
 end
 
 Given /^"([^"]*)" has preferences/ do |user, preferences_table|
-    user = User.where("name='"+user+"'")[0]
+    user = User.where("name = ?", user)[0]
     p = user.preferences.create!
     preferences_table.hashes.each do |preference_entry|
         entry = p.preference_entries.new({:preference_type => preference_entry["type"]})
