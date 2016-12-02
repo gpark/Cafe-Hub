@@ -9,10 +9,6 @@ Given /I log out/ do
    click_link("Logout")
 end
 
-Given /^User XX exists$/ do
-  User.create!(name: 'XX', email: 'xx@cafe-hub.com', password: 'xxxxxx', password_confirmation: 'xxxxxx', admin: false, sign_up_code: Setting.sign_up_code)
-end
-
 Given /^I am logged in as "([^"]*)"/ do |user|
     
     user = User.where("name='"+user+"'")[0]
@@ -63,7 +59,7 @@ Then /^I should see an alert message saying "([^"]*)"$/ do |message|
 end
 
 Then(/^I should not see any alert message$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  page.should_not have_selector ".alert"
 end
 
 Given(/^I select the first assignment from the dropdown$/) do

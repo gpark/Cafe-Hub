@@ -15,8 +15,8 @@ Background: admin and non-admin user accounts exist
     When I am on the all users page
     Then I should see "Isaac"
     When I check the checkbox next to "Isaac"
-    And I follow "Make Admin"
-    And I fill in "Sign up code" with "1234"
+    And I fill in "confirm" with "1234"
+    And I press "Make Admin"
     Then I should see an alert message saying "Admins updated"
     And I should be on the all users page
     And I should see admin tag next to "Isaac"
@@ -24,4 +24,4 @@ Background: admin and non-admin user accounts exist
     And I am logged in as "Isaac"
     And I try to go to the settings page
     Then I should not see any alert message
-    And I should see "Sign up code"
+    And I should see "Sign-up Code"

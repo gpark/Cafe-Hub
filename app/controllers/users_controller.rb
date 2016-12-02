@@ -15,7 +15,8 @@ class UsersController < ApplicationController
     user = assignment.user_id
     week_id = assignment.assignments_week_id
     assignment.destroy
-    redirect_to :controller => 'users', :action => 'assignments', :id => user, :assignments_week_id => week_id, notice: "Assignment deleted."
+    flash[:notice] = "Assignment deleted."
+    redirect_to :controller => 'users', :action => 'assignments', :id => user, :assignments_week_id => week_id
   end
   
   def delete_assignments
@@ -76,6 +77,23 @@ class UsersController < ApplicationController
   def all
     @users = User.all
     render 'all'
+  end
+  
+  def privileges
+    if not current_user.admin?
+      raise CanCan::AccessDenied.new
+    end
+    
+    if params[:confirm].to_s != Setting.sign_up_code.to_s
+      redirect_to users_all_path, alert: "Wrong code"
+    else
+      for tag_id in params[:tag_ids] do
+        user = User.find(tag_id)
+        user.admin = true
+        user.save!
+      end
+      redirect_to users_all_path, notice: "Admins updated"
+    end
   end
   
 end

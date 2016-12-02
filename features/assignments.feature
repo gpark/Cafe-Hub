@@ -103,10 +103,11 @@ Feature: Submit information for schedule generating
     | user_id | facility_id | assignments_week_id | start_time | end_time | day  |
     |    2    |      1      |        1            |   8:00 AM  |  9:00 AM | m    |
     When I am on Isaac's assigned schedule page
-    And I follow "Delete assignments"
+    And I follow "Delete Assignments"
     Then I should be on Isaac's delete assignments page
     When I select "MMF: M 8:00 AM - 9:00 AM" from "assignment_id"
     And I press "Delete"
+    Then I should see "Assignment deleted"
     Then I should see an alert message saying "Assignment deleted"
     And I should be on Isaac's assigned schedule page
     And I should not see "Isaac" in the time slot for "08:00 AM - 09:00 AM" on "Monday"

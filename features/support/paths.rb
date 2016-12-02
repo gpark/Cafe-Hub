@@ -61,7 +61,7 @@ module NavigationHelpers
     when /the all users page$/
       '/users/all'
       
-    when /Isaac's assigned schedule page $/
+    when /Isaac's assigned schedule page$/
       '/users/2'
       
     when /James' assigned schedule page$/
@@ -72,6 +72,9 @@ module NavigationHelpers
       
     when /the all substitutes page$/
       '/subs'
+      
+    when /Isaac's delete assignments page$/
+      '/users/2/delete_assignments'
       
     else
       # probably need this at some point
