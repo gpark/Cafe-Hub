@@ -18,7 +18,7 @@ Background: admin and non-admin user accounts exist
   Scenario: admin can change sign up code
     Given I am logged in as "Admin"
     When I am on the settings page
-    And I fill in "Sign up code" with "1111"
+    And I fill in "sign_up_code" with "1111"
     And I press "Update"
     Then I should see an alert message saying "Setting has updated"
     And the admin code should be "1111"

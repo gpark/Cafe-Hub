@@ -13,7 +13,7 @@ Background: sign up code should be set
     And I fill in "Password" with "JamesJames"
     And I fill in "Password confirmation" with "JamesJames"
     And I press "Sign up"
-    Then I should see "Sign up code is not included in the list"
+    Then I should see "Sign up code is incorrect"
     And I should be on the sign up post page
   
   Scenario: sign ups with code are allowed

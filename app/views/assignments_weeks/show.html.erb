@@ -1,6 +1,6 @@
 <h3>Week of <%= @assignments_week.to_s %>
 <%= form_tag(assignments_weeks_path, method: "get") do %>
-    <%= select_tag :chosen_week, options_for_select(@weeks, @assignments_week.id), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= select_tag :chosen_week, options_for_select(@weeks, @assignments_week.id), {class: "form-control form-control-wide"} %>
     <%= submit_tag("Select Week", class:"btn btn-default") %>
 <% end %>
 </h3>

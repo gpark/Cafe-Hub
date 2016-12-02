@@ -78,6 +78,8 @@ class UsersController < ApplicationController
     
     if params[:confirm].to_s != Setting.sign_up_code.to_s
       redirect_to users_all_path, alert: "Wrong code"
+    elsif params[:tag_ids].nil?
+      redirect_to users_all_path
     else
       for tag_id in params[:tag_ids] do
         user = User.find(tag_id)
