@@ -9,10 +9,6 @@ Given /I log out/ do
    click_link("Logout")
 end
 
-Given /^User XX exists$/ do
-  User.create!(name: 'XX', email: 'xx@cafe-hub.com', password: 'xxxxxx', password_confirmation: 'xxxxxx', admin: false, sign_up_code: Setting.sign_up_code, id: 2)
-end
-
 Given /^I am logged in as "([^"]*)"/ do |user|
     
     user = User.where("name='"+user+"'")[0]

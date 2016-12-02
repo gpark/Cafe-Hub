@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag "users" %>
 <h3>All Employees</h3>
 <div class="row">
     <div class="col-md-2">
@@ -17,7 +18,7 @@
                                 <%= check_box_tag "tag_ids[]", user.id, false, {:disabled=>true, :id=>"tag_id_#{user.id}"} %>
                                 (is already admin)
                             <% else %>
-                                <%= check_box_tag "tag_ids[]", user.id, false, {:class=>"list-group-item", :id=>"tag_id_#{user.id}"} %>
+                                <%= check_box_tag "tag_ids[]", user.id, false, {:id=>"tag_id_#{user.id}"} %>
                             <% end %>
                         </div>
                     <% end %>

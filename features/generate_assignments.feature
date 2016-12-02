@@ -4,10 +4,10 @@ Feature: Admin can gereate assignments to employees
   
 Background: We have one user with limited availabilities and an admin
   Given there is an admin account
-  And User XX exists
   And I am logged in as "Admin"
   And the following users exists:
   | email                   | password      | password_confirmation      | name  |
+  | xx@cafe-hub.com         | xxxxxx        | xxxxxx                     | XX    |
   | isaac@james.com         | JamesJames    | JamesJames                 | Isaac |
   And the following assignments week exists:
   | start_date | end_date   |
