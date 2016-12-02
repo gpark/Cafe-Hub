@@ -66,10 +66,7 @@ class AssignmentsWeek < ActiveRecord::Base
         end
     end
     
-    def calculate_availabilities
-        self.assignments.destroy_all
-        @users = User.where.not(name: 'XX')
-        @facilities = Facility.all
+    def initialize_availabilities
         prefer = {}
         dont_care = {}
         rather_not = {}
@@ -88,7 +85,42 @@ class AssignmentsWeek < ActiveRecord::Base
         	dont_care[day] = day_hash2
         	rather_not[day] = day_hash3
         end
-
+        return availabilities
+    end
+    
+    def initialize_no_pref
+        no_pref_times = {}
+        days = ["su", "m", "tu", "w", "th", "f", "sa"]
+        for day in days
+        	day_hash = {}
+        	(0..23).each do |hour|
+        	    day_hash[hour] = true
+        	end
+        	no_pref_times[day] = day_hash
+        end
+        return no_pref_times
+    end
+    
+    def populate_preference(pref, availabilities, no_pref_times, user_id)
+        pref_entries_hash = pref.entries_hash("12:00 AM")
+        pref_entries_hash.each do |cday, time_hash|
+            time_hash.each do |time, pref_type|
+                pref_type = pref_type["data"]
+                twentyfour_form = time.split(" - ")[0].to_twentyfour
+                if pref_type.include?("Prefer")
+                    availabilities['prefer'][cday.to_s][twentyfour_form].push(user_id)
+                elsif pref_type.include?("R/N Work")
+                    availabilities['rather_not'][cday.to_s][twentyfour_form].push(user_id)
+                end
+                no_pref_times[cday.to_s][twentyfour_form] = false
+            end
+        end    
+        return no_pref_times
+    end
+    
+    def calculate_availabilities
+        @users = User.where.not(name: 'XX')
+        availabilities = initialize_availabilities
         #ASSIGNMENTS & HASH TABLE OF USER PREFERENCES
         if @users.nil?
             return availabilities
@@ -96,31 +128,12 @@ class AssignmentsWeek < ActiveRecord::Base
             @users.each do |user|
                 pref = user.preferences.order(created_at: :desc).first 
                 if pref != nil
-                    no_pref_times = {}
-                    for day in days
-                    	day_hash = {}
-                    	(0..23).each do |hour|
-                    	    day_hash[hour] = true
-                    	end
-                    	no_pref_times[day] = day_hash
-                    end                    
-                    pref_entries_hash = pref.entries_hash("12:00 AM")
-                    pref_entries_hash.each do |cday, time_hash|
-                        time_hash.each do |time, pref_type|
-                            pref_type = pref_type["data"]
-                            twentyfour_form = time.split(" - ")[0].to_twentyfour
-                            if pref_type.include?("Prefer")
-                                prefer[cday.to_s][twentyfour_form].push(user.id)
-                            elsif pref_type.include?("R/N Work")
-                                rather_not[cday.to_s][twentyfour_form].push(user.id)
-                            end
-                            no_pref_times[cday.to_s][twentyfour_form] = false
-                        end
-                    end
+                    no_pref_times = initialize_no_pref
+                    no_pref_times = populate_preference(pref, availabilities, no_pref_times, user.id)
                     no_pref_times.each do |cday, time_hash|
                         time_hash.each do |time, value|
                             if value
-                               dont_care[cday][time].push(user.id)
+                               availabilities['dont_care'][cday][time].push(user.id)
                             end
                         end
                     end
@@ -132,6 +145,8 @@ class AssignmentsWeek < ActiveRecord::Base
     
     #Method that is called to create assignments for assignments week
     def generate_assignments
+        self.assignments.destroy_all
+        @facilities = Facility.all
         availabilities = calculate_availabilities
 
         # Fill facilities people needs with availabilities
