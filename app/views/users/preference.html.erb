@@ -1,9 +1,9 @@
 <h3><%= @username %>'s Preference Schedule</h3>
 <ul class="nav nav-tabs">
-  <li role="presentation"><%= link_to("Assigned Schedule", "/users/"+sanitize(@userid.to_s)+"/assignments") %></li>
-  <li role="presentation" class="active"><%= link_to("Preference Schedule", "/users/"+sanitize(@userid.to_s)+"/preference") %></li>
+  <li role="presentation"><%= link_to("Assigned Schedule", user_assignments_path(@userid)) %></li>
+  <li role="presentation" class="active"><%= link_to("Preference Schedule", user_preference_path(@userid)) %></li>
   <% if current_user.admin? %>
-    <li role="presentation"><%= link_to("Delete Assignments", "/users/"+sanitize(@userid.to_s)+"/delete_assignments") %></li>
+    <li role="presentation"><%= link_to("Delete Assignments", user_delete_assignments_path(@userid)) %></li>
   <% end %>
 </ul>
 <%= render partial: "layouts/weekly_calendar", locals: { all_times: Preference.all_times, entries_hash: @preference_hash} %>
