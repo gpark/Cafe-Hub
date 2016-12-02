@@ -6,11 +6,7 @@ class AssignmentsWeek < ActiveRecord::Base
     end
     
     def assign_chosen(chosen, assignment_hash, availabilities, assigned_enough)
-        prefer = availabilities['prefer']
-        dont_care = availabilities['dont_care']
-        rather_not = availabilities['rather_not']
         start_time = assignment_hash['start_time']
-        facility_id = assignment_hash['facility_id']
         day = assignment_hash['day']
         next_hour = start_time+1
         if next_hour == 24
@@ -18,20 +14,20 @@ class AssignmentsWeek < ActiveRecord::Base
         end
         free_next = true
         for user_id in chosen
-            db_entry = Assignment.create(user_id: user_id, facility_id: facility_id, 
+            db_entry = Assignment.create(user_id: user_id, facility_id: assignment_hash['facility_id'],  
                             assignments_week_id: self.id, day: day, start_time: start_time.to_twelve_form, 
                             end_time: next_hour.to_twelve_form)
             if user_id == 2
                 Sub.create!(assignment_id: db_entry.id, assignments_week_id: self.id, comments: '')   
             end
-            prefer[day][start_time].delete(user_id)
-            dont_care[day][start_time].delete(user_id)
-            rather_not[day][start_time].delete(user_id)
+            availabilities['prefer'][day][start_time].delete(user_id)
+            availabilities['dont_care'][day][start_time].delete(user_id)
+            availabilities['rather_not'][day][start_time].delete(user_id)
             if user_id != 2 && db_entry.user.hours_assigned(self.id) > 10
                assigned_enough.push(user_id) 
                free_next = false
             end
-            if !prefer[day][next_hour].include?(user_id) && !dont_care[day][next_hour].include?(user_id) && !rather_not[day][next_hour].include?(user_id)
+            if !availabilities['prefer'][day][next_hour].include?(user_id) && !availabilities['dont_care'][day][next_hour].include?(user_id) && !availabilities['rather_not'][day][next_hour].include?(user_id)
                 free_next = false
             end
         end 
@@ -41,35 +37,25 @@ class AssignmentsWeek < ActiveRecord::Base
     def pick_random_assignments(availabilities, assignment_hash, needed_num, assigned_enough, previously_chosen)
         start_time = assignment_hash['start_time']
         day = assignment_hash['day']                            
-        prefer = availabilities['prefer']
-        dont_care = availabilities['dont_care']
-        rather_not = availabilities['rather_not']
         if previously_chosen.size > 0
             chosen = previously_chosen
         else
-            ppl = prefer[day][start_time].select do |user_id|
-                !assigned_enough.include?(user_id)
-            end
-            chosen = ([ppl.size, needed_num].min).times.map{Random.rand(ppl.size)}.map!{|x| ppl[x]}.to_set
-            if chosen.size < needed_num
+            chosen = Set.new
+            choose_from = [availabilities['prefer'][day][start_time], availabilities['dont_care'][day][start_time], availabilities['rather_not'][day][start_time]]
+            index = 0
+            while chosen.size < needed_num
                 still_needed = needed_num - chosen.size
-                more_ppl = dont_care[day][start_time].select do |user_id|
-                    !assigned_enough.include?(user_id)
-                end
-                more_chosen = ([more_ppl.size, still_needed].min).times.map{Random.rand(more_ppl.size)}.map!{|x| more_ppl[x]}
-                chosen = chosen + more_chosen
-                if chosen.size < needed_num
-                    really_needed = needed_num - chosen.size
-                    even_more_ppl = rather_not[day][start_time].select do |user_id|
+                if index > 2
+                    chosen = chosen.to_a if chosen.class == Set
+                    chosen.push(2)
+                else
+                    ppl = choose_from[index].select do |user_id|
                         !assigned_enough.include?(user_id)
                     end
-                    last_chosen = ([even_more_ppl.size, really_needed].min).times.map{Random.rand(even_more_ppl.size)}.map!{|x| even_more_ppl[x]}
-                    chosen = chosen + last_chosen
-                    chosen = chosen.to_a
-                    while chosen.size < needed_num
-                        chosen.push(2)      #user XX id should be 2
-                    end
+                    newly_chosen = ([ppl.size, still_needed].min).times.map{Random.rand(ppl.size)}.map!{|x| ppl[x]}
+                    chosen = chosen + newly_chosen
                 end
+                index += 1
             end
         end
         free_next, assigned_enough = assign_chosen(chosen, assignment_hash, availabilities, assigned_enough)
@@ -80,8 +66,7 @@ class AssignmentsWeek < ActiveRecord::Base
         end
     end
     
-    #Method that is called to create assignments for assignments week
-    def generate_assignments
+    def calculate_availabilities
         self.assignments.destroy_all
         @users = User.where.not(name: 'XX')
         @facilities = Facility.all
@@ -106,7 +91,7 @@ class AssignmentsWeek < ActiveRecord::Base
 
         #ASSIGNMENTS & HASH TABLE OF USER PREFERENCES
         if @users.nil?
-            return
+            return availabilities
         else
             @users.each do |user|
                 pref = user.preferences.order(created_at: :desc).first 
@@ -141,7 +126,13 @@ class AssignmentsWeek < ActiveRecord::Base
                     end
                 end
             end
-        end  
+        end 
+        return availabilities
+    end
+    
+    #Method that is called to create assignments for assignments week
+    def generate_assignments
+        availabilities = calculate_availabilities
 
         # Fill facilities people needs with availabilities
         if @facilities.nil?
