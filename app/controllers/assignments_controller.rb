@@ -7,7 +7,7 @@ class AssignmentsController < ApplicationController
         @users = User.all.collect {|a| [a.name, a.id]}
         @days = [["Su", "su"], ["M", "m"], ["Tu", "tu"], ["W", "w"], ["Th", "th"], ["F", "f"], ["Sa", "sa"]]
         @facilities = Facility.all.collect {|a| [a.name, a.id]}
-        @times = ["12:00 AM"] + (1..11).map {|h| "#{h}:00 AM"}.to_a + ["12:00 PM"] + (1..11).map {|h| "#{h}:00 PM"}.to_a
+        @times = get_all_times
     end
     
     def create
