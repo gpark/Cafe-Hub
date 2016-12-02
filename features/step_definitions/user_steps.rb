@@ -26,7 +26,7 @@ end
 
 Given /^"([^"]*)" has preferences/ do |user, preferences_table|
     user = User.where("name='"+user+"'")[0]
-    p = Preference.create!({:user_id => user.id})
+    p = user.preferences.create!
     preferences_table.hashes.each do |preference_entry|
         entry = p.preference_entries.new({:preference_type => preference_entry["type"]})
         preference_entry.delete("type")
