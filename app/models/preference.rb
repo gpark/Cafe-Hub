@@ -3,22 +3,16 @@ class Preference < ActiveRecord::Base
     has_many :preference_entries
     accepts_nested_attributes_for :preference_entries, allow_destroy: true
     def self.all_times
-        current_time = "2016-1-1 7:00 AM".to_time
-        end_time = "2016-1-2 7:00 AM".to_time
-        times = []
-        while current_time < end_time do
-            next_hour = current_time + 30*60
-            times.push(current_time.strftime("%I:%M %p") + " - " + next_hour.strftime("%I:%M %p"))
-            current_time = next_hour
-        end
-        return times
+        return User.all_times
     end
     
-    def entries_hash
+    def entries_hash(start_day="7:00 AM")
         one_day = "2016-1-1 "
         midnight = (one_day + "12:00 AM").to_time
-        day_start = (one_day + "7:00 AM").to_time
+        day_start = (one_day + start_day).to_time
+        start_hour = day_start.hour
         days = [:su, :m, :tu, :w, :th, :f, :sa]
+        type_colors = {"Prefer" => ["#FFFFFF", "#0000FF"], "Class" => ["#696969", "#FF0000"], "R/N Work" => ["#A9A9A9", "#FFFFFF"], "Obligation" => ["#696969", "#000000"]}
         h = {"su": {}, "m": {},"tu":{},"w":{},"th":{},"f":{},"sa":{}}
         for entry in self.preference_entries do
             pref_type = entry.preference_type
@@ -41,15 +35,18 @@ class Preference < ActiveRecord::Base
                         end
                         current_time = starting
                         while current_time < ending do
-                            next_hour = current_time + 30*60
+                            next_hour = current_time + 60*60
                             time_string = current_time.strftime("%I:%M %p")  + " - " + next_hour.strftime("%I:%M %p")
                             if h[actual_day].key? time_string
-                                h[actual_day][time_string].push(pref_type)
+                                h[actual_day][time_string]["data"].push(pref_type)
                             else
-                                h[actual_day][time_string] = [pref_type]
+                                h[actual_day][time_string] = {"data" => [pref_type], "cell_color" => type_colors[pref_type][0], "text_color" =>  type_colors[pref_type][1]}
+                                if pref_type == "Obligation"
+                                    h[actual_day][time_string]["hover_text"] = entry.comments
+                                end
                             end
                             current_time = next_hour
-                            if next_hour.hour == 7 and next_hour.min == 0
+                            if next_hour.hour == start_hour and next_hour.min == 0
                                actual_day = days[(days.index(actual_day) + 1) % 7]
                             end
                         end

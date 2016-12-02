@@ -36,7 +36,7 @@ class Facility < ActiveRecord::Base
         if (week_id == 0)
             return h
         end
-        for assignment in self.assignments.where("assignments_week_id="+week_id.to_s) do
+        for assignment in self.assignments.where("assignments_week_id = ?", week_id.to_s) do
             employee = assignment.user.name
             start_time = assignment.start_time
             end_time = assignment.end_time
@@ -59,9 +59,9 @@ class Facility < ActiveRecord::Base
                 next_hour = current_time + 3600
                 time_string = current_time.strftime("%I:%M %p")  + " - " + next_hour.strftime("%I:%M %p")
                 if h[day].key? time_string
-                    h[day][time_string].push(employee)
+                    h[day][time_string]["data"].push(employee)
                 else
-                    h[day][time_string] = [employee]
+                    h[day][time_string] = {"data" => [employee], "cell_color" => "#FFFFFF", "text_color" =>  "#000000"}
                 end
                 current_time = next_hour
             end            

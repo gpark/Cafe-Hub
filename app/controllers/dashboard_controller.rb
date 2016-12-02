@@ -2,9 +2,10 @@ class DashboardController < ApplicationController
     def create_preference
         pref = current_user.preferences.new(preference_params)
         if pref.save
+            current_user.preferences.where.not(id: pref.id).destroy_all
             redirect_to '/dashboard/preferences', notice: "Preference submitted successfully."
         else
-            redirect_to '/dashboard/new_preference', alert: "Error creating preference."
+            redirect_to '/dashboard/new_preference', alert: "Error submitting preference."
         end
     end
     
@@ -16,7 +17,7 @@ class DashboardController < ApplicationController
             @preference_entry = @preference.preference_entries.new
             @entry_occurence = @preference_entry.occurences.new            
         end
-        times = Array.new(24.hours / 30.minutes) {|i| [(Time.now.midnight + (i*30.minutes)).strftime("%I:%M %p"), (Time.now.midnight + (i*30.minutes)).strftime("%I:%M %p")]}
+        times = get_all_times
         @start_times = ["Select Start Time"] + times
         @end_times = ["Select End Time"] + times
         render 'new_preference'
@@ -45,15 +46,7 @@ class DashboardController < ApplicationController
         end
         @user = current_user
         @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
-        if params.key?(:assignments_week_id)
-            @chosen_week = params[:assignments_week_id]
-        else
-            if @weeks.length > 0
-                @chosen_week = @weeks[0][1]
-            else
-                @chosen_week = 0
-            end    
-        end
+        @chosen_week = get_chosen_week(@weeks, params)
         render 'dashboard'
     end
 end

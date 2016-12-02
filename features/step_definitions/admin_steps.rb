@@ -27,3 +27,13 @@ Given(/^the following assignments exists:$/) do |a_table|
     Assignment.create!(a)
   end
 end
+
+When(/^I check the checkbox next to "([^"]*)"$/) do |username|
+  user_id = User.find_by(name: username).id
+  check("tag_id_#{user_id}")
+end
+
+Then(/^I should see admin tag next to "([^"]*)"$/) do |username|
+  user_id = User.find_by(name: username).id
+  expect(find_by_id("tag_id_#{user_id}")[:disabled]).to eq("disabled")
+end

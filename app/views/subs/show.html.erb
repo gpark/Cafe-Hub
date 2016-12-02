@@ -1,7 +1,7 @@
 <head><%= stylesheet_link_tag 'subs'%></head>
 <h3> Current Sub Requests </h3>
 <%= form_tag(subs_path, method: "get") do %>
-    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control form-control-wide"} %>
     <%= submit_tag("Select Week", class:"btn btn-default") %>
 <% end %>
 <br>
@@ -32,23 +32,4 @@
     </td>
   </tr>
   <% end %>
-  
-  
 </table>
-
-
-
-
-
-
-
-
-
-<!--<% @subs.each do |p| %>-->
-<!--  <%= form_tag("/subs/take", method: "patch") do %>-->
-<!--    <b><%= p.assignment.user.name %></b> <%= p.assignment.to_s %> <%= p.comments %>-->
-<!--    <%= hidden_field_tag "sub_id", p.id %>-->
-<!--    <%= submit_tag "Take Shift", class:"btn btn-default" %>-->
-<!--  <% end %>-->
-<!--  <br>-->
-<!--<% end %>-->

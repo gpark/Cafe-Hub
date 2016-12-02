@@ -3,11 +3,11 @@
 <div class="panel panel-default"><div class="panel-body">
     <%= form_for :assignments_week do |a| %>
       <%= a.label "Select Week: " %>
-      <%= a.select :id, @weeks, {}, {class: "form-control subs-week-select", style: "width:210px;display:inline"} %>
+      <%= a.select :id, @weeks, {}, {class: "form-control form-control-wide subs-week-select"} %>
     <% end %>
     <%= form_for @sub do |f| %>
       <%= f.label "Select Assignment: " %>
-      <%= f.select :assignment_id, @assignments, {}, {class: "form-control subs-assignment-select", style: "width:250px;display:inline"} %>
+      <%= f.select :assignment_id, @assignments, {}, {class: "form-control form-control-wide subs-assignment-select"} %>
        <br>
         <%= f.text_area(:comments, size: "30x3") %>
         <br>

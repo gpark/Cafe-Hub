@@ -9,34 +9,33 @@ class User < ActiveRecord::Base
   attr_accessor :sign_up_code
   validates :sign_up_code,
     on: :create,
-    presence: true,
-    inclusion: { in: [Setting.sign_up_code] }
+    presence: true
+  validate :check_code_valid,
+    on: :create
   validates :name,
     presence: true
     
+  def check_code_valid
+    errors.add(:sign_up_code, "is incorrect") if sign_up_code.to_s != Setting.sign_up_code.to_s
+  end
+  
   def admin?
     admin
   end
 
-  # def hours_assigned(week_id)
-  #   total_hours = 0
-  #   for assignment in self.assignments.where("assignments_week_id="+week_id.to_s)
-  #     for occurence in assignment.occurences do
-  #       start_time = occurence.start_time.to_time
-  #       end_time = occurence.end_time.to_time
-  #       if (end_time < start_time)
-  #         end_time += 60*60*24
-  #       end
-  #       occurence_hours = (end_time - start_time) / 3600
-  #       for day in ["m", "tu", "w", "th", "f", "sa", "su"] do
-  #         if occurence.send(day)
-  #           total_hours += occurence_hours
-  #         end
-  #       end
-  #     end
-  #   end
-  #   return total_hours
-  # end
+  def hours_assigned(week_id)
+    total_hours = 0
+    for assignment in self.assignments.where("assignments_week_id = ?", week_id.to_s)
+        start_time = assignment.start_time.to_time
+        end_time = assignment.end_time.to_time
+        if (end_time < start_time)
+          end_time += 60*60*24
+        end
+        assignment_hours = (end_time - start_time) / 3600
+        total_hours += assignment_hours
+    end
+    return total_hours
+  end
   
   def assignments_hash (week_id)
     one_day = "2016-1-1 "
@@ -47,7 +46,7 @@ class User < ActiveRecord::Base
     if (week_id == 0)
         return h
     end
-    for assignment in self.assignments.where("assignments_week_id="+week_id.to_s) do
+    for assignment in self.assignments.where("assignments_week_id = ?", week_id.to_s) do
       facility = assignment.facility.name
       start_time = assignment.start_time
       end_time = assignment.end_time
@@ -79,9 +78,9 @@ class User < ActiveRecord::Base
         next_hour = current_time + 3600
         time_string = current_time.strftime("%I:%M %p")  + " - " + next_hour.strftime("%I:%M %p")
         if h[day].key? time_string
-          h[day][time_string].push(facility)
+          h[day][time_string]["data"].push(facility)
         else
-          h[day][time_string] = [facility]
+          h[day][time_string] = {"data" => [facility], "cell_color" => "#FFFFFF", "text_color" =>  "#000000"}
         end
         current_time = next_hour
         if next_hour.hour == 7 and next_hour.min == 0

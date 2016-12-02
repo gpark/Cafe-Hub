@@ -13,9 +13,12 @@ Rails.application.routes.draw do
   patch '/preference' => 'dashboard#create_preference'
   get '/users/all' => 'users#all'
   get '/users/:id' => 'users#assignments'
-  get '/users/:id/assignments' => 'users#assignments'
-  get '/users/:id/preference' => 'users#preference'
-  get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments'
+  get '/users/:id/assignments' => 'users#assignments', as: 'user_assignments'
+  get '/users/:id/preference' => 'users#preference', as: 'user_preference'
+  get '/users/:id/delete_assignments' => 'users#delete_assignments', as: 'user_delete_assignments'
+  delete '/users/:id/delete_assignments' => 'users#destroy'
+  post '/users/privileges' => 'users#privileges'
+  get '/generate_assignments/:id' => 'assignments_weeks#generate_assignments', as: 'generate_assignments'
   get '/subs/change_week' => 'subs#change_week'
   patch '/subs/take' => 'subs#take'
   
@@ -26,6 +29,7 @@ Rails.application.routes.draw do
   
   get '/settings' => 'settings#index'
   patch '/settings' => 'settings#update'
+  # get '/settings/confirm' => 'settings#confirm'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
