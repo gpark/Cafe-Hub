@@ -1,18 +1,18 @@
-<h3>Delete <%= @user.name %>'s Assignments</h3>
+<h3>Delete <%= @username %>'s Assignments</h3>
 <ul class="nav nav-tabs">
-  <li role="presentation"><%= link_to("Assigned Schedule", sanitize("/users/"+@user.id.to_s+"/assignments")) %></li>
-  <li role="presentation"><%= link_to("Preference Schedule", sanitize("/users/"+@user.id.to_s+"/preference")) %></li>
+  <li role="presentation"><%= link_to("Assigned Schedule", "/users/"+sanitize(@userid.to_s)+"/assignments") %></li>
+  <li role="presentation"><%= link_to("Preference Schedule", "/users/"+sanitize(@userid.to_s)+"/preference") %></li>
   <% if current_user.admin? %>
-    <li role="presentation" class="active"><%= link_to("Delete Assignments", sanitize("/users/"+@user.id.to_s+"/delete_assignments")) %></li>
+    <li role="presentation" class="active"><%= link_to("Delete Assignments", "/users/"+sanitize(@userid.to_s)+"/delete_assignments") %></li>
   <% end %>
 </ul>
 <div class="row"><div class="col-md-5">
 <div class="panel panel-default"><div class="panel-body">
-  <%= form_tag("/users/"+@user.id.to_s+"/delete_assignments", method: "get") do %>
+  <%= form_tag("/users/"+@userid.to_s+"/delete_assignments", method: "get") do %>
     <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control form-control-wide"} %>
     <%= submit_tag("Select Week", class:"btn btn-default") %>
   <% end %>
-  <%= form_tag("/users/"+@user.id.to_s+"/delete_assignments", method: "delete") do %>
+  <%= form_tag("/users/"+@userid.to_s+"/delete_assignments", method: "delete") do %>
     <%= select_tag :assignment_id, options_for_select(@assignments), {class: "form-control form-control-wide"} %>
     <%= submit_tag("Delete", class:"btn btn-default") %>
   <% end %>

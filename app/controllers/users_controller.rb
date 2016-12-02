@@ -25,6 +25,8 @@ class UsersController < ApplicationController
     end
     
     @user = User.find(params[:id])
+    @username = @user.name
+    @userid = @user.id
     @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
     if params.key?(:assignments_week_id)
       @chosen_week = params[:assignments_week_id]
@@ -49,6 +51,8 @@ class UsersController < ApplicationController
 
   def preference
     @user = User.find(params[:id])
+    @username = @user.name
+    @userid = @user.id
     preference = @user.preferences.order(:created_at).last
     if (preference == nil)
       @preference_hash = {"su": {}, "m": {},"tu":{},"w":{},"th":{},"f":{},"sa":{}}
@@ -60,6 +64,8 @@ class UsersController < ApplicationController
   
   def assignments
     @user = User.find(params[:id])
+    @userid = @user.id
+    @username = @user.name
     @weeks = AssignmentsWeek.order(created_at: :desc).map{|item| [item.to_s, item.id]}
     if params.key?(:assignments_week_id)
       @chosen_week = params[:assignments_week_id]
