@@ -1,0 +1,17 @@
+<h3>Delete <%= @user.name %>'s Assignments</h3>
+<ul class="nav nav-tabs">
+  <li role="presentation"><%= link_to("Assigned Schedule", "/users/"+@user.id.to_s+"/assignments") %></li>
+  <li role="presentation"><%= link_to("Preference Schedule","/users/"+@user.id.to_s+"/preference") %></li>
+  <li role="presentation" class="active"><%= link_to("Delete Assignments","/users/"+@user.id.to_s+"/delete_assignments") %></li>
+</ul>
+<div class="row"><div class="col-md-5">
+<div class="panel panel-default"><div class="panel-body">
+  <%= form_tag("/users/"+@user.id.to_s+"/delete_assignments", method: "get") do %>
+    <%= select_tag :assignments_week_id, options_for_select(@weeks, @chosen_week), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= submit_tag("Select Week", class:"btn btn-default") %>
+  <% end %>
+  <%= form_tag("/users/"+@user.id.to_s+"/delete_assignments", method: "delete") do %>
+    <%= select_tag :assignment_id, options_for_select(@assignments), {class: "form-control", style: "width:210px;display:inline"} %>
+    <%= submit_tag("Delete", class:"btn btn-default") %>
+  <% end %>
+</div></div></div></div>
