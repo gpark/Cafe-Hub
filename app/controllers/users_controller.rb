@@ -11,7 +11,8 @@ class UsersController < ApplicationController
     user = assignment.user_id
     week_id = assignment.assignments_week_id
     assignment.destroy
-    redirect_to :controller => 'users', :action => 'assignments', :id => user, :assignments_week_id => week_id, notice: "Assignment deleted."
+    flash[:notice] = "Assignment deleted."
+    redirect_to :controller => 'users', :action => 'assignments', :id => user, :assignments_week_id => week_id
   end
   
   def delete_assignments
