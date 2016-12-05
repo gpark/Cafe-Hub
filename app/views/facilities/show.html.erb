@@ -4,3 +4,17 @@
     <%= submit_tag("Select Week", class:"btn btn-default") %>
 <% end %>
 <%= render partial: "layouts/weekly_calendar", locals: { all_times: @facility.all_times, entries_hash: @facility_hash} %>
+
+<h4>Facility Hours</h4>
+<% ["su", "m", "tu", "w", "th", "f", "sa"].each do |day| %>
+    <%= day.capitalize %>: 
+    <% starting = @facility.send(day+"_start") %>
+    <% if starting == "Select Start Time" %>
+        Closed
+    <% else %>
+        <%= @facility.send(day+"_start") + " - " + @facility.send(day+"_end") %>
+    <% end %>
+    <br>
+<% end %>
+<p></p>
+Need <b><%= @facility.ppl_per_shift %> </b> employee(s) per shift.
