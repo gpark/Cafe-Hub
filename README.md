@@ -1,9 +1,9 @@
 # Cafe-Hub
-<a href="https://travis-ci.org/IsaacZhang1/Cafe-Hub"><img src="https://travis-ci.org/IsaacZhang1/Cafe-Hub.svg?branch=master"/> </a>
+<a href="https://travis-ci.org/gpark/Cafe-Hub"><img src="https://travis-ci.org/gpark/Cafe-Hub.svg?branch=master"/> </a>
 
-<a href="https://codeclimate.com/github/IsaacZhang1/Cafe-Hub"><img src="https://codeclimate.com/github/IsaacZhang1/Cafe-Hub/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/gpark/Cafe-Hub"><img src="https://codeclimate.com/github/gparkCafe-Hub/badges/gpa.svg" /></a>
 
-<a href="https://codeclimate.com/github/IsaacZhang1/Cafe-Hub/coverage"><img src="https://codeclimate.com/github/IsaacZhang1/Cafe-Hub/badges/coverage.svg" /></a>
+<a href="https://codeclimate.com/github/gpark/Cafe-Hub/coverage"><img src="https://codeclimate.com/github/gpark/Cafe-Hub/badges/coverage.svg" /></a>
 
 Heroku Link: http://cafe-hub.herokuapp.com
 
