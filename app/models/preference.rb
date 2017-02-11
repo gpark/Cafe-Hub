@@ -1,11 +1,11 @@
 class Preference < ActiveRecord::Base
     belongs_to :user
-    has_many :preference_entries
+    has_many :preference_entries, dependent: :destroy
     accepts_nested_attributes_for :preference_entries, allow_destroy: true
     def self.all_times
         return User.all_times
     end
-    
+
     def entries_hash(start_day="7:00 AM")
         one_day = "2016-1-1 "
         midnight = (one_day + "12:00 AM").to_time
@@ -17,7 +17,7 @@ class Preference < ActiveRecord::Base
         for entry in self.preference_entries do
             pref_type = entry.preference_type
             if pref_type == "R/N Work"
-               pref_type = "R/N" 
+               pref_type = "R/N"
             end
             pref_type = pref_type.upcase.split(//).join(" ")
             for occurence in entry.occurences do
