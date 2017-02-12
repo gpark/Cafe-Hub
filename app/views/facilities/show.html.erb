@@ -7,12 +7,12 @@
 
 <h4>Facility Hours</h4>
 <% ["su", "m", "tu", "w", "th", "f", "sa"].each do |day| %>
-    <%= day.capitalize %>: 
+    <%= day.capitalize %>:
     <% starting = @facility.send(day+"_start") %>
-    <% if starting == "Select Start Time" %>
-        Closed
-    <% else %>
+    <% if starting =~ /\d/   %>
         <%= @facility.send(day+"_start") + " - " + @facility.send(day+"_end") %>
+    <% else %>
+        Closed
     <% end %>
     <br>
 <% end %>

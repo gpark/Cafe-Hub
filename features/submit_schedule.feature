@@ -1,14 +1,14 @@
 Feature: Submit preferred schedule and view it afterwards
-  As an employer of ETS 
+  As an employer of ETS
   So that I can let my boss know when I want to work
   I want to be able to submit my preferred schedule and view my submission
-  
+
 Background: user has been added to database
-  
+
   Given the following users exists:
   | email                   | password      | password_confirmation      | name  |
   | isaac@james.com         | JamesJames    | JamesJames                 | Isaac |
-  
+
   Scenario: submit a schedule
     Given I am on the login page
     When I fill in "Email" with "isaac@james.com"
@@ -26,5 +26,5 @@ Background: user has been added to database
     And I select "4:00 PM" from "End Time"
     And I press "Submit Preference"
     Then I should be on the preferred schedules tab
-    And I should see "Class" in the time slot for "03:00 PM - 04:00 PM" on "Monday"
-    And I should see "Class" in the time slot for "03:00 PM - 04:00 PM" on "Wednesday"
+    And I should see "C L A S S" in the time slot for "03:00 PM - 04:00 PM" on "Monday"
+    And I should see "C L A S S" in the time slot for "03:00 PM - 04:00 PM" on "Wednesday"
